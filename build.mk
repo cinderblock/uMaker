@@ -10,7 +10,7 @@ RMF ?= rm -rf
 MKD ?= mkdir -p
 ECO ?= echo
 
-DEPFLAGS = -MMD -MP -MF $(DEPDIR)/$(@F).d
+DEPFLAGS = -MMD -MP -MF $(DEPDIR)$(@F).d
 
 OPT ?= -O2
 
@@ -24,30 +24,30 @@ GXXFLAGS ?= -std=c++0x
 LDFLAGS  ?= -mmcu=$(MCU)
 
 # Default target directories
-BLDDIR ?= build
-OUTDIR ?= out
-SRCDIR ?= .
-DEPDIR ?= $(BLDDIR)/.dep
-LIBDIR ?= $(BLDDIR)/libs
+BLDDIR ?= build/
+OUTDIR ?= out/
+SRCDIR ?= ./
+DEPDIR ?= $(BLDDIR).dep/
+LIBDIR ?= $(BLDDIR)libs/
 
 # Define one or both of these in your Makefile
 CPPFILES ?= 
 CFILES ?= 
 LIBFILES ?= 
 
-OBJ = $(CPPFILES:%.cpp=$(BLDDIR)/%.cpp.o) $(CFILES:%.c=$(BLDDIR)/%.c.o) $(LIBFILES:%=$(LIBDIR)/%)
+OBJ = $(CPPFILES:%.cpp=$(BLDDIR)%.cpp.o) $(CFILES:%.c=$(BLDDIR)%.c.o) $(LIBFILES:%=$(LIBDIR)%)
 
 # Base output file name
 TARGET ?= default
 
-ELFOUT ?= $(OUTDIR)/$(TARGET).elf
-HEXOUT ?= $(OUTDIR)/$(TARGET).hex
-LSSOUT ?= $(OUTDIR)/$(TARGET).lss
-MAPOUT ?= $(OUTDIR)/$(TARGET).map
-SYMOUT ?= $(OUTDIR)/$(TARGET).sym
-EEPOUT ?= $(OUTDIR)/$(TARGET).eep
+ELFOUT ?= $(OUTDIR)$(TARGET).elf
+HEXOUT ?= $(OUTDIR)$(TARGET).hex
+LSSOUT ?= $(OUTDIR)$(TARGET).lss
+MAPOUT ?= $(OUTDIR)$(TARGET).map
+SYMOUT ?= $(OUTDIR)$(TARGET).sym
+EEPOUT ?= $(OUTDIR)$(TARGET).eep
 
-LIBOUT ?= $(OUTDIR)/lib$(TARGET).a
+LIBOUT ?= $(OUTDIR)lib$(TARGET).a
 
 # Output file format
 OUTFMT ?= ihex
@@ -61,12 +61,12 @@ gxx_verbose:
 	$(ECO) "C++: $(GCC) -c $(BLDFLAGS) <deps> $(GXXFLAGS) <in> -o <out>"
 
 # Create object files from .c sources
-$(BLDDIR)/%.c.o: $(SRCDIR)/%.c | $(DEPDIR)/ gcc_verbose
+$(BLDDIR)%.c.o: $(SRCDIR)%.c | $(BLDDIR) $(DEPDIR) $(MAKEFILES_LIST) gcc_verbose
 	$(ECO) "CC : $@		$<"
 	$(GCC) -c $(BLDFLAGS) $(DEPFLAGS) $(GCCFLAGS) $< -o $@
 
 # Create object files from .cpp sources
-$(BLDDIR)/%.cpp.o: $(SRCDIR)/%.cpp | $(DEPDIR)/ gxx_verbose
+$(BLDDIR)%.cpp.o: $(SRCDIR)%.cpp | $(BLDDIR) $(DEPDIR) $(MAKEFILES_LIST) #gxx_verbose
 	$(ECO) "C++: $@		$<"
 	$(GXX) -c $(BLDFLAGS) $(DEPFLAGS) $(GXXFLAGS) $< -o $@
 
@@ -101,21 +101,28 @@ $(SYMOUT): $(ELFOUT)
 	$(ECO) SYM: $@
 	$(NM) -n $< > $@
 
-clean:
-	$(ECO) Cleaning...
+clean: clean_build
+
+clean_build:
+	$(ECO) Cleaning Build...
 	$(RMF) $(LIBDIR) $(BLDDIR) $(OUTDIR) $(DEPDIR)
 
-.PHONY: clean gcc_verbose gxx_verbose
+.PHONY: clean clean_build
+.PHONY: gcc_verbose gxx_verbose
 .PRECIOUS: %.o
 .SECONDARY: $(ELFOUT) $(LIBOUT)
 
--include $(DEPDIR)/*.d
+-include $(DEPDIR)*.d
+
+$(DEPDIR)%.d: | $(DEPDIR)
 
 
 # Create target directories
-$(BLDDIR)/ $(LIBDIR)/ $(OUTDIR)/ $(DEPDIR)/:
-	$(MKD) $@
+BUILD_DIRS ?= $(BLDDIR) $(LIBDIR) $(OUTDIR) $(DEPDIR)
+#.PHONY: $(BUILD_DIRS)
+
+$(BUILD_DIRS): ; $(MKD) $@
 
 # Add directory targets to those that need them
 .SECONDEXPANSION:
-$(ELFOUT) $(HEXOUT) $(LSSOUT) $(MAPOUT) $(SYMOUT) $(EEPOUT) $(LIBOUT): | $$(dir $$@)
+$(ELFOUT) $(HEXOUT) $(LSSOUT) $(MAPOUT) $(SYMOUT) $(EEPOUT) $(LIBOUT): | $$(dir $$@)/
