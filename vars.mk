@@ -43,7 +43,8 @@ COBJ   ?= $(CFILES:%=$(BLDDIR)%.o)
 CPPOBJ ?= $(CPPFILES:%=$(BLDDIR)%.o)
 LIBOBJ ?= $(LIBFILES:%=$(BLDDIR)%.o)
 
-OBJ = $(COBJ) $(CPPOBJ) $(LIBOBJ)
+OBJS = $(COBJ) $(CPPOBJ)
+LIBS = $(LIBOBJ)
 
 # Base output file name
 TARGET ?= default

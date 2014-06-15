@@ -11,15 +11,14 @@ $(BLDDIR)%.cpp.o: $(SRCDIR)%.cpp $(MAKEFILE_LIST)
 	$(GXX) -c $(BLDFLAGS) $(DEPFLAGS) $(GXXFLAGS) $< -o $@
 
 # Create output .elf from objects
-$(ELFOUT): $(COBJ) $(CPPOBJ) $(LIBOBJ)
-	$(ECO) $(LIBFILES)
+$(ELFOUT): $(OBJS) $(LIBS)
 	$(ECO) Lnk: $@
 	$(GXX) $^ --output $@ $(LDFLAGS)
 
 # Create output .a from objects
-$(LIBOUT): $(COBJ) $(CPPOBJ) $(LIBOBJ)
+$(LIBOUT): $(OBJS) $(LIBS)
 	$(ECO) AR : $@
-	$(AR) $@ $^
+	$(ARR) $@ $^
 
 # Create output .hex from ELF
 $(HEXOUT): $(ELFOUT)
@@ -35,12 +34,12 @@ $(EEPOUT): $(ELFOUT)
 # Create extended listing file from ELF
 $(LSSOUT): $(ELFOUT)
 	$(ECO) LST: $@
-	$(OBJDUMP) -h -S -z $< > $@
+	$(ODP) -h -S -z $< > $@
 
 # Create a symbol table from ELF
 $(SYMOUT): $(ELFOUT)
 	$(ECO) SYM: $@
-	$(NM) -n $< > $@
+	$(NMM) -n $< > $@
 
 clean: clean_build
 
@@ -53,7 +52,8 @@ clean_build:
 .PRECIOUS: %.o
 .SECONDARY: $(ELFOUT) $(LIBOUT)
 
--include $(DEPDIR)*.d
+# Explicitly include all our build dep files
+-include $(OBJS:$(OBJDIR)%=$(DEPDIR)%.d)
 
 # Make all the directories...
 %/: ; $(MKD) $@
