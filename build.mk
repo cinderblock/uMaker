@@ -18,7 +18,7 @@ $(ELFOUT): $(OBJS) $(LIBS)
 # Create output .a from objects
 $(LIBOUT): $(OBJS) $(LIBS)
 	$(ECO) AR : $@
-	$(ARR) $@ $^
+	$(ARR) $@ $(OBJS) $(LIBS)
 
 # Create output .hex from ELF
 $(HEXOUT): $(ELFOUT)

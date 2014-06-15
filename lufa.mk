@@ -27,7 +27,7 @@ $(BLDDIR)%.c.o: $(LUFA_BASEDIR)%.c
 
 $(LIBDIR)$(LUFA_AR): $(LUFA_OBJS)
 	$(ECO) AR : $@
-	$(ARR) $@ $^
+	$(ARR) $@ $(LUFA_OBJS)
 
 $(LIBDIR)$(LUFA_AR) $(LUFA_OBJS): $(MAKEFILE_LIST)
 
