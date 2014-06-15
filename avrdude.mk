@@ -18,8 +18,8 @@ AVRDUDE_PORT = USB
 #AVRDUDE_PORT = COM29
 
 
-AVRDUDE_WRITE_FLASH  = -U  flash:w:$(OUTDIR)/$(TARGET).hex
-#AVRDUDE_WRITE_EEPROM = -U eeprom:w:$(OUTDIR)/$(TARGET).eep
+AVRDUDE_WRITE_FLASH  = -U  flash:w:$(HEXOUT)
+#AVRDUDE_WRITE_EEPROM = -U eeprom:w:$(EPPOUT)
 AVRDUDE_WRITE_FUSES = -U hfuse:w:$(OUTDIR)/hfuse.hex:i -U lfuse:w:$(OUTDIR)/lfuse.hex:i -U efuse:w:$(OUTDIR)/efuse.hex:i
 
 

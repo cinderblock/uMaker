@@ -54,7 +54,7 @@ clean_build:
 .PRECIOUS: $(OBJS) $(LIBS)
 .SECONDARY: $(OUTFILES)
 	
-$(OBJS) $(LIBS) $(OUTFILES): $(MAKEFILE_LIST)
+$(OBJS) $(OUTFILES): $(MAKEFILE_LIST)
 
 # Explicitly include all our build dep files
 DEPFILES = $(OBJS:$(BLDDIR)%=$(DEPDIR)%.d)
