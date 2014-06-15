@@ -1,4 +1,6 @@
 
+	
+build: $(ELFOUT)
 
 # Create object files from .c sources
 $(BLDDIR)%.c.o: $(SRCDIR)%.c
@@ -58,7 +60,7 @@ $(OBJS) $(LIBS) $(OUTFILES): $(MAKEFILE_LIST)
 DEPFILES = $(OBJS:$(BLDDIR)%=$(DEPDIR)%.d)
 -include $(DEPFILES)
 
-# Make all the directories...
+# Directories should always end in '/' so you can do things like this
 %/: ; $(MKD) $@
 
 # Add directory targets to those that need them

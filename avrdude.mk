@@ -1,5 +1,7 @@
 # This file will contain all targets and commands necessary to run avrdude.
 
+# TODO: Rewrite this crap
+
 
 #---------------- Programming Options (avrdude) ----------------
 
@@ -14,8 +16,6 @@ AVRDUDE_PROGRAMMER = usbtiny
 AVRDUDE_PORT = USB
 #AVRDUDE_PORT = /dev/ttyUSB0
 #AVRDUDE_PORT = COM29
-
-
 
 
 AVRDUDE_WRITE_FLASH  = -U  flash:w:$(OUTDIR)/$(TARGET).hex
