@@ -1,12 +1,7 @@
 
-LUFA_DIR ?= ../LUFA/
+LUFA_BASEDIR ?= ../LUFA/
 
-LUFA_MAKEFILE         ?= LUFA/Build/lufa_build.mk
-LUFA_MAKEFILE_SOURCES ?= $(LUFA_DIR)LUFA/Build/lufa_sources.mk
-
-LUFA_MAKE_EXTRA_OPTS ?= 
-
-LUFA_MAKE_BASE_OPTS ?= -s -C $(LUFA_DIR) -f $(LUFA_MAKEFILE) ARCH=$(ARCH) LUFA_PATH=LUFA
+LUFA_MAKEFILE_SOURCES ?= $(LUFA_BASEDIR)LUFA/Build/lufa_sources.mk
 
 ARCH ?= AVR8
 LUFA_PATH ?= LUFA
@@ -14,59 +9,36 @@ include $(LUFA_MAKEFILE_SOURCES)
 
 LUFA_SRC ?= $(LUFA_SRC_USB) $(LUFA_SRC_USBCLASS) $(LUFA_SRC_PLATFORM)
 
-# We really need the quoted version since we pass it on to LUFA's build as an argument
-LUFA_SRC_QT ?= "$(LUFA_SRC)"
-
 LUFA_BLDDIR ?= $(BLDDIR)LUFA/
 
-LUFA_BLDDIR_ABS ?= "$(abspath $(LUFA_BLDDIR))/"
+LUFA_AR ?= LUFA.a
 
-# Remove the "UL" that LUFA sets on its own
-LUFA_F_CPU ?= $(F_CPU:UL=)
-LUFA_F_USB ?= $(F_USB:UL=)
+LUFA_OBJS ?= $(LUFA_SRC:%=$(BLDDIR)%.o)
 	
-LUFA_TARGET ?= $(TARGET)_LUFA
-LUFA_MCU ?= $(MCU)
-LUFA_OBJDIR ?= $(LUFA_BLDDIR_ABS)
+LUFA_FLAGS ?= -fshort-enums -fno-inline-small-functions -fpack-struct $(LUFA_BASE_FLAGS)
 
-LUFA_MAKE_OPTS ?= $(LUFA_MAKE_BASE_OPTS) \
- TARGET=$(LUFA_TARGET) MCU=$(LUFA_MCU) SRC=$(LUFA_SRC_QT) \
- F_CPU=$(LUFA_F_CPU) F_USB=$(LUFA_F_USB) \
- OBJDIR=$(LUFA_OBJDIR) $(LUFA_MAKE_EXTRA_OPTS)
+LUFA_BASE_FLAGS ?= -Wall -fno-strict-aliasing -funsigned-char -funsigned-bitfields -DARCH=ARCH_$(ARCH) -DF_USB=$(F_USB) -Wstrict-prototypes
 
-LUFA_MAKE_TARGET ?= "$(abspath $(LUFA_OUTPUT_AR))"
+AUTO_LIB += $(LUFA_AR)
 
-LUFA_OUTPUT_AR ?= $(LIBDIR)$(LUFA_AR_FILENAME)
+$(BLDDIR)%.c.o: $(LUFA_BASEDIR)%.c
+	$(ECO) "LUFA: $<"
+	$(GCC) -c $(BLDFLAGS) $(DEPFLAGS) $(GCCFLAGS) $(LUFA_FLAGS) $< -o $@
 
-LUFA_AR_FILENAME ?= LUFA.a
+$(LIBDIR)$(LUFA_AR): $(LUFA_OBJS)
+	$(ECO) AR : $@
+	$(ARR) $@ $^
 
-LUFA_MAKE ?= "$(MAKE)"
+$(LIBDIR)$(LUFA_AR) $(LUFA_OBJS): $(MAKEFILE_LIST)
 
-AUTO_LIB += $(LUFA_AR_FILENAME)
-AUTO_INC += $(LUFA_DIR)
+lufa: $(LIBDIR)$(LUFA_AR)
 
-LUFA_LOCAL_TARGET_DEPS ?= $(MAKEFILE_LIST)
+.PHONY: lufa
 
-# LUFA doesn't make its own build dir....
-LUFA_LOCAL_TARGET_ORDER_DEPS ?= $(LIBDIR) $(LUFA_BUILD_DIR_TARGET)
+# Explicitly include all our build dep files
+LUFA_DEPFILES = $(LUFA_OBJS:$(BLDDIR)%=$(DEPDIR)%.d)
+-include $(LUFA_DEPFILES)
 
-# The var $(LUFA_BUILD_DIR_TARGET) holds the literal string 'LUFA_BUILD_DIR_TARGET'
-LUFA_BUILD_DIR_TARGET ?= LUFA_BUILD_DIR_TARGET
-
-# We need an extra target just for LUFA's build dir
-$(LUFA_BUILD_DIR_TARGET):
-	$(MKD) $(LUFA_BLDDIR_ABS)
-
-$(LUFA_OUTPUT_AR): $(LUFA_LOCAL_TARGET_DEPS) | $(LUFA_LOCAL_TARGET_ORDER_DEPS)
-	$(ECO) "Lib: $@"
-	$(LUFA_MAKE) $(LUFA_MAKE_OPTS) $(LUFA_MAKE_TARGET)
-
-clean: clean_lufa
-
-lufa: $(LUFA_OUTPUT_AR)
-
-clean_lufa:
-	$(ECO) Cleaning LUFA...
-	$(LUFA_MAKE) $(LUFA_MAKE_BASE_OPTS) TARGET=$(LUFA_TARGET) MCU=$(LUFA_MCU) SRC=$(LUFA_SRC_QT) F_USB=$(LUFA_F_USB) clean
-
-.PHONY: clean_lufa clean lufa $(LUFA_BUILD_DIR_TARGET)
+# Add directory targets to those that need them
+.SECONDEXPANSION:
+$(LUFA_OBJS) $(LUFA_DEPFILES): | $$(dir $$@)

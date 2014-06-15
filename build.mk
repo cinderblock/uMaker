@@ -1,12 +1,12 @@
 
 
 # Create object files from .c sources
-$(BLDDIR)%.c.o: $(SRCDIR)%.c $(MAKEFILE_LIST)
+$(BLDDIR)%.c.o: $(SRCDIR)%.c
 	$(ECO) "CC : $@		$<"
 	$(GCC) -c $(BLDFLAGS) $(DEPFLAGS) $(GCCFLAGS) $< -o $@
 
 # Create object files from .cpp sources
-$(BLDDIR)%.cpp.o: $(SRCDIR)%.cpp $(MAKEFILE_LIST)
+$(BLDDIR)%.cpp.o: $(SRCDIR)%.cpp
 	$(ECO) "C++: $@		$<"
 	$(GXX) -c $(BLDFLAGS) $(DEPFLAGS) $(GXXFLAGS) $< -o $@
 
@@ -49,17 +49,18 @@ clean_build:
 
 .PHONY: clean clean_build
 
-.PRECIOUS: %.o
-.SECONDARY: $(ELFOUT) $(LIBOUT)
+.PRECIOUS: $(OBJS) $(LIBS)
+.SECONDARY: $(OUTFILES)
+	
+$(OBJS) $(LIBS) $(OUTFILES): $(MAKEFILE_LIST)
 
 # Explicitly include all our build dep files
--include $(OBJS:$(OBJDIR)%=$(DEPDIR)%.d)
+DEPFILES = $(OBJS:$(BLDDIR)%=$(DEPDIR)%.d)
+-include $(DEPFILES)
 
 # Make all the directories...
 %/: ; $(MKD) $@
 
 # Add directory targets to those that need them
 .SECONDEXPANSION:
-$(ELFOUT) $(HEXOUT) $(LSSOUT) $(MAPOUT) $(SYMOUT) $(EEPOUT) $(LIBOUT): | $$(dir $$@)
-$(COBJ) $(CPPOBJ) $(LIBOBJ): | $$(dir $$@)
-$(COBJ) $(CPPOBJ): | $$(dir $(DEPDIR)$$(@F).d)
+$(OUTFILES) $(OBJS) $(LIBS) $(DEPFILES): | $$(dir $$@)

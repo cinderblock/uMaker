@@ -10,7 +10,7 @@ RMF ?= rm -rf
 MKD ?= mkdir -p
 ECO ?= echo
 
-DEPFLAGS = -MMD -MP -MF $(DEPDIR)$(@F).d
+DEPFLAGS = -MMD -MP -MF $(@:$(BLDDIR)%=$(DEPDIR)%.d)
 
 OPT ?= -O2
 
@@ -18,7 +18,7 @@ INCLUDES ?= $(AUTO_INC)
 
 I_OPTS ?= $(INCLUDES:%=-I%)
 
-BLDFLAGS ?= $(OPT) -mmcu=$(MCU) $(I_OPTS) -ffreestanding -DF_CPU=$(F_CPU) 
+BLDFLAGS ?= $(OPT) -mmcu=$(MCU) $(I_OPTS) -ffreestanding -DF_CPU=$(F_CPU) -pipe
 
 # Extra flags for C builds
 GCCFLAGS ?= -std=c11
@@ -41,7 +41,7 @@ LIBFILES ?= $(AUTO_LIB)
 
 COBJ   ?= $(CFILES:%=$(BLDDIR)%.o)
 CPPOBJ ?= $(CPPFILES:%=$(BLDDIR)%.o)
-LIBOBJ ?= $(LIBFILES:%=$(BLDDIR)%.o)
+LIBOBJ ?= $(LIBFILES:%=$(LIBDIR)%)
 
 OBJS = $(COBJ) $(CPPOBJ)
 LIBS = $(LIBOBJ)
@@ -57,6 +57,8 @@ SYMOUT ?= $(OUTDIR)$(TARGET).sym
 EEPOUT ?= $(OUTDIR)$(TARGET).eep
 
 LIBOUT ?= $(OUTDIR)lib$(TARGET).a
+
+OUTFILES = $(ELFOUT) $(HEXOUT) $(LSSOUT) $(MAPOUT) $(SYMOUT) $(EEPOUT) $(LIBOUT)
 
 # Output file format
 OUTFMT ?= ihex
