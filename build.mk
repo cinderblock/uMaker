@@ -1,82 +1,23 @@
 
-GCC ?= avr-gcc
-GXX ?= avr-g++
-OCP ?= avr-objcopy
-ODP ?= avr-objdump
-SZE ?= avr-size
-ARR ?= avr-ar rcs
-NMM ?= avr-nm
-RMF ?= rm -rf
-MKD ?= mkdir -p
-ECO ?= echo
-
-DEPFLAGS = -MMD -MP -MF $(DEPDIR)$(@F).d
-
-OPT ?= -O2
-
-BLDFLAGS ?= $(OPT) -mmcu=$(MCU) -I$(SRCDIR) -ffreestanding -DF_CPU=$(F_CPU)
-
-# Extra flags for C builds
-GCCFLAGS ?= -std=c11
-# Extra flags for C++ builds
-GXXFLAGS ?= -std=c++0x
-# Link flags
-LDFLAGS  ?= -mmcu=$(MCU)
-
-# Default target directories
-BLDDIR ?= build/
-OUTDIR ?= out/
-SRCDIR ?= ./
-DEPDIR ?= $(BLDDIR).dep/
-LIBDIR ?= $(BLDDIR)libs/
-
-# Define one or both of these in your Makefile
-CPPFILES ?= 
-CFILES ?= 
-LIBFILES ?= 
-
-OBJ = $(CPPFILES:%.cpp=$(BLDDIR)%.cpp.o) $(CFILES:%.c=$(BLDDIR)%.c.o) $(LIBFILES:%=$(LIBDIR)%)
-
-# Base output file name
-TARGET ?= default
-
-ELFOUT ?= $(OUTDIR)$(TARGET).elf
-HEXOUT ?= $(OUTDIR)$(TARGET).hex
-LSSOUT ?= $(OUTDIR)$(TARGET).lss
-MAPOUT ?= $(OUTDIR)$(TARGET).map
-SYMOUT ?= $(OUTDIR)$(TARGET).sym
-EEPOUT ?= $(OUTDIR)$(TARGET).eep
-
-LIBOUT ?= $(OUTDIR)lib$(TARGET).a
-
-# Output file format
-OUTFMT ?= ihex
-
-all: 
-
-gcc_verbose:
-	$(ECO) "CC : $(GCC) -c $(BLDFLAGS) <deps> $(GCCFLAGS) <in> -o <out>"
-
-gxx_verbose:
-	$(ECO) "C++: $(GCC) -c $(BLDFLAGS) <deps> $(GXXFLAGS) <in> -o <out>"
 
 # Create object files from .c sources
-$(BLDDIR)%.c.o: $(SRCDIR)%.c | $(BLDDIR) $(DEPDIR) $(MAKEFILES_LIST) gcc_verbose
+$(BLDDIR)%.c.o: $(SRCDIR)%.c $(MAKEFILE_LIST)
 	$(ECO) "CC : $@		$<"
 	$(GCC) -c $(BLDFLAGS) $(DEPFLAGS) $(GCCFLAGS) $< -o $@
 
 # Create object files from .cpp sources
-$(BLDDIR)%.cpp.o: $(SRCDIR)%.cpp | $(BLDDIR) $(DEPDIR) $(MAKEFILES_LIST) #gxx_verbose
+$(BLDDIR)%.cpp.o: $(SRCDIR)%.cpp $(MAKEFILE_LIST)
 	$(ECO) "C++: $@		$<"
 	$(GXX) -c $(BLDFLAGS) $(DEPFLAGS) $(GXXFLAGS) $< -o $@
 
 # Create output .elf from objects
-$(ELFOUT): $(OBJ)
+$(ELFOUT): $(COBJ) $(CPPOBJ) $(LIBOBJ)
+	$(ECO) $(LIBFILES)
 	$(ECO) Lnk: $@
 	$(GXX) $^ --output $@ $(LDFLAGS)
 
 # Create output .a from objects
-$(LIBOUT): $(OBJ)
+$(LIBOUT): $(COBJ) $(CPPOBJ) $(LIBOBJ)
 	$(ECO) AR : $@
 	$(AR) $@ $^
 
@@ -108,21 +49,17 @@ clean_build:
 	$(RMF) $(LIBDIR) $(BLDDIR) $(OUTDIR) $(DEPDIR)
 
 .PHONY: clean clean_build
-.PHONY: gcc_verbose gxx_verbose
+
 .PRECIOUS: %.o
 .SECONDARY: $(ELFOUT) $(LIBOUT)
 
 -include $(DEPDIR)*.d
 
-$(DEPDIR)%.d: | $(DEPDIR)
-
-
-# Create target directories
-BUILD_DIRS ?= $(BLDDIR) $(LIBDIR) $(OUTDIR) $(DEPDIR)
-#.PHONY: $(BUILD_DIRS)
-
-$(BUILD_DIRS): ; $(MKD) $@
+# Make all the directories...
+%/: ; $(MKD) $@
 
 # Add directory targets to those that need them
 .SECONDEXPANSION:
-$(ELFOUT) $(HEXOUT) $(LSSOUT) $(MAPOUT) $(SYMOUT) $(EEPOUT) $(LIBOUT): | $$(dir $$@)/
+$(ELFOUT) $(HEXOUT) $(LSSOUT) $(MAPOUT) $(SYMOUT) $(EEPOUT) $(LIBOUT): | $$(dir $$@)
+$(COBJ) $(CPPOBJ) $(LIBOBJ): | $$(dir $$@)
+$(COBJ) $(CPPOBJ): | $$(dir $(DEPDIR)$$(@F).d)
