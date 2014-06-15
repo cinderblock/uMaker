@@ -13,7 +13,7 @@ $(BLDDIR)%.cpp.o: $(SRCDIR)%.cpp
 # Create output .elf from objects
 $(ELFOUT): $(OBJS) $(LIBS)
 	$(ECO) Lnk: $@
-	$(GXX) $^ --output $@ $(LDFLAGS)
+	$(GXX) $(OBJS) $(LIBS) --output $@ $(LDFLAGS)
 
 # Create output .a from objects
 $(LIBOUT): $(OBJS) $(LIBS)
