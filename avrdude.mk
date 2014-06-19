@@ -18,9 +18,9 @@ AVRDUDE_PORT = USB
 #AVRDUDE_PORT = COM29
 
 
-AVRDUDE_WRITE_FLASH  = -U  flash:w:$(HEXOUT)
-#AVRDUDE_WRITE_EEPROM = -U eeprom:w:$(EPPOUT)
-AVRDUDE_WRITE_FUSES = -U hfuse:w:$(OUTDIR)/hfuse.hex:i -U lfuse:w:$(OUTDIR)/lfuse.hex:i -U efuse:w:$(OUTDIR)/efuse.hex:i
+AVRDUDE_WRITE_FLASH  = -U  flash:w:$(OUT_HEX)
+#AVRDUDE_WRITE_EEPROM = -U eeprom:w:$(OUT_EPP)
+AVRDUDE_WRITE_FUSES = -U hfuse:w:$(OUT_DIR)/hfuse.hex:i -U lfuse:w:$(OUT_DIR)/lfuse.hex:i -U efuse:w:$(OUT_DIR)/efuse.hex:i
 
 
 #AVRDUDE_BITCLOCK = 10
@@ -60,5 +60,5 @@ avrdude-test:
 	$(AVRDUDE) $(AVRDUDE_FLAGS)
 
 # Program the device.
-program: $(HEXOUT) $(EPPOUT)
+program: $(OUT_HEX) $(OUT_EPP)
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH) $(AVRDUDE_WRITE_EEPROM)

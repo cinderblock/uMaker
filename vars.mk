@@ -1,6 +1,11 @@
 
-GCC ?= avr-gcc
-GXX ?= avr-g++
+ifndef MCU
+ $(error Define MCU in your Makefile to enable AVR compilation)
+endif
+
+GCC ?= avr-gcc -c
+GXX ?= avr-g++ -c
+LNK ?= avr-g++
 OCP ?= avr-objcopy
 ODP ?= avr-objdump
 SZE ?= avr-size
@@ -8,81 +13,89 @@ ARR ?= avr-ar rcs
 NMM ?= avr-nm
 RMF ?= rm -rf
 MKD ?= mkdir -p
-ECO ?= echo
+ECO ?= @echo
 
-DEPFLAGS = -MMD -MP -MF $(@:$(BLDDIR)%=$(DEPDIR)%.d)
+# Base output file name
+TARGET ?= SETME
 
 OPT ?= -O2
+SRCDIR ?= ./
+OUT_DIR ?= out/
 
 INCLUDES ?= $(AUTO_INC)
+DEFINES  ?= $(AUTO_DEF)
 
-I_OPTS ?= $(INCLUDES:%=-I%)
+BLD_I_OPTS ?= $(INCLUDES:%=-I%)
+BLD_D_OPTS ?= $(DEFINES:%=-D%)
+	
+BLD_FLAGS_AVR ?= -mmcu=$(MCU)
 
-BLDFLAGS ?= $(OPT) -mmcu=$(MCU) $(I_OPTS) -ffreestanding -DF_CPU=$(F_CPU) -pipe
+BLD_FLAGS_REQUIRED = $(BLD_FLAGS_AVR) $(BLD_I_OPTS) $(BLD_D_OPTS)
 
-# Extra flags for C builds
-GCCFLAGS ?= -std=c11
-# Extra flags for C++ builds
-GXXFLAGS ?= -std=c++0x
-# Link flags
-LDFLAGS  ?= -mmcu=$(MCU)
+BLD_FLAGS_STANDARD ?= $(OPT) -DF_CPU=$(F_CPU) -pipe
+
+# Recommended gcc flags for compilation
+BLD_FLAGS_RECOMMENDED  = -ffreestanding -funsigned-bitfields
+
+# Compiler warnings
+BLD_FLAGS_RECOMMENDED += -Wall
+
+# Note really necessary if you write your code right
+BLD_FLAGS_RECOMMENDED += -fshort-enums -funsigned-char
+
+# Automatically activated with -O2
+BLD_FLAGS_RECOMMENDED += -fno-inline-small-functions -fno-strict-aliasing
+
+# TODO: make sure this is right and we don't actually want =8 or something
+BLD_FLAGS_RECOMMENDED += -fpack-struct
+
+BLD_FLAGS ?= $(BLD_FLAGS_REQUIRED) $(BLD_FLAGS_STANDARD) $(BLD_FLAGS_RECOMMENDED) $(BLD_FLAGS_EXTRA)
+
+BLD_GCCFLAGS_RECOMMENDED ?= -std=c11 -Wstrict-prototypes
+BLD_GXXFLAGS_RECOMMENDED ?= -std=c++0x
+
+BLD_GCCFLAGS ?= $(BLD_GCCFLAGS_RECOMMENDED) $(BLD_FLAGS)
+BLD_GXXFLAGS ?= $(BLD_GXXFLAGS_RECOMMENDED) $(BLD_FLAGS)
+
+BLD_LNKFLAGS ?= $(BLD_FLAGS_AVR)
+
+BLD_DEPFLAGS = -MMD -MP -MF $(@:$(BLD_DIR)%=$(BLD_DEPDIR)%.d)
+
+BLD_GCCFLAGS_FINAL ?= $(BLD_GCCFLAGS) $(BLD_DEPFLAGS) $(C_FLAGS)
+BLD_GXXFLAGS_FINAL ?= $(BLD_GXXFLAGS) $(BLD_DEPFLAGS) $(CPP_FLAGS)
+BLD_LNKFLAGS_FINAL ?= $(BLD_LNKFLAGS)
 
 # Default target directories
-BLDDIR ?= .bld/
-OUTDIR ?= out/
-SRCDIR ?= ./
-DEPDIR ?= $(BLDDIR).dep/
-LIBDIR ?= $(BLDDIR)libs/
+BLD_DIR    ?= .bld/
+BLD_DEPDIR ?= $(BLD_DIR).dep/
+BLD_LIBDIR ?= $(BLD_DIR)libs/
 
 # Define these in your Makefile
-CFILES ?= $(C:%=%.c)
+CFILES   ?= $(C:%=%.c)
 CPPFILES ?= $(CPP:%=%.cpp)
 LIBFILES ?= $(AUTO_LIB)
 
-COBJ   ?= $(CFILES:%=$(BLDDIR)%.o)
-CPPOBJ ?= $(CPPFILES:%=$(BLDDIR)%.o)
-LIBOBJ ?= $(LIBFILES:%=$(LIBDIR)%)
+BLD_COBJ   ?= $(CFILES:%=$(BLD_DIR)%.o)
+BLD_CPPOBJ ?= $(CPPFILES:%=$(BLD_DIR)%.o)
+BLD_LIBOBJ ?= $(LIBFILES:%=$(BLD_LIBDIR)%)
 
-OBJS = $(COBJ) $(CPPOBJ)
-LIBS = $(LIBOBJ)
+BLD_OBJS = $(BLD_COBJ) $(BLD_CPPOBJ)
+BLD_LIBS = $(BLD_LIBOBJ)
 
-# Base output file name
-TARGET ?= default
+OUT_ELF ?= $(OUT_DIR)$(TARGET).elf
+OUT_HEX ?= $(OUT_DIR)$(TARGET).hex
+OUT_LSS ?= $(OUT_DIR)$(TARGET).lss
+OUT_MAP ?= $(OUT_DIR)$(TARGET).map
+OUT_SYM ?= $(OUT_DIR)$(TARGET).sym
+OUT_EEP ?= $(OUT_DIR)$(TARGET).eep
 
-ELFOUT ?= $(OUTDIR)$(TARGET).elf
-HEXOUT ?= $(OUTDIR)$(TARGET).hex
-LSSOUT ?= $(OUTDIR)$(TARGET).lss
-MAPOUT ?= $(OUTDIR)$(TARGET).map
-SYMOUT ?= $(OUTDIR)$(TARGET).sym
-EEPOUT ?= $(OUTDIR)$(TARGET).eep
+OUT_LIB ?= $(OUT_DIR)lib$(TARGET).a
 
-LIBOUT ?= $(OUTDIR)lib$(TARGET).a
-
-OUTFILES = $(ELFOUT) $(HEXOUT) $(LSSOUT) $(MAPOUT) $(SYMOUT) $(EEPOUT) $(LIBOUT)
+OUT_FILES = $(OUT_ELF) $(OUT_HEX) $(OUT_LSS) $(OUT_MAP) $(OUT_SYM) $(OUT_EEP) $(OUT_LIB)
 
 # Output file format
-OUTFMT ?= ihex
+OUT_FMT ?= ihex
 
+OUT_DEPS ?= $(BLD_OBJS) $(BLD_LIBS)
 
-
-
-LUFA_BASEDIR ?= ../LUFA/
-
-LUFA_MAKEFILE_SOURCES ?= $(LUFA_BASEDIR)LUFA/Build/lufa_sources.mk
-
-ARCH ?= AVR8
-LUFA_PATH ?= LUFA
-include $(LUFA_MAKEFILE_SOURCES)
-
-# Relative to LUFA_BASEDIR
-LUFA_SRC ?= $(LUFA_SRC_USB) $(LUFA_SRC_USBCLASS) $(LUFA_SRC_PLATFORM)
-
-LUFA_AR ?= LUFA.a
-
-LUFA_OBJS ?= $(LUFA_SRC:%=$(BLDDIR)%.o)
-	
-LUFA_FLAGS ?= -fshort-enums -fno-inline-small-functions -fpack-struct $(LUFA_BASE_FLAGS)
-
-LUFA_BASE_FLAGS ?= -Wall -fno-strict-aliasing -funsigned-char -funsigned-bitfields -DARCH=ARCH_$(ARCH) -DF_USB=$(F_USB) -Wstrict-prototypes
-
-AUTO_LIB += $(LUFA_AR)
+VARS_INCLUDE=AVR
