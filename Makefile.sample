@@ -1,0 +1,43 @@
+## Creator: Cameron Tacklind
+##
+## This is the main Makefile for building AVR projects. It should only be edited
+## to add generic and project specific features. Ideally, there are no real targets
+## here. Just variables, or overrides, that the included helper makefiles will use.
+
+# List of C file basenames to build
+C = 
+
+# List of CPP file basenames to build
+CPP = main Board test/Test
+
+# Select specific LUFA source files to compile like this
+LUFA_SRC = LUFA/Drivers/USB/Class/Common/HIDParser.c
+
+F_CPU = 8000000UL
+
+MCU = atmega32u2
+
+all: build #run
+
+MAKE_TOOLS = make-tools/
+
+# Load local settings
+-include local.mk
+
+# Defs for our setup
+include $(MAKE_TOOLS)vars.mk
+
+# Library targets
+include $(MAKE_TOOLS)lufa.mk
+include $(MAKE_TOOLS)extlib.mk
+
+# Build targets
+include $(MAKE_TOOLS)build.mk
+
+# Programmer targets
+include $(MAKE_TOOLS)dfu.mk
+#include $(MAKE_TOOLS)avrdude.mk
+
+run: dfu-flash dfu-reset
+
+.PHONY: all run
