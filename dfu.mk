@@ -1,6 +1,6 @@
 # This file will contain all targets and commands necessary to run dfu-programmer
 
-DFU_HEX ?= $(HEXOUT)
+DFU_HEX ?= $(OUT_HEX)
 DFU_TARGET ?= $(MCU)
 
 DFU ?= dfu-programmer
