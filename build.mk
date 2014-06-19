@@ -7,43 +7,43 @@ build: $(OUT_ELF)
 # Create object files from .c sources
 $(BLD_DIR)%.c.o: $(SRCDIR)%.c
 	$(ECO) "CC	$@"
-	$(GCC) -o $@ $< $(BLD_GCCFLAGS_FINAL)
+	$(BLD_GCC) -o $@ $< $(BLD_GCCFLAGS_FINAL)
 
 # Create object files from .cpp sources
 $(BLD_DIR)%.cpp.o: $(SRCDIR)%.cpp
 	$(ECO) "C++	$@"
-	$(GXX) -o $@ $< $(BLD_GXXFLAGS_FINAL)
+	$(BLD_GXX) -o $@ $< $(BLD_GXXFLAGS_FINAL)
 
 # Create output .elf from objects
 $(OUT_ELF): $(OUT_DEPS)
 	$(ECO) "Lnk	$@"
-	$(LNK) -o $@ $(OUT_DEPS) $(BLD_LNKFLAGS_FINAL)
+	$(BLD_LNK) -o $@ $(OUT_DEPS) $(BLD_LNKFLAGS_FINAL)
 
 # Create output .a from objects
 $(OUT_LIB): $(OUT_DEPS)
 	$(ECO) "AR	$@"
-	$(ARR) $@ $(OUT_DEPS)
+	$(BLD_ARR) $@ $(OUT_DEPS)
 
 # Create output .hex from ELF
 $(OUT_HEX): $(OUT_ELF)
 	$(ECO) "HEX	$@"
-	$(OCP) -O $(OUT_FMT) -R .eeprom -R .fuse -R .lock $< $@
+	$(BLD_OCP) -O $(OUT_FMT) -R .eeprom -R .fuse -R .lock $< $@
 
 # Create output .eep from ELF
 $(OUT_EPP): $(OUT_ELF)
 	$(ECO) "EEP	$@"
-	$(OCP) -j .eeprom --set-section-flags=.eeprom="alloc,load" \
+	$(BLD_OCP) -j .eeprom --set-section-flags=.eeprom="alloc,load" \
 	--change-section-lma .eeprom=0 --no-change-warnings -O $(OUTFMT) $< $@ || exit 0
 
 # Create extended listing file from ELF
 $(OUT_LSS): $(OUT_ELF)
 	$(ECO) "LST	$@"
-	$(ODP) -h -S -z $< > $@
+	$(BLD_ODP) -h -S -z $< > $@
 
 # Create a symbol table from ELF
 $(OUT_SYM): $(OUT_ELF)
 	$(ECO) "SYM	$@"
-	$(NMM) -n $< > $@
+	$(BLD_NMM) -n $< > $@
 
 clean: clean_build
 

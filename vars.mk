@@ -3,20 +3,18 @@ ifndef MCU
  $(error Define MCU in your Makefile to enable AVR compilation)
 endif
 
-GCC ?= avr-gcc -c
-GXX ?= avr-g++ -c
-LNK ?= avr-g++
-OCP ?= avr-objcopy
-ODP ?= avr-objdump
-SZE ?= avr-size
-ARR ?= avr-ar rcs
-NMM ?= avr-nm
-RMF ?= rm -rf
-MKD ?= mkdir -p
-ECO ?= @echo
+# Define these in your Makefile
+CFILES   ?= $(C:%=%.c)
+CPPFILES ?= $(CPP:%=%.cpp)
+LIBFILES ?= $(AUTO_LIB)
 
 # Base output file name
 TARGET ?= SETME
+
+# Default target directories
+BLD_DIR    ?= .bld/
+BLD_DEPDIR ?= $(BLD_DIR).dep/
+BLD_LIBDIR ?= $(BLD_DIR)libs/
 
 OPT ?= -O2
 SRCDIR ?= ./
@@ -65,16 +63,6 @@ BLD_GCCFLAGS_FINAL ?= $(BLD_GCCFLAGS) $(BLD_DEPFLAGS) $(C_FLAGS)
 BLD_GXXFLAGS_FINAL ?= $(BLD_GXXFLAGS) $(BLD_DEPFLAGS) $(CPP_FLAGS)
 BLD_LNKFLAGS_FINAL ?= $(BLD_LNKFLAGS)
 
-# Default target directories
-BLD_DIR    ?= .bld/
-BLD_DEPDIR ?= $(BLD_DIR).dep/
-BLD_LIBDIR ?= $(BLD_DIR)libs/
-
-# Define these in your Makefile
-CFILES   ?= $(C:%=%.c)
-CPPFILES ?= $(CPP:%=%.cpp)
-LIBFILES ?= $(AUTO_LIB)
-
 BLD_COBJ   ?= $(CFILES:%=$(BLD_DIR)%.o)
 BLD_CPPOBJ ?= $(CPPFILES:%=$(BLD_DIR)%.o)
 BLD_LIBOBJ ?= $(LIBFILES:%=$(BLD_LIBDIR)%)
@@ -99,3 +87,18 @@ OUT_FMT ?= ihex
 OUT_DEPS ?= $(BLD_OBJS) $(BLD_LIBS)
 
 VARS_INCLUDE=AVR
+
+BLD_GCC ?= avr-gcc -c
+BLD_GXX ?= avr-g++ -c
+BLD_LNK ?= avr-g++
+BLD_OCP ?= avr-objcopy
+BLD_ODP ?= avr-objdump
+BLD_SZE ?= avr-size
+BLD_ARR ?= avr-ar rcs
+BLD_NMM ?= avr-nm
+
+RMF ?= rm -rf
+
+MKD ?= mkdir -p
+
+ECO ?= @echo
