@@ -33,7 +33,7 @@ $(OUT_HEX): $(OUT_ELF)
 $(OUT_EPP): $(OUT_ELF)
 	$(ECO) "EEP	$@"
 	$(BLD_OCP) -j .eeprom --set-section-flags=.eeprom="alloc,load" \
-	--change-section-lma .eeprom=0 --no-change-warnings -O $(OUTFMT) $< $@ || exit 0
+	--change-section-lma .eeprom=0 --no-change-warnings -O $(OUT_FMT) $< $@ || exit 0
 
 # Create extended listing file from ELF
 $(OUT_LSS): $(OUT_ELF)
