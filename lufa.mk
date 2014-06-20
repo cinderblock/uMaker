@@ -2,11 +2,9 @@
 
 LUFA_BASEDIR ?= ../LUFA/
 
-LUFA_MAKEFILE_SOURCES ?= $(LUFA_BASEDIR)LUFA/Build/lufa_sources.mk
-
 ARCH ?= AVR8
 LUFA_PATH ?= LUFA
-include $(LUFA_MAKEFILE_SOURCES)
+include $(LUFA_BASEDIR)LUFA/Build/lufa_sources.mk
 
 # Relative to LUFA_BASEDIR
 LUFA_SRC ?= $(LUFA_SRC_USB) $(LUFA_SRC_USBCLASS) $(LUFA_SRC_PLATFORM)
@@ -16,14 +14,15 @@ LUFA_AR ?= LUFA.a
 LUFA_OBJS ?= $(LUFA_SRC:%=$(BLD_DIR)%.o)
 
 LUFA_OUT ?= $(BLD_LIBDIR)$(LUFA_AR)
-	
+
+F_USB ?= $(F_CPU)	
 
 AUTO_DEFS += ARCH=ARCH_$(ARCH) F_USB=$(F_USB)
 
 AUTO_LIB += $(LUFA_AR)
 
-##### TARGETS
 
+##### Targets
 
 $(BLD_DIR)%.c.o: $(LUFA_BASEDIR)%.c
 	$(ECO) "LUFA	$@"

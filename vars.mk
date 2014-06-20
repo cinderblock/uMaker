@@ -16,9 +16,11 @@ BLD_DIR    ?= .bld/
 BLD_DEPDIR ?= $(BLD_DIR).dep/
 BLD_LIBDIR ?= $(BLD_DIR)libs/
 
-OPT ?= -O2
+OPT ?= 2
 SRCDIR ?= ./
 OUT_DIR ?= out/
+
+DEFINES ?= F_CPU=$(F_CPU)
 
 BLD_INCLUDES ?= $(AUTO_INC) $(INCLUDES)
 BLD_DEFINES  ?= $(AUTO_DEF) $(DEFINES)
@@ -30,7 +32,7 @@ BLD_FLAGS_AVR ?= -mmcu=$(MCU)
 
 BLD_FLAGS_REQUIRED = $(BLD_FLAGS_AVR) $(BLD_I_OPTS) $(BLD_D_OPTS)
 
-BLD_FLAGS_STANDARD ?= $(OPT) -DF_CPU=$(F_CPU) -pipe
+BLD_FLAGS_STANDARD ?= -O$(OPT) -pipe
 
 # Recommended gcc flags for compilation
 BLD_FLAGS_RECOMMENDED  = -ffreestanding -funsigned-bitfields
