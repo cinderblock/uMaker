@@ -25,18 +25,18 @@ MAKE_TOOLS = make-tools/
 -include local.mk
 
 # Defs for our setup
-include $(MAKE_TOOLS)vars.mk
+include $(MAKE_TOOLS)vars/AVR.mk
 
 # Library targets
-include $(MAKE_TOOLS)lufa.mk
-include $(MAKE_TOOLS)extlib.mk
+include $(MAKE_TOOLS)tools/lufa.mk
+include $(MAKE_TOOLS)tools/extlib.mk
 
 # Build targets
-include $(MAKE_TOOLS)build.mk
+include $(MAKE_TOOLS)tools/build.mk
 
 # Programmer targets
-include $(MAKE_TOOLS)dfu.mk
-#include $(MAKE_TOOLS)avrdude.mk
+include $(MAKE_TOOLS)tools/dfu.mk
+#include $(MAKE_TOOLS)tools/avrdude.mk
 
 run: dfu-flash dfu-reset
 
