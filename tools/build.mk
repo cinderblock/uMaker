@@ -14,6 +14,11 @@ $(BLD_DIR)%.cpp.o: $(SRCDIR)%.cpp
 	$(ECO) "C++	$@"
 	$(BLD_GXX) -o $@ $< $(BLD_GXXFLAGS_FINAL)
 
+# Create object files from .s sources
+$(BLD_DIR)%.s.o: $(SRCDIR)%.s
+	$(ECO) "ASM	$@"
+	$(BLD_ASM) -o $@ $< $(BLD_ASMFLAGS_FINAL)
+
 # Create output .elf from objects
 $(OUT_ELF): $(OUT_DEPS)
 	$(ECO) "Lnk	$@"

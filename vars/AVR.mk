@@ -103,6 +103,7 @@ VARS_INCLUDE=AVR
 
 BLD_GCC ?= avr-gcc -c
 BLD_GXX ?= avr-g++ -c
+BLD_ASM ?= avr-g++ -c
 BLD_LNK ?= avr-g++
 BLD_OCP ?= avr-objcopy
 BLD_ODP ?= avr-objdump

@@ -62,9 +62,6 @@ BLD_FLAGS_RECOMMENDED += -fshort-enums -funsigned-char
 # Automatically activated with -O2
 BLD_FLAGS_RECOMMENDED += -fno-inline-small-functions -fno-strict-aliasing
 
-# TODO: make sure this is right and we don't actually want =8 or something
-BLD_FLAGS_RECOMMENDED += -fpack-struct
-
 # Enable function and data sections so the linker can strip what we aren't using
 BLD_FLAGS_RECOMMENDED += -ffunction-sections -fdata-sections
 
@@ -99,6 +96,7 @@ BLD_DEPFLAGS = -MMD -MP -MF $(@:$(BLD_DIR)%=$(BLD_DEPDIR)%.d)
 # Collect all our flags in one final place. Also include standard user flags
 BLD_GCCFLAGS_FINAL ?= $(BLD_GCCFLAGS) $(BLD_DEPFLAGS) $(CPPFLAGS) $(CFLAGS)
 BLD_GXXFLAGS_FINAL ?= $(BLD_GXXFLAGS) $(BLD_DEPFLAGS) $(CPPFLAGS) $(CXXFLAGS)
+BLD_ASMFLAGS_FINAL ?= $(BLD_ASMFLAGS) $(BLD_DEPFLAGS) $(ASFLAGS)
 BLD_LNKFLAGS_FINAL ?= $(LNK_FLAGS) $(LDFLAGS) $(LDLIBS)
 
 BLD_GCCOBJ ?= $(GCCFILES:%=$(BLD_DIR)%.o)
@@ -127,14 +125,14 @@ OUT_DEPS ?= $(BLD_OBJS) $(BLD_LIBS)
 
 VARS_INCLUDE=nRF51
 
-BLD_GCC ?= avr-gcc -c
-BLD_GXX ?= avr-g++ -c
-BLD_LNK ?= avr-g++
-BLD_OCP ?= avr-objcopy
-BLD_ODP ?= avr-objdump
-BLD_SZE ?= avr-size
-BLD_ARR ?= avr-ar rcs
-BLD_NMM ?= avr-nm
+BLD_GCC ?= "$(GCC_PREFIX)gcc" -c
+BLD_GXX ?= "$(GCC_PREFIX)g++"" -c
+BLD_LNK ?= "$(GCC_PREFIX)g++"
+BLD_OCP ?= "$(GCC_PREFIX)objcopy"
+BLD_ODP ?= "$(GCC_PREFIX)objdump"
+BLD_SZE ?= "$(GCC_PREFIX)size"
+BLD_ARR ?= "$(GCC_PREFIX)ar" rcs
+BLD_NMM ?= "$(GCC_PREFIX)nm"
 
 RMF ?= rm -rf
 

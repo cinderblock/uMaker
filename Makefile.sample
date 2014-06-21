@@ -27,16 +27,21 @@ UMAKER = uMaker/
 # Defs for our setup
 include $(UMAKER)vars/AVR.mk
 
+# Extra targets
+include $(UMAKER)tools/nRF51/nRFinit.mk
+
 # Library targets
-include $(UMAKER)tools/lufa.mk
+#include $(UMAKER)tools/AVR/lufa.mk
+include $(UMAKER)tools/nRF51/libnRF.mk
 include $(UMAKER)tools/extlib.mk
 
 # Build targets
 include $(UMAKER)tools/build.mk
 
 # Programmer targets
-include $(UMAKER)tools/dfu.mk
-#include $(UMAKER)tools/avrdude.mk
+#include $(UMAKER)tools/dfu.mk
+#include $(UMAKER)tools/AVR/avrdude.mk
+include $(UMAKER)tools/nRF51/nrfjprog.mk
 
 run: dfu-flash dfu-reset
 
