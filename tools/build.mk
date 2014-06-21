@@ -32,7 +32,7 @@ $(OUT_LIB): $(OUT_DEPS)
 # Create output .hex from ELF
 $(OUT_HEX): $(OUT_ELF)
 	$(ECO) "HEX	$@"
-	$(BLD_OCP) -O $(OUT_FMT) -R .eeprom -R .fuse -R .lock $< $@
+	$(BLD_OCP) $< $@ $(BLD_HEXFLAGS_FINAL)
 
 # Create output .eep from ELF
 $(OUT_EPP): $(OUT_ELF)
