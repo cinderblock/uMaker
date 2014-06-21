@@ -19,7 +19,7 @@ F_USB ?= $(F_CPU)
 
 AUTO_DEFS += ARCH=ARCH_$(ARCH) F_USB=$(F_USB)
 
-AUTO_LIB += $(LUFA_AR)
+AUTO_LIB += $(LUFA_OUT)
 
 
 ##### Targets

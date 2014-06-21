@@ -6,31 +6,41 @@ endif
 # Define these in your Makefile
 CFILES   ?= $(C:%=%.c)
 CPPFILES ?= $(CPP:%=%.cpp)
-LIBFILES ?= $(AUTO_LIB)
+LIBFILES ?= $(LIB:%=%.a)
 
 # Base output file name
 TARGET ?= SETME
 
-# Default target directories
+# Temporary directories to build into
 BLD_DIR    ?= .bld/
 BLD_DEPDIR ?= $(BLD_DIR).dep/
+
+# Only for libs that we build. Not for ones you're including that are pre-built
 BLD_LIBDIR ?= $(BLD_DIR)libs/
 
 OPT ?= 2
+BLD_STD_GCC ?= c11
+BLD_STD_GXX ?= c++11
+
+# Directory that src files are in. ie: SRCDIR = src/
 SRCDIR ?= ./
+
+# Directory for fully compiled files
 OUT_DIR ?= out/
 
+# Set this in your Makefile as you like
 DEFINES ?= F_CPU=$(F_CPU)
 
 BLD_INCLUDES ?= $(AUTO_INC) $(INCLUDES)
 BLD_DEFINES  ?= $(AUTO_DEF) $(DEFINES)
 
-BLD_I_OPTS ?= $(BLD_INCLUDES:%=-I%)
-BLD_D_OPTS ?= $(BLD_DEFINES:%=-D%)
+# Transform user facing variables to how gcc wants them
+BLD_I_FLAGS ?= $(BLD_INCLUDES:%=-I%)
+BLD_D_FLAGS ?= $(BLD_DEFINES:%=-D%)
 	
 BLD_FLAGS_AVR ?= -mmcu=$(MCU)
 
-BLD_FLAGS_REQUIRED = $(BLD_FLAGS_AVR) $(BLD_I_OPTS) $(BLD_D_OPTS)
+BLD_FLAGS_REQUIRED = $(BLD_FLAGS_AVR) $(BLD_I_FLAGS) $(BLD_D_FLAGS)
 
 BLD_FLAGS_STANDARD ?= -O$(OPT) -pipe
 
@@ -51,8 +61,8 @@ BLD_FLAGS_RECOMMENDED += -fpack-struct
 
 BLD_FLAGS ?= $(BLD_FLAGS_REQUIRED) $(BLD_FLAGS_STANDARD) $(BLD_FLAGS_RECOMMENDED) $(BLD_FLAGS_EXTRA)
 
-BLD_GCCFLAGS_RECOMMENDED ?= -std=c11 -Wstrict-prototypes
-BLD_GXXFLAGS_RECOMMENDED ?= -std=c++11
+BLD_GCCFLAGS_RECOMMENDED ?= -std=$(BLD_STD_GCC) -Wstrict-prototypes
+BLD_GXXFLAGS_RECOMMENDED ?= -std=$(BLD_STD_GXX) -fno-exceptions
 
 BLD_GCCFLAGS ?= $(BLD_GCCFLAGS_RECOMMENDED) $(BLD_FLAGS)
 BLD_GXXFLAGS ?= $(BLD_GXXFLAGS_RECOMMENDED) $(BLD_FLAGS)
@@ -67,10 +77,10 @@ BLD_LNKFLAGS_FINAL ?= $(BLD_LNKFLAGS)
 
 BLD_COBJ   ?= $(CFILES:%=$(BLD_DIR)%.o)
 BLD_CPPOBJ ?= $(CPPFILES:%=$(BLD_DIR)%.o)
-BLD_LIBOBJ ?= $(LIBFILES:%=$(BLD_LIBDIR)%)
+BLD_LIBOBJ ?= $(LIBFILES) $(AUTO_LIB)
 
-BLD_OBJS = $(BLD_COBJ) $(BLD_CPPOBJ)
-BLD_LIBS = $(BLD_LIBOBJ)
+BLD_OBJS ?= $(BLD_COBJ) $(BLD_CPPOBJ)
+BLD_LIBS ?= $(BLD_LIBOBJ)
 
 OUT_ELF ?= $(OUT_DIR)$(TARGET).elf
 OUT_HEX ?= $(OUT_DIR)$(TARGET).hex
