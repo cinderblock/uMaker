@@ -40,7 +40,11 @@ OUT_DIR ?= out/
 # Set this in your Makefile as you like
 DEFINES ?= $(DEVICE)
 
-BLD_INCLUDES ?= $(AUTO_INC) $(INCLUDES)
+## Setup final flags we're going to use
+
+# Leading -I flags take precedence
+BLD_INCLUDES ?= $(INCLUDES) $(AUTO_INC)
+# Trailing -D flags override previous ones
 BLD_DEFINES  ?= $(AUTO_DEF) $(DEFINES)
 
 BLD_I_OPTS ?= $(BLD_INCLUDES:%=-I%)
