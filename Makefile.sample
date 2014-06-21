@@ -11,7 +11,7 @@ C =
 CPP = main Board test/Test
 
 # Select specific LUFA source files to compile like this
-LUFA_SRC = LUFA/Drivers/USB/Class/Common/HIDParser.c
+#LUFA_SRC = LUFA/Drivers/USB/Class/Common/HIDParser.c
 
 F_CPU = 8000000UL
 
