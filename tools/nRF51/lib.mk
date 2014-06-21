@@ -1,49 +1,54 @@
 
 
-LUFA_BASEDIR ?= ../LUFA/
+NRF51_BASEDIR ?= C:/Progra~2/Nordic~1/nRF51S~1.360/Nordic/nrf51822/
 
-ARCH ?= AVR8
-LUFA_PATH ?= LUFA
-include $(LUFA_BASEDIR)LUFA/Build/lufa_sources.mk
+NRF51_SRCDIR ?= $(NRF51_BASEDIR)Source/
+NRF51_INCDIR ?= $(NRF51_BASEDIR)Include/
 
-# Relative to LUFA_BASEDIR
-LUFA_SRC ?= $(LUFA_SRC_USB) $(LUFA_SRC_USBCLASS) $(LUFA_SRC_PLATFORM)
+NRF51_BLDDIR ?= $(BLD_DIR)nRF51/
 
-LUFA_AR ?= LUFA.a
+# Relative to NRF51_SRCDIR
+NRF51_SRC ?= simple_uart/simple_uart.c
 
-LUFA_OBJS ?= $(LUFA_SRC:%=$(BLD_DIR)%.o)
+NRF51_AR ?= nRF51.a
 
-LUFA_OUT ?= $(BLD_LIBDIR)$(LUFA_AR)
+NRF51_OBJS ?= $(NRF51_SRC:%=$(NRF51_BLDDIR)%.o)
 
-F_USB ?= $(F_CPU)	
+NRF51_OUT ?= $(BLD_LIBDIR)$(NRF51_AR)
 
-AUTO_DEFS += ARCH=ARCH_$(ARCH) F_USB=$(F_USB)
+NRF51_GCCFLAGS_FINAL ?= $(BLD_GCCFLAGS_FINAL) $(NRF51_GCCFLAGS_EXTRA)
 
-AUTO_LIB += $(LUFA_AR)
+AUTO_DEFS += 
+
+AUTO_INC += $(NRF51_INCDIR)
+AUTO_INC += $(wildcard $(NRF51_INCDIR)*/)
+AUTO_INC += $(wildcard $(NRF51_INCDIR)ble/*/)
+
+AUTO_LIB += $(NRF51_AR)
 
 
 ##### Targets
 
-$(BLD_DIR)%.c.o: $(LUFA_BASEDIR)%.c
-	$(ECO) "LUFA	$@"
-	$(BLD_GCC) $< -o $@ $(BLD_GCCFLAGS)
+$(BLD_DIR)%.c.o: $(NRF51_SRCDIR)%.c
+	$(ECO) "nRF51	$@"
+	$(BLD_GCC) $< -o $@ $(NRF51_GCCFLAGS_FINAL)
 
-$(LUFA_OUT): $(LUFA_OBJS)
+$(NRF51_OUT): $(NRF51_OBJS)
 	$(ECO) "AR	$@"
-	$(BLD_ARR) $@ $(LUFA_OBJS)
+	$(BLD_ARR) $@ $(NRF51_OBJS)
 
-$(LUFA_OUT) $(LUFA_OBJS): $(MAKEFILE_LIST)
+$(NRF51_OUT) $(NRF51_OBJS): $(MAKEFILE_LIST)
 
-lufa: $(LUFA_OUT)
+lufa: $(NRF51_OUT)
 
 .PHONY: lufa
-.PRECIOUS: $(LUFA_OBJS)
-.SECONDARY: $(LUFA_OUT)
+.PRECIOUS: $(NRF51_OBJS)
+.SECONDARY: $(NRF51_OUT)
 
 # Explicitly include all our build dep files
-LUFA_DEPFILES = $(LUFA_OBJS:$(BLD_DIR)%=$(BLD_DEPDIR)%.d)
--include $(LUFA_DEPFILES)
+NRF51_DEPFILES = $(NRF51_OBJS:$(BLD_DIR)%=$(BLD_DEPDIR)%.d)
+-include $(NRF51_DEPFILES)
 
 # Add directory targets to those that need them
 .SECONDEXPANSION:
-$(LUFA_OUT) $(LUFA_OBJS) $(LUFA_DEPFILES): | $$(dir $$@)
+$(NRF51_OUT) $(NRF51_OBJS) $(NRF51_DEPFILES): | $$(dir $$@)
