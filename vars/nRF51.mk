@@ -11,7 +11,7 @@ GCC_PREFIX  ?= $(GCC_ROOT)bin/arm-none-eabi-
 
 # Define these in your Makefile
 GCCFILES ?= $(AUTO_GCC) $(C:%=%.c)
-GXXFILES ?= $(AUTO_GXX) $(CPP:%=%.cpp) $(CXX:%=%.cxx) $(C++:%=%.c++)
+GXXFILES ?= $(AUTO_GXX) $(CPP:%=%.cpp) #$(CXX:%=%.cxx) $(C++:%=%.c++)
 ASMFILES ?= $(AUTO_ASM) $(ASM:%=%.s)
 LIBFILES ?= $(AUTO_LIB) $(LIB:%=%.a)
 
@@ -26,13 +26,15 @@ BLD_DEPDIR ?= $(BLD_DIR).dep/
 BLD_LIBDIR ?= $(BLD_DIR)libs/
 
 OPT ?= 2
+
+BLD_OPT ?= $(OPT)
 BLD_STD_GCC ?= c11
 BLD_STD_GXX ?= c++11
 
 # Directory that src files are in. ie: SRCDIR = src/
 SRCDIR ?= ./
 
-# Directory for fully compiled files
+# Directory for compiled output files
 OUT_DIR ?= out/
 
 # Set this in your Makefile as you like
@@ -48,7 +50,7 @@ BLD_FLAGS_NRF ?= -mcpu=$(CPU) -mthumb -mabi=aapcs -mfloat-abi=soft
 
 BLD_FLAGS_REQUIRED = $(BLD_FLAGS_NRF) $(BLD_I_OPTS) $(BLD_D_OPTS)
 
-BLD_FLAGS_STANDARD ?= -O$(OPT) -pipe
+BLD_FLAGS_STANDARD ?= -O$(BLD_OPT) -pipe
 
 ### Recommended gcc flags for compilation
 BLD_FLAGS_RECOMMENDED  = -ffreestanding -funsigned-bitfields
