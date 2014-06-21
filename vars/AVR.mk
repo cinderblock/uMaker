@@ -4,8 +4,8 @@ ifndef MCU
 endif
 
 # Define these in your Makefile
-CFILES   ?= $(C:%=%.c)
-CPPFILES ?= $(CPP:%=%.cpp)
+GCCFILES ?= $(C:%=%.c)
+GXXFILES ?= $(CPP:%=%.cpp)
 LIBFILES ?= $(LIB:%=%.a)
 
 # Base output file name
@@ -75,11 +75,11 @@ BLD_GCCFLAGS_FINAL ?= $(BLD_GCCFLAGS) $(BLD_DEPFLAGS) $(C_FLAGS)
 BLD_GXXFLAGS_FINAL ?= $(BLD_GXXFLAGS) $(BLD_DEPFLAGS) $(CPP_FLAGS)
 BLD_LNKFLAGS_FINAL ?= $(BLD_LNKFLAGS)
 
-BLD_COBJ   ?= $(CFILES:%=$(BLD_DIR)%.o)
-BLD_CPPOBJ ?= $(CPPFILES:%=$(BLD_DIR)%.o)
+BLD_GCCOBJ ?= $(GCCFILES:%=$(BLD_DIR)%.o)
+BLD_CXXOBJ ?= $(CXXFILES:%=$(BLD_DIR)%.o)
 BLD_LIBOBJ ?= $(LIBFILES) $(AUTO_LIB)
 
-BLD_OBJS ?= $(BLD_COBJ) $(BLD_CPPOBJ)
+BLD_OBJS ?= $(BLD_GCCOBJ) $(BLD_CXXOBJ)
 BLD_LIBS ?= $(BLD_LIBOBJ)
 
 OUT_ELF ?= $(OUT_DIR)$(TARGET).elf
