@@ -19,24 +19,24 @@ MCU = atmega32u2
 
 all: build #run
 
-MAKE_TOOLS = make-tools/
+UMAKER = uMaker/
 
 # Load local settings
 -include local.mk
 
 # Defs for our setup
-include $(MAKE_TOOLS)vars/AVR.mk
+include $(UMAKER)vars/AVR.mk
 
 # Library targets
-include $(MAKE_TOOLS)tools/lufa.mk
-include $(MAKE_TOOLS)tools/extlib.mk
+include $(UMAKER)tools/lufa.mk
+include $(UMAKER)tools/extlib.mk
 
 # Build targets
-include $(MAKE_TOOLS)tools/build.mk
+include $(UMAKER)tools/build.mk
 
 # Programmer targets
-include $(MAKE_TOOLS)tools/dfu.mk
-#include $(MAKE_TOOLS)tools/avrdude.mk
+include $(UMAKER)tools/dfu.mk
+#include $(UMAKER)tools/avrdude.mk
 
 run: dfu-flash dfu-reset
 
