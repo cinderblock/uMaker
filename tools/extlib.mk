@@ -1,9 +1,9 @@
 
 # USAGE:
 #
-# Define var  : EXTLIB_LIBDIR_<libname>
-# Call target : $(BLD_LIBDIR)/<libname>.a
-# Optional var: EXTLIB_EXTRA_OPTS_<libname>
+# Define EXTLIB_LIBS as a list of all <lib>s
+# Define EXTLIB_LIBDIR_<lib> for each <lib>
+# Optional var: EXTLIB_EXTRA_OPTS_<lib>
 
 # Default for this build system
 EXTLIB_EXTRA_OPTS ?= OUT_LIB="$(abspath $@)"
@@ -15,6 +15,10 @@ EXTLIB_MAKE_OPTS ?= -Rrs -C $(EXTLIB_CHDIG) -f $(EXTLIB_MAKEFILE) MCU=$(MCU) $(E
 
 EXTLIB_MAKE_TARGET ?= "$(abspath $@)"
 
-$(BLD_LIBDIR)/%.a: 
+EXTLIB_TARGET_PATTERN ?= $(BLD_LIBDIR)/%.a
+
+AUTO_LIB += $(EXTLIB_LIBS:%=$(EXTLIB_TARGET_PATTERN))
+
+$(EXTLIB_TARGET_PATTERN):
 	$(ECO) "Lib:	$@"
 	$(ECO) "$(MAKE)" $(EXTLIB_MAKE_OPTS) $(EXTLIB_MAKE_TARGET)
