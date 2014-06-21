@@ -24,6 +24,9 @@ UMAKER = uMaker/
 # Load local settings
 -include local.mk
 
+# Optional configuration testing for development
+include $(UMAKER)tools/checks.mk
+
 # Defs for our setup
 include $(UMAKER)vars/AVR.mk
 
