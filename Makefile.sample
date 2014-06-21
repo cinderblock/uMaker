@@ -24,19 +24,27 @@ UMAKER = uMaker/
 # Load local settings
 -include local.mk
 
+# Optional configuration testing for development
+include $(UMAKER)tools/checks.mk
+
 # Defs for our setup
 include $(UMAKER)vars/AVR.mk
 
+# Extra targets
+include $(UMAKER)tools/nRF51/init-src.mk
+
 # Library targets
-include $(UMAKER)tools/lufa.mk
+#include $(UMAKER)tools/AVR/lufa.mk
+include $(UMAKER)tools/nRF51/lib.mk
 include $(UMAKER)tools/extlib.mk
 
 # Build targets
 include $(UMAKER)tools/build.mk
 
 # Programmer targets
-include $(UMAKER)tools/dfu.mk
-#include $(UMAKER)tools/avrdude.mk
+#include $(UMAKER)tools/dfu.mk
+include $(UMAKER)tools/nrfjprog.mk
+#include $(UMAKER)tools/AVR/avrdude.mk
 
 run: dfu-flash dfu-reset
 

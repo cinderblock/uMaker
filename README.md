@@ -47,6 +47,7 @@ You should be aware of how makefiles work. However, a few features that I use in
  - Filename functions (`$(dir ...)`)
  - Substring functions (`$(VAR:find=replace)`)
  - Implicit Rules
+ - Automatic Variables
 
 Points to remember:
 

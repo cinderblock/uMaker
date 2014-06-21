@@ -11,13 +11,15 @@ NRF51_INIT_FILES ?= $(NRF51_INIT_FILES:%=$(NRF51_INITDIR)%)
 
 ##### Targets
 
-nRFinit: $(NRF51_INIT_FILES)
+nRF51-init-src: $(NRF51_INIT_FILES)
 
 $(NRF_INITDIR)%:
 	$(ECO) "cp nRF	$@"
 	cp $(@:$(NRF51_INITDIR)=$(NRF51_TEMPLATE_DIR)) $@
 
 .SECONDARY: $(NRF51_INIT_FILES)
+
+.PHONY: nRF51-init-src
 
 # Add directory targets to those that need them
 .SECONDEXPANSION:
