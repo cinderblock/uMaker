@@ -40,14 +40,14 @@ SRCDIR ?=
 OUT_DIR ?= out/
 
 # Set this in your Makefile as you like
-DEFINES ?= $(DEVICE) $(AUTO_DEFS)
+NRF51_DEFINES ?= $(DEVICE) $(AUTO_DEFS)
 
 ## Setup final flags we're going to use
 
 # Leading -I flags take precedence
 BLD_INCLUDES ?= $(INCLUDES) $(AUTO_INC)
 # Trailing -D flags override previous ones
-BLD_DEFINES  ?= $(AUTO_DEF) $(DEFINES)
+BLD_DEFINES  ?= $(AUTO_DEF) $(NRF51_DEFINES) $(DEFINES)
 
 BLD_I_OPTS ?= $(BLD_INCLUDES:%=-I%)
 BLD_D_OPTS ?= $(BLD_DEFINES:%=-D%)
@@ -71,7 +71,7 @@ BLD_FLAGS_RECOMMENDED += -fshort-enums -funsigned-char
 BLD_FLAGS_RECOMMENDED += -fno-inline-small-functions -fno-strict-aliasing
 
 # Enable function and data sections so the linker can strip what we aren't using
-BLD_FLAGS_RECOMMENDED += -ffunction-sections -fdata-sections
+#BLD_FLAGS_RECOMMENDED += -ffunction-sections -fdata-sections
 
 BLD_FLAGS ?= $(BLD_FLAGS_REQUIRED) $(BLD_FLAGS_STANDARD) $(BLD_FLAGS_RECOMMENDED) $(BLD_FLAGS_EXTRA)
 
@@ -83,7 +83,7 @@ BLD_ASMFLAGS ?= -x assembler-with-cpp
 BLD_GCCFLAGS ?= $(BLD_GCCFLAGS_RECOMMENDED) $(BLD_FLAGS)
 BLD_GXXFLAGS ?= $(BLD_GXXFLAGS_RECOMMENDED) $(BLD_FLAGS)
 
-NRF51_LDSCRIPT ?= $(NRF51_INITDIR)gcc_$(DEVICESERIES)_$(SOFTDEVICE)_$(VARIANT).ld
+NRF51_LDSCRIPT ?= $(NRF51INIT_DIR)gcc/gcc_$(DEVICESERIES)_$(SOFTDEVICE)_$(VARIANT).ld
 
 NRF51_LIBDIRS ?= "$(GCC_ROOT)$(GCC_PREFIX)/lib/armv6-m" "$(GCC_ROOT)lib/gcc/$(GCC_PREFIX)/$(GCC_VERSION)/armv6-m"
 
@@ -129,7 +129,8 @@ OUT_FILES = $(OUT_ELF) $(OUT_HEX) $(OUT_LSS) $(OUT_MAP) $(OUT_SYM) $(OUT_EEP) $(
 # Output file format
 OUT_FMT ?= ihex
 
-OUT_DEPS ?= $(BLD_OBJS) $(BLD_LIBS)
+OUT_DEPS ?= $(OUT_OBJECTS) $(AUTO_OUT_DEPS)
+OUT_OBJECTS ?= $(BLD_OBJS) $(BLD_LIBS)
 
 VARS_INCLUDE=nRF51
 

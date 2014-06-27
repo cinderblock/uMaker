@@ -50,6 +50,11 @@ lufa: $(NRF51_OUT)
 NRF51_DEPFILES = $(NRF51_OBJS:$(BLD_DIR)%=$(BLD_DEPDIR)%.d)
 -include $(NRF51_DEPFILES)
 
+# Older version of make strip trailing '/' from targets unless they're explicitly declared
+$(sort $(dir $(NRF51_OUT) $(NRF51_OBJS) $(NRF51_DEPFILES))):
+	$(ECO) "MKDIR	$@"
+	$(MKD) $@
+
 # Add directory targets to those that need them
 .SECONDEXPANSION:
 $(NRF51_OUT) $(NRF51_OBJS) $(NRF51_DEPFILES): | $$(dir $$@)

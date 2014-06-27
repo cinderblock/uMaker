@@ -22,12 +22,12 @@ $(BLD_DIR)%.s.o: $(SRCDIR)%.s
 # Create output .elf from objects
 $(OUT_ELF): $(OUT_DEPS)
 	$(ECO) "Lnk	$@"
-	$(BLD_LNK) -o $@ $(OUT_DEPS) $(BLD_LNKFLAGS_FINAL)
+	$(BLD_LNK) -o $@ $(OUT_OBJECTS) $(BLD_LNKFLAGS_FINAL)
 
 # Create output .a from objects
 $(OUT_LIB): $(OUT_DEPS)
 	$(ECO) "AR	$@"
-	$(BLD_ARR) $@ $(OUT_DEPS)
+	$(BLD_ARR) $@ $(OUT_OBJECTS)
 
 # Create output .hex from ELF
 $(OUT_HEX): $(OUT_ELF)
@@ -58,7 +58,7 @@ clean_build:
 
 .PHONY: clean clean_build
 
-.PRECIOUS: $(OUT_DEPS)
+.PRECIOUS: $(OUT_OBJECTS)
 .SECONDARY: $(OUT_FILES)
 	
 $(BLD_OBJS) $(OUT_FILES): $(MAKEFILE_LIST)
@@ -67,6 +67,11 @@ $(BLD_OBJS) $(OUT_FILES): $(MAKEFILE_LIST)
 BLD_DEPFILES = $(BLD_OBJS:$(BLD_DIR)%=$(BLD_DEPDIR)%.d)
 -include $(BLD_DEPFILES)
 
+# Older version of make strip trailing '/' from targets unless they're explicitly declared
+$(sort $(dir $(OUT_FILES) $(OUT_OBJECTS) $(BLD_DEPFILES))):
+	$(ECO) "MKDIR	$@"
+	$(MKD) $@
+
 # Directories should always end in '/' so you can do things like this
 %/:
 	$(ECO) "MKDIR1	$@"
@@ -74,4 +79,4 @@ BLD_DEPFILES = $(BLD_OBJS:$(BLD_DIR)%=$(BLD_DEPDIR)%.d)
 
 # Add directory targets to those that need them
 .SECONDEXPANSION:
-$(OUT_FILES) $(OUT_DEPS) $(BLD_DEPFILES): | $$(dir $$@)/
+$(OUT_FILES) $(OUT_OBJECTS) $(BLD_DEPFILES): | $$(dir $$@)/
