@@ -1,26 +1,71 @@
-# This Makefile, unlike most others, is reaally only intended to be used once.
-# It will copy the necessary template files from the base nRF folder.
 
 ifneq ($(VARS_INCLUDE),nRF51)
  $(error You need to include vars/nRF51.mk \(or equivalent\) to use this uMaker tool)
 endif
 
-NRF51_INIT_FILES_BASE ?= system_nrf51422.c gcc/gcc_startup_nrf51.s gcc/gcc_nrf51_common.ld gcc/gcc_nrf51_s110_xxaa.ld
+NRF51INIT_TEMPLATE_DIR ?= $(NRF51_BASEDIR)Source/templates/
 
-NRF51_INIT_FILES ?= $(NRF51_INIT_FILES_BASE:%=$(NRF51_INITDIR)%)
+NRF51INIT_SRC ?= system_nrf51.c gcc/gcc_startup_nrf51.s
+NRF51INIT_LNK ?= gcc/gcc_nrf51_common.ld gcc/gcc_nrf51_s110_xxaa.ld
+
+NRF51INIT_DIR ?= $(SRCDIR)nRF51init/
+
+NRF51INIT_BLDDIR ?= $(BLD_DIR)nRF51init/
+
+NRF51INIT_SRC_FULL ?= $(NRF51INIT_SRC:%=$(NRF51INIT_DIR)%)
+NRF51INIT_LNK_FULL ?= $(NRF51INIT_LNK:%=$(NRF51INIT_DIR)%)
+
+NRF51INIT_FILES ?= $(NRF51INIT_SRC_FULL) $(NRF51INIT_LNK_FULL)
+
+NRF51INIT_OBJS ?= $(NRF51INIT_SRC_FULL:%=$(BLD_DIR)%.o)
+
+NRF51INIT_GCCFLAGS_FINAL ?= $(BLD_GCCFLAGS_FINAL)
+NRF51INIT_ASMFLAGS_FINAL ?= $(BLD_ASMFLAGS_FINAL)
+
+NRF51INIT_AR ?= nRF51init.a
+
+NRF51INIT_OUT ?= $(BLD_LIBDIR)$(NRF51INIT_AR)
+
+AUTO_LIB += $(NRF51INIT_OUT)
 
 ##### Targets
 
-nRF51-init-src: $(NRF51_INIT_FILES)
+$(NRF51INIT_BLDDIR)%.c.o: $(NRF51INIT_DIR)%.c
+	$(ECO) "nRFi CC	$@"
+	$(BLD_GCC) $< -o $@ $(NRF51INIT_GCCFLAGS_FINAL)
 
-$(NRF_INITDIR)%:
-	$(ECO) "cp nRF	$@"
-	echo BLAH cp $(@:$(NRF51_INITDIR)=$(NRF51_TEMPLATE_DIR)) $@
+$(NRF51INIT_BLDDIR)%.s.o: $(NRF51INIT_DIR)%.s
+	$(ECO) "nRFi AS	$@"
+	$(BLD_ASM) $(NRF51INIT_ASMFLAGS_FINAL) -o $@ $<
 
-.SECONDARY: $(NRF51_INIT_FILES)
+$(NRF51INIT_OUT): $(NRF51INIT_OBJS)
+	$(ECO) "nRFi AR	$@"
+	$(BLD_ARR) $@ $(NRF51INIT_OBJS)
 
-.PHONY: nRF51-init-src
+$(NRF51INIT_OUT) $(NRF51INIT_OBJS): $(MAKEFILE_LIST)
+
+nRF51init-build: $(NRF51INIT_OUT)
+
+nRF51init-src: $(NRF51INIT_FILES)
+
+.PHONY: nRF51init-build nRF51init-src
+
+.PRECIOUS: $(NRF51INIT_OBJS)
+.SECONDARY: $(NRF51INIT_OUT) $(NRF51INIT_FILES)
+
+# Explicitly include all our build dep files
+NRF51INIT_DEPFILES = $(NRF51INIT_OBJS:$(BLD_DIR)%=$(BLD_DEPDIR)%.d)
+-include $(NRF51INIT_DEPFILES)
+
+$(NRF51INIT_FILES):
+	$(ECO) "nRFinit	$@"
+	cp -u $(@:$(NRF51INIT_DIR)%=$(NRF51INIT_TEMPLATE_DIR)%) $@
+
+# Older version of make strip trailing '/' from targets unless they're explicitly declared
+$(sort $(dir $(NRF51INIT_FILES) $(NRF51INIT_OUT) $(NRF51INIT_OBJS) $(NRF51INIT_DEPFILES))):
+	$(ECO) "MKDIR	$@"
+	$(MKD) $@
 
 # Add directory targets to those that need them
 .SECONDEXPANSION:
-$(NRF51_INIT_FILES): | $$(dir $$@)
+$(NRF51INIT_FILES) $(NRF51INIT_OUT) $(NRF51INIT_OBJS) $(NRF51INIT_DEPFILES): | $$(dir $$@)

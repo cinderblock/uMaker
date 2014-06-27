@@ -1,11 +1,12 @@
 
 
-NRF51_BASEDIR ?= C:/Progra~2/Nordic~1/nRF51S~1.360/Nordic/nrf51822/
 
 NRF51_SRCDIR ?= $(NRF51_BASEDIR)Source/
 NRF51_INCDIR ?= $(NRF51_BASEDIR)Include/
 
 NRF51_BLDDIR ?= $(BLD_DIR)nRF51/
+
+NRF51_EXTRA_INCLUDES ?= $(SRCDIR)nRF51inc
 
 # Relative to NRF51_SRCDIR
 NRF51_SRC ?= simple_uart/simple_uart.c
@@ -18,18 +19,18 @@ NRF51_OUT ?= $(BLD_LIBDIR)$(NRF51_AR)
 
 NRF51_GCCFLAGS_FINAL ?= $(BLD_GCCFLAGS_FINAL) $(NRF51_GCCFLAGS_EXTRA)
 
-AUTO_DEFS += 
+AUTO_DEFS += BLE_STACK_SUPPORT_REQD
 
-AUTO_INC += $(NRF51_INCDIR)
-AUTO_INC += $(wildcard $(NRF51_INCDIR)*/)
-AUTO_INC += $(wildcard $(NRF51_INCDIR)ble/*/)
+NRF51_INCLUDES := $(sort $(dir $(wildcard $(NRF51_INCDIR)*/) $(wildcard $(NRF51_INCDIR)ble/*/)))
 
-AUTO_LIB += $(NRF51_AR)
+AUTO_INC += $(NRF51_INCLUDES) $(NRF51_EXTRA_INCLUDES)
+
+AUTO_LIB += $(NRF51_OUT)
 
 
 ##### Targets
 
-$(BLD_DIR)%.c.o: $(NRF51_SRCDIR)%.c
+$(NRF51_BLDDIR)%.c.o: $(NRF51_SRCDIR)%.c
 	$(ECO) "nRF51	$@"
 	$(BLD_GCC) $< -o $@ $(NRF51_GCCFLAGS_FINAL)
 

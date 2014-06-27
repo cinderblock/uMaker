@@ -15,6 +15,8 @@ GXXFILES ?= $(AUTO_GXX) $(CPP:%=%.cpp) #$(CXX:%=%.cxx) $(C++:%=%.c++)
 ASMFILES ?= $(AUTO_ASM) $(ASM:%=%.s)
 LIBFILES ?= $(AUTO_LIB) $(LIB:%=%.a)
 
+NRF51_BASEDIR ?= C:/Progra~2/Nordic~1/nRF51S~1.360/Nordic/nrf51822/
+
 # Base output file name
 TARGET ?= SETME
 
@@ -28,17 +30,17 @@ BLD_LIBDIR ?= $(BLD_DIR)libs/
 OPT ?= 2
 
 BLD_OPT ?= $(OPT)
-BLD_STD_GCC ?= c11
-BLD_STD_GXX ?= c++11
+BLD_STD_GCC ?= gnu11
+BLD_STD_GXX ?= gnu++11
 
 # Directory that src files are in. ie: SRCDIR = src/
-SRCDIR ?= ./
+SRCDIR ?= 
 
 # Directory for compiled output files
 OUT_DIR ?= out/
 
 # Set this in your Makefile as you like
-DEFINES ?= $(DEVICE)
+DEFINES ?= $(DEVICE) $(AUTO_DEFS)
 
 ## Setup final flags we're going to use
 
@@ -81,11 +83,11 @@ BLD_ASMFLAGS ?= -x assembler-with-cpp
 BLD_GCCFLAGS ?= $(BLD_GCCFLAGS_RECOMMENDED) $(BLD_FLAGS)
 BLD_GXXFLAGS ?= $(BLD_GXXFLAGS_RECOMMENDED) $(BLD_FLAGS)
 
-NRF_LDSCRIPT ?= $(NRF51_INITDIR)gcc_$(DEVICESERIES)_$(SOFTDEVICE)_$(VARIANT).ld
+NRF51_LDSCRIPT ?= $(NRF51_INITDIR)gcc_$(DEVICESERIES)_$(SOFTDEVICE)_$(VARIANT).ld
 
-NRF_LIBDIRS ?= "$(GCC_ROOT)$(GCC_PREFIX)/lib/armv6-m" "$(GCC_ROOT)lib/gcc/$(GCC_PREFIX)/$(GCC_VERSION)/armv6-m"
+NRF51_LIBDIRS ?= "$(GCC_ROOT)$(GCC_PREFIX)/lib/armv6-m" "$(GCC_ROOT)lib/gcc/$(GCC_PREFIX)/$(GCC_VERSION)/armv6-m"
 
-LNK_LIBDIRS ?= $(NRF_LIBDIRS)
+LNK_LIBDIRS ?= $(NRF51_LIBDIRS)
 
 LNK_L_FLAGS ?= $(LNK_LIBDIRS:%=-L%)
 
@@ -93,7 +95,7 @@ LNK_LINKER_FLAGS ?= -Map=$(OUT_MAP) --gc-sections
 
 LNK_WL_FLAGS ?= $(LNK_LINKER_FLAGS:%=-Wl,%)
 
-LNK_FLAGS_RECOMMENDED += $(LNK_L_FLAGS) $(LNK_WL_FLAGS) -T$(NRF_LDSCRIPT)
+LNK_FLAGS_RECOMMENDED += $(LNK_L_FLAGS) $(LNK_WL_FLAGS) -T$(NRF51_LDSCRIPT)
 
 LNK_FLAGS ?= $(BLD_FLAGS_NRF) $(LNK_FLAGS_RECOMMENDED) $(LNK_FLAGS_EXTRA)
 
@@ -132,7 +134,8 @@ OUT_DEPS ?= $(BLD_OBJS) $(BLD_LIBS)
 VARS_INCLUDE=nRF51
 
 BLD_GCC ?= "$(GCC_PREFIX)gcc" -c
-BLD_GXX ?= "$(GCC_PREFIX)g++"" -c
+BLD_GXX ?= "$(GCC_PREFIX)g++" -c
+BLD_ASM ?= "$(GCC_PREFIX)g++" -c
 BLD_LNK ?= "$(GCC_PREFIX)g++"
 BLD_OCP ?= "$(GCC_PREFIX)objcopy"
 BLD_ODP ?= "$(GCC_PREFIX)objdump"

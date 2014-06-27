@@ -23,7 +23,7 @@ BLD_STD_GCC ?= c11
 BLD_STD_GXX ?= c++11
 
 # Directory that src files are in. ie: SRCDIR = src/
-SRCDIR ?= ./
+SRCDIR ?= 
 
 # Directory for fully compiled files
 OUT_DIR ?= out/

@@ -68,8 +68,10 @@ BLD_DEPFILES = $(BLD_OBJS:$(BLD_DIR)%=$(BLD_DEPDIR)%.d)
 -include $(BLD_DEPFILES)
 
 # Directories should always end in '/' so you can do things like this
-%/: ; $(MKD) $@
+%/:
+	$(ECO) "MKDIR1	$@"
+	$(MKD) $@
 
 # Add directory targets to those that need them
 .SECONDEXPANSION:
-$(OUT_FILES) $(OUT_DEPS) $(BLD_DEPFILES): | $$(dir $$@)
+$(OUT_FILES) $(OUT_DEPS) $(BLD_DEPFILES): | $$(dir $$@)/
