@@ -5,8 +5,8 @@ endif
 
 NRF51INIT_TEMPLATE_DIR ?= $(NRF51_BASEDIR)Source/templates/
 
-NRF51INIT_SRC ?= system_nrf51.c gcc/gcc_startup_nrf51.s
-NRF51INIT_LNK ?= gcc/gcc_nrf51_common.ld gcc/gcc_nrf51_s110_xxaa.ld
+NRF51INIT_SRC ?= system_$(DEVICESERIES).c gcc/gcc_startup_$(DEVICESERIES).s
+NRF51INIT_LNK ?= gcc/gcc_$(DEVICESERIES)_common.ld gcc/gcc_$(DEVICESERIES)_$(SOFTDEVICE)_$(VARIANT).ld
 
 NRF51INIT_DIR ?= $(SRCDIR)nRF51init/
 
