@@ -50,13 +50,16 @@ $(OUT_SYM): $(OUT_ELF)
 	$(ECO) "SYM	$@"
 	$(BLD_NMM) -n $< > $@
 
+size: $(OUT_ELF)
+	$(BLD_SZE) $(OUT_ELF)
+
 clean: clean_build
 
 clean_build:
 	$(ECO) Cleaning Build...
 	$(RMF) $(BLD_DIR) $(OUT_DIR) $(BLD_LIBDIR) $(BLD_DEPDIR)
 
-.PHONY: clean clean_build
+.PHONY: clean size clean_build
 
 .PRECIOUS: $(OUT_OBJECTS)
 .SECONDARY: $(OUT_FILES)
