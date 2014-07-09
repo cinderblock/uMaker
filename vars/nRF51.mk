@@ -1,3 +1,5 @@
+# Turn off make's builtin rules and make it quiet
+MAKEFLAGS = -Rrs
 
 CPU ?= cortex-m0
 DEVICE ?= NRF51
