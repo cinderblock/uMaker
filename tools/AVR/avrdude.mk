@@ -3,62 +3,54 @@
 # TODO: Rewrite this crap
 
 
-#---------------- Programming Options (avrdude) ----------------
+AVRDUDE ?= avrdude
 
-# Programming hardware
-# Type: avrdude -c ?
-# to get a full listing.
-#
-AVRDUDE_PROGRAMMER = usbtiny
-#AVRDUDE_PROGRAMMER = arduino
+AVRDUDE_PROGRAMMER ?= usbtiny
 
-# com1 = serial port. Use lpt1 to connect to parallel port.
-AVRDUDE_PORT = USB
+# Set these in YOUR makefile
+#AVRDUDE_PORT = USB
 #AVRDUDE_PORT = /dev/ttyUSB0
 #AVRDUDE_PORT = COM29
 
-
-AVRDUDE_WRITE_FLASH  = -U  flash:w:$(OUT_HEX)
-#AVRDUDE_WRITE_EEPROM = -U eeprom:w:$(OUT_EPP)
-AVRDUDE_WRITE_FUSES = -U hfuse:w:$(OUT_DIR)/hfuse.hex:i -U lfuse:w:$(OUT_DIR)/lfuse.hex:i -U efuse:w:$(OUT_DIR)/efuse.hex:i
-
-
 #AVRDUDE_BITCLOCK = 10
-AVRDUDE_BITCLOCK = 1
+#AVRDUDE_BITCLOCK = 1
 
-#AVRDUDE_BAUD = 1000000
+#AVRDUDE_BAUD = 57600
 
-# Uncomment the following if you want avrdude's erase cycle counter.
-# Note that this counter needs to be initialized first using -Yn,
-# see avrdude manual.
-#AVRDUDE_ERASE_COUNTER = -y
 
-# Uncomment the following if you do /not/ wish a verification to be
-# performed after programming the device.
-#AVRDUDE_NO_VERIFY = -V
+AVRDUDE_WRITE_FLASH ?= -U flash:w:$(OUT_HEX)
+#AVRDUDE_WRITE_EEPROM = -U eeprom:w:$(OUT_EEP)
+AVRDUDE_WRITE_FUSES ?= -U hfuse:w:$(OUT_DIR)/hfuse.hex:i -U lfuse:w:$(OUT_DIR)/lfuse.hex:i -U efuse:w:$(OUT_DIR)/efuse.hex:i
 
-# Increase verbosity level.  Please use this when submitting bug
-# reports about avrdude. See <http://savannah.nongnu.org/projects/avrdude>
-# to submit bug reports.
-#AVRDUDE_VERBOSE = -v
 
-#AVRDUDE_QUIET = -qq
 
-AVRDUDE_FLAGS = -p $(MCU) -P $(AVRDUDE_PORT) -c $(AVRDUDE_PROGRAMMER)
-AVRDUDE_FLAGS += $(AVRDUDE_NO_VERIFY)
-AVRDUDE_FLAGS += $(AVRDUDE_VERBOSE)
-AVRDUDE_FLAGS += $(AVRDUDE_QUIET)
-AVRDUDE_FLAGS += $(AVRDUDE_ERASE_COUNTER)
+AVRDUDE_FLAGS_REQUIRED ?= -p $(MCU) -c $(AVRDUDE_PROGRAMMER)
+
+AVRDUDE_FLAGS_STANDARD ?= 
+
 ifdef AVRDUDE_BITCLOCK
-AVRDUDE_FLAGS += -B $(AVRDUDE_BITCLOCK)
+ AVRDUDE_FLAGS_AUTO += -B $(AVRDUDE_BITCLOCK)
 endif
+
 ifdef AVRDUDE_BAUD
-AVRDUDE_FLAGS += -b $(AVRDUDE_BAUD)
+ AVRDUDE_FLAGS_AUTO += -b $(AVRDUDE_BAUD)
 endif
+
+ifdef AVRDUDE_PORT
+ AVRDUDE_FLAGS_AUTO += -P $(AVRDUDE_PORT)
+endif
+
+AVRDUDE_FLAGS_BASE ?= $(AVRDUDE_FLAGS_REQUIRED) $(AVRDUDE_FLAGS_STANDARD) $(AVRDUDE_FLAGS_AUTO)
 
 avrdude-test:
-	$(AVRDUDE) $(AVRDUDE_FLAGS)
+	$(AVRDUDE) $(AVRDUDE_FLAGS_BASE)
 
 # Program the device.
-program: $(OUT_HEX) $(OUT_EPP)
-	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH) $(AVRDUDE_WRITE_EEPROM)
+avrdude-flash: $(OUT_HEX)
+	$(AVRDUDE) $(AVRDUDE_FLAGS_BASE) $(AVRDUDE_WRITE_FLASH)
+
+# Program the device.
+avrdude-eeprom: $(OUT_EEP)
+	$(AVRDUDE) $(AVRDUDE_FLAGS_BASE) $(AVRDUDE_WRITE_EEPROM)
+
+.PHONY: avrdude-eeprom avrdude-flash avrdude-test
