@@ -15,7 +15,7 @@ LUFA_OBJS ?= $(LUFA_SRC:%=$(BLD_DIR)%.o)
 
 LUFA_OUT ?= $(BLD_LIBDIR)$(LUFA_AR)
 
-F_USB ?= $(F_CPU)	
+F_USB ?= $(F_CPU)
 
 AUTO_DEFS += ARCH=ARCH_$(ARCH) F_USB=$(F_USB)
 

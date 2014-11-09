@@ -31,8 +31,8 @@ OUT_DIR ?= out/
 # Set this in your Makefile as you like
 DEFINES ?= F_CPU=$(F_CPU)
 
-BLD_INCLUDES ?= $(AUTO_INC) $(INCLUDES)
-BLD_DEFINES  ?= $(AUTO_DEF) $(DEFINES)
+BLD_INCLUDES ?= $(AUTO_INCS) $(INCLUDES)
+BLD_DEFINES  ?= $(AUTO_DEFS) $(DEFINES)
 
 # Transform user facing variables to how gcc wants them
 BLD_I_FLAGS ?= $(BLD_INCLUDES:%=-I%)
@@ -106,15 +106,17 @@ OUT_OBJECTS ?= $(BLD_OBJS) $(BLD_LIBS)
 
 VARS_INCLUDE=AVR
 
-BLD_GCC ?= avr-gcc -c
-BLD_GXX ?= avr-g++ -c
-BLD_ASM ?= avr-g++ -c
-BLD_LNK ?= avr-g++
-BLD_OCP ?= avr-objcopy
-BLD_ODP ?= avr-objdump
-BLD_SZE ?= avr-size
-BLD_ARR ?= avr-ar rcs
-BLD_NMM ?= avr-nm
+BLD_BIN_PREFIX ?= 
+
+BLD_GCC ?= "$(BLD_BIN_PREFIX)avr-gcc" -c
+BLD_GXX ?= "$(BLD_BIN_PREFIX)avr-g++" -c
+BLD_ASM ?= "$(BLD_BIN_PREFIX)avr-g++" -c
+BLD_LNK ?= "$(BLD_BIN_PREFIX)avr-g++"
+BLD_OCP ?= "$(BLD_BIN_PREFIX)avr-objcopy"
+BLD_ODP ?= "$(BLD_BIN_PREFIX)avr-objdump
+BLD_SZE ?= "$(BLD_BIN_PREFIX)avr-size"
+BLD_ARR ?= "$(BLD_BIN_PREFIX)avr-ar" rcs
+BLD_NMM ?= "$(BLD_BIN_PREFIX)avr-nm"
 
 RMF ?= rm -rf
 
