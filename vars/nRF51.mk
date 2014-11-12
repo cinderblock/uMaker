@@ -47,9 +47,9 @@ NRF51_DEFINES ?= $(DEVICE) $(AUTO_DEFS)
 ## Setup final flags we're going to use
 
 # Leading -I flags take precedence
-BLD_INCLUDES ?= $(INCLUDES) $(AUTO_INC)
+BLD_INCLUDES ?= $(INCLUDES) $(AUTO_INCS)
 # Trailing -D flags override previous ones
-BLD_DEFINES  ?= $(AUTO_DEF) $(NRF51_DEFINES) $(DEFINES)
+BLD_DEFINES  ?= $(NRF51_DEFINES) $(DEFINES)
 
 BLD_I_OPTS ?= $(BLD_INCLUDES:%=-I%)
 BLD_D_OPTS ?= $(BLD_DEFINES:%=-D%)
