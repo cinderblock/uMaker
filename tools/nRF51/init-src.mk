@@ -65,8 +65,8 @@ $(NRF51INIT_FILES):
 
 # Older version of make strip trailing '/' from targets unless they're explicitly declared
 $(sort $(dir $(NRF51INIT_FILES) $(NRF51INIT_OUT) $(NRF51INIT_OBJS) $(NRF51INIT_DEPFILES))):
-	$(ECO) "MKDIR	$@"
-	$(MKD) $@
+#	$(ECO) "MKDIR	$@"
+#	$(MKD) $@
 
 # Add directory targets to those that need them
 .SECONDEXPANSION:

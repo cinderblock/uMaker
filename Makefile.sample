@@ -24,6 +24,9 @@ UMAKER = uMaker/
 # Load local settings
 -include local.mk
 
+# Force setting certain make flags
+include $(UMAKER)tools/makeflags.mk
+
 # Optional configuration testing for development
 include $(UMAKER)tools/checks.mk
 

@@ -72,8 +72,8 @@ BLD_DEPFILES = $(BLD_OBJS:$(BLD_DIR)%=$(BLD_DEPDIR)%.d)
 
 # Older version of make strip trailing '/' from targets unless they're explicitly declared
 $(sort $(dir $(OUT_FILES) $(OUT_OBJECTS) $(BLD_DEPFILES))):
-	$(ECO) "MKDIR	$@"
-	$(MKD) $@
+#	$(ECO) "MKDIR	$@"
+#	$(MKD) $@
 
 # Directories should always end in '/' so you can do things like this
 %/:

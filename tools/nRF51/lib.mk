@@ -19,11 +19,11 @@ NRF51_OUT ?= $(BLD_LIBDIR)$(NRF51_AR)
 
 NRF51_GCCFLAGS_FINAL ?= $(BLD_GCCFLAGS_FINAL) $(NRF51_GCCFLAGS_EXTRA)
 
-AUTO_DEFS += BLE_STACK_SUPPORT_REQD
+AUTO_DEF += BLE_STACK_SUPPORT_REQD
 
-NRF51_INCLUDES ?= $(sort $(dir $(wildcard $(NRF51_INCDIR)*/) $(wildcard $(NRF51_INCDIR)ble/*/)))
+NRF51_INCLUDES ?= $(sort $(dir $(NRF51_INCDIR) $(wildcard $(NRF51_INCDIR)*/) $(wildcard $(NRF51_INCDIR)ble/*/)))
 
-AUTO_INCS += $(NRF51_INCLUDES) $(NRF51_EXTRA_INCLUDES)
+AUTO_INC += $(NRF51_INCLUDES) $(NRF51_EXTRA_INCLUDES)
 
 AUTO_LIB += $(NRF51_OUT)
 
@@ -38,7 +38,7 @@ $(NRF51_OUT): $(NRF51_OBJS)
 	$(ECO) "AR	$@"
 	$(BLD_ARR) $@ $(NRF51_OBJS)
 
-$(NRF51_OUT) $(NRF51_OBJS): $(MAKEFILE_LIST)
+$(NRF51_OUT) $(NRF51_OBJS): | $(MAKEFILE_LIST)
 
 nrf51-lib: $(NRF51_OUT)
 
@@ -52,8 +52,8 @@ NRF51_DEPFILES = $(NRF51_OBJS:$(BLD_DIR)%=$(BLD_DEPDIR)%.d)
 
 # Older version of make strip trailing '/' from targets unless they're explicitly declared
 $(sort $(dir $(NRF51_OUT) $(NRF51_OBJS) $(NRF51_DEPFILES))):
-	$(ECO) "MKDIR	$@"
-	$(MKD) $@
+#	$(ECO) "MKDIR	$@"
+#	$(MKD) $@
 
 # Add directory targets to those that need them
 .SECONDEXPANSION:

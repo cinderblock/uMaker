@@ -1,6 +1,3 @@
-# Turn off make's builtin rules and make it quiet
-MAKEFLAGS = -Rrs
-
 CPU ?= cortex-m0
 DEVICE ?= NRF51
 DEVICESERIES ?= nrf51
@@ -8,7 +5,7 @@ VARIANT ?= xxaa
 SOFTDEVICE ?= blank
 
 GCC_VERSION ?= 4.8.3
-GCC_ROOT    ?= C:/Program Files (x86)/GNU Tools ARM Embedded/4.8 2014q1/
+GCC_ROOT    ?= C:/Program Files (x86)/GNU Tools ARM Embedded/4.8 2014q3/
 GCC_PREFIX  ?= $(GCC_ROOT)bin/arm-none-eabi-
 
 # Define these in your Makefile
@@ -17,7 +14,7 @@ GXXFILES ?= $(AUTO_GXX) $(CPP:%=%.cpp) #$(CXX:%=%.cxx) $(C++:%=%.c++)
 ASMFILES ?= $(AUTO_ASM) $(ASM:%=%.s)
 LIBFILES ?= $(AUTO_LIB) $(LIB:%=%.a)
 
-NRF51_BASEDIR ?= C:/Progra~2/Nordic~1/nRF51S~1.360/Nordic/nrf51822/
+NRF51_BASEDIR ?= C:/Progra~2/Nordic~1/nRF51S~2.0/Nordic/nrf51822/
 
 # Base output file name
 TARGET ?= SETME
@@ -42,12 +39,12 @@ SRCDIR ?=
 OUT_DIR ?= out/
 
 # Set this in your Makefile as you like
-NRF51_DEFINES ?= $(DEVICE) $(AUTO_DEFS)
+NRF51_DEFINES ?= $(DEVICE) $(AUTO_DEF)
 
 ## Setup final flags we're going to use
 
 # Leading -I flags take precedence
-BLD_INCLUDES ?= $(INCLUDES) $(AUTO_INCS)
+BLD_INCLUDES ?= $(INCLUDES) $(AUTO_INC)
 # Trailing -D flags override previous ones
 BLD_DEFINES  ?= $(NRF51_DEFINES) $(DEFINES)
 

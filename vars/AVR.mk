@@ -31,8 +31,8 @@ OUT_DIR ?= out/
 # Set this in your Makefile as you like
 DEFINES ?= F_CPU=$(F_CPU)
 
-BLD_INCLUDES ?= $(AUTO_INCS) $(INCLUDES)
-BLD_DEFINES  ?= $(AUTO_DEFS) $(DEFINES)
+BLD_INCLUDES ?= $(AUTO_INC) $(INCLUDES)
+BLD_DEFINES  ?= $(AUTO_DEF) $(DEFINES)
 
 # Transform user facing variables to how gcc wants them
 BLD_I_FLAGS ?= $(BLD_INCLUDES:%=-I%)
