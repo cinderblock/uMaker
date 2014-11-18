@@ -35,7 +35,7 @@ $(NRF51_BLDDIR)%.c.o: $(NRF51_SRCDIR)%.c
 	$(BLD_GCC) $< -o $@ $(NRF51_GCCFLAGS_FINAL)
 
 $(NRF51_OUT): $(NRF51_OBJS)
-	$(ECO) "AR	$@"
+	$(ECO) "nRF AR	$@"
 	$(BLD_ARR) $@ $(NRF51_OBJS)
 
 $(NRF51_OUT) $(NRF51_OBJS): | $(MAKEFILE_LIST)
@@ -52,8 +52,8 @@ NRF51_DEPFILES = $(NRF51_OBJS:$(BLD_DIR)%=$(BLD_DEPDIR)%.d)
 
 # Older version of make strip trailing '/' from targets unless they're explicitly declared
 $(sort $(dir $(NRF51_OUT) $(NRF51_OBJS) $(NRF51_DEPFILES))):
-#	$(ECO) "MKDIR	$@"
-#	$(MKD) $@
+	$(ECO) "MKDIR	$@"
+	$(MKD) $@
 
 # Add directory targets to those that need them
 .SECONDEXPANSION:

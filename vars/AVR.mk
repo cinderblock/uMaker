@@ -9,7 +9,7 @@ GXXFILES ?= $(CPP:%=%.cpp)
 LIBFILES ?= $(LIB:%=%.a)
 
 # Base output file name
-TARGET ?= SETME
+TARGET ?= setTARGETinYourMakefile
 
 # Temporary directories to build into
 BLD_DIR    ?= .bld/
@@ -82,10 +82,10 @@ BLD_HEXFLAGS_FINAL ?= $(BLD_HEXFLAGS)
 
 BLD_GCCOBJ ?= $(GCCFILES:%=$(BLD_DIR)%.o)
 BLD_GXXOBJ ?= $(GXXFILES:%=$(BLD_DIR)%.o)
-BLD_LIBOBJ ?= $(LIBFILES) $(AUTO_LIB)
+BLD_LIBOBJ ?= $(LIBFILES)
 
 BLD_OBJS ?= $(BLD_GCCOBJ) $(BLD_GXXOBJ)
-BLD_LIBS ?= $(BLD_LIBOBJ)
+BLD_LIBS ?= $(BLD_LIBOBJ) $(AUTO_LIB)
 
 OUT_ELF ?= $(OUT_DIR)$(TARGET).elf
 OUT_HEX ?= $(OUT_DIR)$(TARGET).hex
@@ -101,8 +101,8 @@ OUT_FILES = $(OUT_ELF) $(OUT_HEX) $(OUT_LSS) $(OUT_MAP) $(OUT_SYM) $(OUT_EEP) $(
 # Output file format
 OUT_FMT ?= ihex
 
-OUT_DEPS ?= $(OUT_OBJECTS) $(AUTO_OUT_DEPS)
-OUT_OBJECTS ?= $(BLD_OBJS) $(BLD_LIBS)
+BLD_ALL_OBJS ?= $(BLD_OBJS) $(BLD_LIBS)
+OUT_DEPS ?= $(BLD_ALL_OBJS) $(AUTO_OUT_DEPS)
 
 VARS_INCLUDE=AVR
 

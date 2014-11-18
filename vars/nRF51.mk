@@ -4,9 +4,9 @@ DEVICESERIES ?= nrf51
 VARIANT ?= xxaa
 SOFTDEVICE ?= blank
 
-GCC_VERSION ?= 4.8.3
-GCC_ROOT    ?= C:/Program Files (x86)/GNU Tools ARM Embedded/4.8 2014q3/
-GCC_PREFIX  ?= $(GCC_ROOT)bin/arm-none-eabi-
+GCC_VERSION ?= 4.8.4
+GCC_ROOT    ?= C:/Progra~2/GNUTOO~1/4F412~1.820/
+GCC_PREFIX  ?= arm-none-eabi
 
 # Define these in your Makefile
 GCCFILES ?= $(AUTO_GCC) $(C:%=%.c)
@@ -17,7 +17,7 @@ LIBFILES ?= $(AUTO_LIB) $(LIB:%=%.a)
 NRF51_BASEDIR ?= C:/Progra~2/Nordic~1/nRF51S~2.0/Nordic/nrf51822/
 
 # Base output file name
-TARGET ?= SETME
+TARGET ?= setTARGETinYourMakefile
 
 # Temporary directories to build into
 BLD_DIR    ?= .bld/
@@ -42,6 +42,9 @@ OUT_DIR ?= out/
 NRF51_DEFINES ?= $(DEVICE) $(AUTO_DEF)
 
 ## Setup final flags we're going to use
+
+# Don't forget to include your SRCDIR
+INCLUDES ?= $(if $(SRCDIR),$(SRCDIR:%/=%),.)
 
 # Leading -I flags take precedence
 BLD_INCLUDES ?= $(INCLUDES) $(AUTO_INC)
@@ -84,7 +87,7 @@ BLD_GXXFLAGS ?= $(BLD_GXXFLAGS_RECOMMENDED) $(BLD_FLAGS)
 
 NRF51_LDSCRIPT ?= $(NRF51INIT_DIR)gcc/gcc_$(DEVICESERIES)_$(SOFTDEVICE)_$(VARIANT).ld
 
-NRF51_LIBDIRS ?= "$(GCC_ROOT)$(GCC_PREFIX)/lib/armv6-m" "$(GCC_ROOT)lib/gcc/$(GCC_PREFIX)/$(GCC_VERSION)/armv6-m"
+NRF51_LIBDIRS ?= $(GCC_ROOT)$(GCC_PREFIX)/lib/armv6-m $(GCC_ROOT)lib/gcc/$(GCC_PREFIX)/$(GCC_VERSION)/armv6-m $(NRF51INIT_DIR)gcc
 
 LNK_LIBDIRS ?= $(NRF51_LIBDIRS)
 
@@ -112,7 +115,7 @@ BLD_ASMOBJ ?= $(ASMFILES:%=$(BLD_DIR)%.o)
 BLD_LIBOBJ ?= $(LIBFILES)
 
 BLD_OBJS = $(BLD_GCCOBJ) $(BLD_GXXOBJ)
-BLD_LIBS = $(BLD_LIBOBJ)
+BLD_LIBS = $(BLD_LIBOBJ) $(AUTO_LIB)
 
 OUT_ELF ?= $(OUT_DIR)$(TARGET).elf
 OUT_HEX ?= $(OUT_DIR)$(TARGET).hex
@@ -128,20 +131,22 @@ OUT_FILES = $(OUT_ELF) $(OUT_HEX) $(OUT_LSS) $(OUT_MAP) $(OUT_SYM) $(OUT_EEP) $(
 # Output file format
 OUT_FMT ?= ihex
 
-OUT_DEPS ?= $(OUT_OBJECTS) $(AUTO_OUT_DEPS)
-OUT_OBJECTS ?= $(BLD_OBJS) $(BLD_LIBS)
+BLD_ALL_OBJS ?= $(BLD_OBJS) $(BLD_LIBS)
+OUT_DEPS ?= $(BLD_ALL_OBJS) $(AUTO_OUT_DEPS)
 
 VARS_INCLUDE=nRF51
 
-BLD_GCC ?= "$(GCC_PREFIX)gcc" -c
-BLD_GXX ?= "$(GCC_PREFIX)g++" -c
-BLD_ASM ?= "$(GCC_PREFIX)g++" -c
-BLD_LNK ?= "$(GCC_PREFIX)g++"
-BLD_OCP ?= "$(GCC_PREFIX)objcopy"
-BLD_ODP ?= "$(GCC_PREFIX)objdump"
-BLD_SZE ?= "$(GCC_PREFIX)size"
-BLD_ARR ?= "$(GCC_PREFIX)ar" rcs
-BLD_NMM ?= "$(GCC_PREFIX)nm"
+BLD_BIN_PREFIX ?= $(GCC_ROOT)bin/$(GCC_PREFIX)-
+
+BLD_GCC ?= "$(BLD_BIN_PREFIX)gcc" -c
+BLD_GXX ?= "$(BLD_BIN_PREFIX)g++" -c
+BLD_ASM ?= "$(BLD_BIN_PREFIX)g++" -c
+BLD_LNK ?= "$(BLD_BIN_PREFIX)g++"
+BLD_OCP ?= "$(BLD_BIN_PREFIX)objcopy"
+BLD_ODP ?= "$(BLD_BIN_PREFIX)objdump"
+BLD_SZE ?= "$(BLD_BIN_PREFIX)size"
+BLD_ARR ?= "$(BLD_BIN_PREFIX)ar" rcs
+BLD_NMM ?= "$(BLD_BIN_PREFIX)nm"
 
 RMF ?= rm -rf
 
