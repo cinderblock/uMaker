@@ -5,7 +5,7 @@
 ## here. Just variables, or overrides, that the included helper makefiles will use.
 
 # List of C file basenames to build
-C = 
+C =
 
 # List of CPP file basenames to build
 CPP = main Board test/Test
@@ -40,6 +40,7 @@ include $(UMAKER)tools/nRF51/init-src.mk
 #include $(UMAKER)tools/AVR/lufa.mk
 include $(UMAKER)tools/nRF51/lib.mk
 include $(UMAKER)tools/extlib.mk
+include $(UMAKER)tools/FreeRTOS.mk
 
 # Build targets
 include $(UMAKER)tools/build.mk
