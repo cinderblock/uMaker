@@ -1,6 +1,6 @@
-# Make Tools - Standard tools for embeded C/C++ projects
+# uMaker - Makefile and tools for embeded C/C++ projects
 
-This set of makefiles is intended to be used by all embeded projects. Each file is inteded to be included from a main Makefile when its features are needed while providing as many defaults as possible. It will even support building and linking in external libraries.
+This set of makefiles is intended to be used by all embeded projects. Each file is inteded to be included from a main Makefile when its features are needed while providing as many defaults as possible.
 
 ## Conventions
 
