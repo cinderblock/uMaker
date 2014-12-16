@@ -22,6 +22,9 @@ OPT ?= 2
 BLD_STD_GCC ?= gnu11
 BLD_STD_GXX ?= gnu++11
 
+# Get rid of the silly AVR #define that gnu sets outside of the reserved namespace
+UNDEFINES = AVR
+
 # Directory that src files are in. ie: SRCDIR = src/
 SRCDIR ?=
 
@@ -33,14 +36,16 @@ DEFINES ?= F_CPU=$(F_CPU)
 
 BLD_INCLUDES ?= $(AUTO_INC) $(INCLUDES)
 BLD_DEFINES  ?= $(AUTO_DEF) $(DEFINES)
+BLD_DEFINES  ?= $(AUTO_UNDEF) $(UNDEFINES)
 
 # Transform user facing variables to how gcc wants them
 BLD_I_FLAGS ?= $(BLD_INCLUDES:%=-I%)
 BLD_D_FLAGS ?= $(BLD_DEFINES:%=-D%)
+BLD_U_FLAGS ?= $(BLD_UNDEFINES:%=-U%)
 
 BLD_FLAGS_AVR ?= -mmcu=$(MCU)
 
-BLD_FLAGS_REQUIRED = $(BLD_FLAGS_AVR) $(BLD_I_FLAGS) $(BLD_D_FLAGS)
+BLD_FLAGS_REQUIRED = $(BLD_FLAGS_AVR) $(BLD_I_FLAGS) $(BLD_D_FLAGS) $(BLD_U_FLAGS)
 
 BLD_FLAGS_STANDARD ?= -O$(OPT) -pipe
 
