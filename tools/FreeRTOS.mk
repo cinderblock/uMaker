@@ -21,7 +21,7 @@ FREERTOS_PORTDEFS_NAME ?= FreeRTOSPortDefinitions.c
 FREERTOS_PORTDEFS_FILE ?= $(SRCDIR)$(FREERTOS_PORTDEFS_NAME)
 
 # Relative to FREERTOS_SRCDIR
-FREERTOS_C ?= croutine event_groups list queue tasks timers
+FREERTOS_C ?= croutine event_groups list queue tasks timers portable/MemMang/heap_1
 FREERTOS_SRC ?= $(FREERTOS_C:%=%.c)
 
 FREERTOS_AR ?= FreeRTOS.a
