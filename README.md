@@ -14,6 +14,8 @@ All variables that are used almost exclusively by certain tools have a namespace
 
 All paths to directories must end with a '/'.
 
+*Exception: for cleanliness, includes that are passed to gcc do not need them*
+
 ### Variable defaults
 
 Most variables have sane defaults set. If you need to ovveride them or set extras, you can do so directly in your main Makefile. Nearly all assignments in make-tools are done with ?=, which allows you to define your own versions instead. Many variables also have an xxxxx\_EXTRA variable that they already include and you just need to set.
