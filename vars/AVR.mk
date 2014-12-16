@@ -49,14 +49,16 @@ BLD_FLAGS_REQUIRED = $(BLD_FLAGS_AVR) $(BLD_I_FLAGS) $(BLD_D_FLAGS) $(BLD_U_FLAG
 
 BLD_FLAGS_STANDARD ?= -O$(OPT) -pipe
 
-# Recommended gcc flags for compilation
-BLD_FLAGS_RECOMMENDED  = -ffreestanding -funsigned-bitfields
+### Recommended gcc flags for compilation
+
+# main() can return void
+BLD_FLAGS_RECOMMENDED  = -ffreestanding
 
 # Compiler warnings
 BLD_FLAGS_RECOMMENDED += -Wall
 
 # Note really necessary if you write your code right
-BLD_FLAGS_RECOMMENDED += -fshort-enums -funsigned-char
+BLD_FLAGS_RECOMMENDED += -fshort-enums -funsigned-char -funsigned-bitfields
 
 # Automatically activated with -O2
 BLD_FLAGS_RECOMMENDED += -fno-inline-small-functions -fno-strict-aliasing
