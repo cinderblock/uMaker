@@ -19,11 +19,11 @@ BLD_DEPDIR ?= $(BLD_DIR).dep/
 BLD_LIBDIR ?= $(BLD_DIR)libs/
 
 OPT ?= 2
-BLD_STD_GCC ?= c11
-BLD_STD_GXX ?= c++11
+BLD_STD_GCC ?= gnu11
+BLD_STD_GXX ?= gnu++11
 
 # Directory that src files are in. ie: SRCDIR = src/
-SRCDIR ?= 
+SRCDIR ?=
 
 # Directory for fully compiled files
 OUT_DIR ?= out/
@@ -37,7 +37,7 @@ BLD_DEFINES  ?= $(AUTO_DEF) $(DEFINES)
 # Transform user facing variables to how gcc wants them
 BLD_I_FLAGS ?= $(BLD_INCLUDES:%=-I%)
 BLD_D_FLAGS ?= $(BLD_DEFINES:%=-D%)
-	
+
 BLD_FLAGS_AVR ?= -mmcu=$(MCU)
 
 BLD_FLAGS_REQUIRED = $(BLD_FLAGS_AVR) $(BLD_I_FLAGS) $(BLD_D_FLAGS)
@@ -106,7 +106,7 @@ OUT_DEPS ?= $(BLD_ALL_OBJS) $(AUTO_OUT_DEPS)
 
 VARS_INCLUDE=AVR
 
-BLD_BIN_PREFIX ?= 
+BLD_BIN_PREFIX ?=
 
 BLD_GCC ?= "$(BLD_BIN_PREFIX)avr-gcc" -c
 BLD_GXX ?= "$(BLD_BIN_PREFIX)avr-g++" -c
