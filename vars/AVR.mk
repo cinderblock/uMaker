@@ -34,9 +34,9 @@ OUT_DIR ?= out/
 # Set this in your Makefile as you like
 DEFINES ?= F_CPU=$(F_CPU)
 
-BLD_INCLUDES ?= $(AUTO_INC) $(INCLUDES)
-BLD_DEFINES  ?= $(AUTO_DEF) $(DEFINES)
-BLD_DEFINES  ?= $(AUTO_UNDEF) $(UNDEFINES)
+BLD_INCLUDES   ?= $(AUTO_INC) $(INCLUDES)
+BLD_DEFINES    ?= $(AUTO_DEF) $(DEFINES)
+BLD_UNDEFINES  ?= $(AUTO_UNDEF) $(UNDEFINES)
 
 # Transform user facing variables to how gcc wants them
 BLD_I_FLAGS ?= $(BLD_INCLUDES:%=-I%)
@@ -120,7 +120,7 @@ BLD_GXX ?= "$(BLD_BIN_PREFIX)avr-g++" -c
 BLD_ASM ?= "$(BLD_BIN_PREFIX)avr-g++" -c
 BLD_LNK ?= "$(BLD_BIN_PREFIX)avr-g++"
 BLD_OCP ?= "$(BLD_BIN_PREFIX)avr-objcopy"
-BLD_ODP ?= "$(BLD_BIN_PREFIX)avr-objdump
+BLD_ODP ?= "$(BLD_BIN_PREFIX)avr-objdump"
 BLD_SZE ?= "$(BLD_BIN_PREFIX)avr-size"
 BLD_ARR ?= "$(BLD_BIN_PREFIX)avr-ar" rcs
 BLD_NMM ?= "$(BLD_BIN_PREFIX)avr-nm"
