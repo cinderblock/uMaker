@@ -2,6 +2,13 @@
 
 This set of makefiles is intended to be used by all embedded projects. Each file is intended to be included from a main Makefile when its features are needed while providing as many defaults as possible.
 
+## Getting Started
+
+ - Copy one of the sample Makefiles to your project dir and rename it to `Makefile`
+ - Set `UMAKER` to the uMkaer directory
+ - Set the `C` and/or `CPP` vars in your new `Makefile`
+ - Select which uMaker tools are included
+
 ## Conventions
 
 These tools have very strict naming requirements. Things will break if you forget a /.
