@@ -1,7 +1,9 @@
 ifndef VARS_INCLUDE
  $(error You need to include a vars file)
 endif
-	
+
+build-lss: $(OUT_lss)
+
 build: $(OUT_ELF)
 
 # Create object files from .c sources
@@ -59,11 +61,11 @@ clean_build:
 	$(ECO) Cleaning Build...
 	$(RMF) $(BLD_DIR) $(OUT_DIR) $(BLD_LIBDIR) $(BLD_DEPDIR)
 
-.PHONY: clean size clean_build
+.PHONY: clean size clean_build build-lss build
 
 .PRECIOUS: $(BLD_ALL_OBJS)
 .SECONDARY: $(OUT_FILES)
-	
+
 $(BLD_OBJS) $(OUT_FILES): $(MAKEFILE_LIST)
 
 # Explicitly include all our build dep files
