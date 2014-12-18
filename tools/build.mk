@@ -2,7 +2,7 @@ ifndef VARS_INCLUDE
  $(error You need to include a vars file)
 endif
 
-build-lss: $(OUT_lss)
+build-lss: $(OUT_LSS)
 
 build: $(OUT_ELF)
 
