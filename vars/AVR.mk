@@ -121,7 +121,7 @@ BLD_ASM ?= "$(BLD_BIN_PREFIX)avr-g++" -c
 BLD_LNK ?= "$(BLD_BIN_PREFIX)avr-g++"
 BLD_OCP ?= "$(BLD_BIN_PREFIX)avr-objcopy"
 BLD_ODP ?= "$(BLD_BIN_PREFIX)avr-objdump"
-BLD_SZE ?= "$(BLD_BIN_PREFIX)avr-size"
+BLD_SZE ?= "$(BLD_BIN_PREFIX)avr-size" --format=avr --mcu=$(MCU)
 BLD_ARR ?= "$(BLD_BIN_PREFIX)avr-ar" rcs
 BLD_NMM ?= "$(BLD_BIN_PREFIX)avr-nm"
 
