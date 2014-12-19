@@ -40,6 +40,10 @@ lufa: $(LUFA_OUT)
 .PRECIOUS: $(LUFA_OBJS)
 .SECONDARY: $(LUFA_OUT)
 
+$(sort $(dir $(LUFA_OUT) $(LUFA_OBJS) $(LUFA_DEPFILES))):
+	$(ECO) "MKDIR	$@"
+	$(MKD) $@
+
 # Explicitly include all our build dep files
 LUFA_DEPFILES = $(LUFA_OBJS:$(BLD_DIR)%=$(BLD_DEPDIR)%.d)
 -include $(LUFA_DEPFILES)
