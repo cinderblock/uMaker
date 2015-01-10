@@ -115,9 +115,9 @@ VARS_INCLUDE=AVR
 
 BLD_BIN_PREFIX ?=
 
-BLD_GCC ?= "$(BLD_BIN_PREFIX)avr-gcc" -c
-BLD_GXX ?= "$(BLD_BIN_PREFIX)avr-g++" -c
-BLD_ASM ?= "$(BLD_BIN_PREFIX)avr-g++" -c
+BLD_GCC ?= "$(BLD_BIN_PREFIX)avr-gcc"
+BLD_GXX ?= "$(BLD_BIN_PREFIX)avr-g++"
+BLD_ASM ?= "$(BLD_BIN_PREFIX)avr-g++"
 BLD_LNK ?= "$(BLD_BIN_PREFIX)avr-g++"
 BLD_OCP ?= "$(BLD_BIN_PREFIX)avr-objcopy"
 BLD_ODP ?= "$(BLD_BIN_PREFIX)avr-objdump"

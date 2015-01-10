@@ -9,17 +9,17 @@ build: $(OUT_ELF)
 # Create object files from .c sources
 $(BLD_DIR)%.c.o: $(SRCDIR)%.c
 	$(ECO) "CC	$@"
-	$(BLD_GCC) -o $@ $< $(BLD_GCCFLAGS_FINAL)
+	$(BLD_GCC) -o $@ $< -c $(BLD_GCCFLAGS_FINAL)
 
 # Create object files from .cpp sources
 $(BLD_DIR)%.cpp.o: $(SRCDIR)%.cpp
 	$(ECO) "C++	$@"
-	$(BLD_GXX) -o $@ $< $(BLD_GXXFLAGS_FINAL)
+	$(BLD_GXX) -o $@ $< -c $(BLD_GXXFLAGS_FINAL)
 
 # Create object files from .s sources
 $(BLD_DIR)%.s.o: $(SRCDIR)%.s
 	$(ECO) "ASM	$@"
-	$(BLD_ASM) -o $@ $< $(BLD_ASMFLAGS_FINAL)
+	$(BLD_ASM) -o $@ $< -c $(BLD_ASMFLAGS_FINAL)
 
 # Create output .elf from objects
 $(OUT_ELF): $(OUT_DEPS)

@@ -33,7 +33,7 @@ BLD_STD_GCC ?= gnu11
 BLD_STD_GXX ?= gnu++11
 
 # Directory that src files are in. ie: SRCDIR = src/
-SRCDIR ?= 
+SRCDIR ?=
 
 # Directory for compiled output files
 OUT_DIR ?= out/
@@ -53,7 +53,7 @@ BLD_DEFINES  ?= $(NRF51_DEFINES) $(DEFINES)
 
 BLD_I_OPTS ?= $(BLD_INCLUDES:%=-I%)
 BLD_D_OPTS ?= $(BLD_DEFINES:%=-D%)
-	
+
 BLD_FLAGS_NRF ?= -mcpu=$(CPU) -mthumb -mabi=aapcs -mfloat-abi=soft
 
 BLD_FLAGS_REQUIRED = $(BLD_FLAGS_NRF) $(BLD_I_OPTS) $(BLD_D_OPTS)
@@ -143,9 +143,9 @@ VARS_INCLUDE=nRF51
 
 BLD_BIN_PREFIX ?= $(GCC_ROOT)bin/$(GCC_PREFIX)-
 
-BLD_GCC ?= "$(BLD_BIN_PREFIX)gcc" -c
-BLD_GXX ?= "$(BLD_BIN_PREFIX)g++" -c
-BLD_ASM ?= "$(BLD_BIN_PREFIX)g++" -c
+BLD_GCC ?= "$(BLD_BIN_PREFIX)gcc"
+BLD_GXX ?= "$(BLD_BIN_PREFIX)g++"
+BLD_ASM ?= "$(BLD_BIN_PREFIX)g++"
 BLD_LNK ?= "$(BLD_BIN_PREFIX)g++"
 BLD_OCP ?= "$(BLD_BIN_PREFIX)objcopy"
 BLD_ODP ?= "$(BLD_BIN_PREFIX)objdump"
