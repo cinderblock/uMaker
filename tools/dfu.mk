@@ -8,12 +8,15 @@ DFU ?= dfu-programmer
 DFU_TARGETED ?= $(DFU) $(DFU_TARGET)
 
 dfu-flash: $(DFU_HEX)
-	$(DFU_TARGETED) flash $(DFU_HEX)
+	$(DFU_TARGETED) flash --force $(DFU_HEX)
+
+dfu-erase:
+	$(DFU_TARGETED) erase
 
 dfu-reset:
 	$(DFU_TARGETED) reset
 
 dfu-start:
 	$(DFU_TARGETED) start
-	
-.PHONY: dfu-flash dfu-reset dfu-start
+
+.PHONY: dfu-flash dfu-reset dfu-start dfu-erase
