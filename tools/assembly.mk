@@ -8,5 +8,5 @@ $(BLD_DIR)%.c.s: $(SRCDIR)%.c
 
 	# Create object files from .cpp sources
 $(BLD_DIR)%.cpp.S: $(SRCDIR)%.cpp
-	$(ECO) "C++	AS $@"
+	$(ECO) "C++ AS	$@"
 	$(BLD_GXX) -o $@ $< -S $(BLD_GXXFLAGS_FINAL)
