@@ -26,7 +26,7 @@ AUTO_LIB += $(LUFA_OUT)
 
 $(BLD_DIR)%.c.o: $(LUFA_BASEDIR)%.c
 	$(ECO) "LUFA	$@"
-	$(BLD_GCC) $< -o $@ $(BLD_GCCFLAGS)
+	$(BLD_GCC) $< -o $@ -c $(BLD_GCCFLAGS)
 
 $(LUFA_OUT): $(LUFA_OBJS)
 	$(ECO) "AR	$@"

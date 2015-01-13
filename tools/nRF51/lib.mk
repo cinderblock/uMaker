@@ -32,7 +32,7 @@ AUTO_LIB += $(NRF51_OUT)
 
 $(NRF51_BLDDIR)%.c.o: $(NRF51_SRCDIR)%.c
 	$(ECO) "nRF51	$@"
-	$(BLD_GCC) $< -o $@ $(NRF51_GCCFLAGS_FINAL)
+	$(BLD_GCC) $< -o $@ -c $(NRF51_GCCFLAGS_FINAL)
 
 $(NRF51_OUT): $(NRF51_OBJS)
 	$(ECO) "nRF AR	$@"
