@@ -26,7 +26,7 @@ AUTO_LIB += $(LUFA_OUT)
 
 $(BLD_DIR)%.c.o: $(LUFA_BASEDIR)%.c
 	$(ECO) "LUFA	$@"
-	$(BLD_GCC) $< -o $@ -c $(BLD_GCCFLAGS)
+	$(BLD_GCC) $< -o $@ -c $(BLD_GCCFLAGS_FINAL)
 
 $(LUFA_OUT): $(LUFA_OBJS)
 	$(ECO) "AR	$@"
@@ -40,13 +40,13 @@ lufa: $(LUFA_OUT)
 .PRECIOUS: $(LUFA_OBJS)
 .SECONDARY: $(LUFA_OUT)
 
-$(sort $(dir $(LUFA_OUT) $(LUFA_OBJS) $(LUFA_DEPFILES))):
-	$(ECO) "MKDIR	$@"
-	$(MKD) $@
-
 # Explicitly include all our build dep files
 LUFA_DEPFILES = $(LUFA_OBJS:$(BLD_DIR)%=$(BLD_DEPDIR)%.d)
 -include $(LUFA_DEPFILES)
+
+$(sort $(dir $(LUFA_OUT) $(LUFA_OBJS) $(LUFA_DEPFILES))):
+	$(ECO) "MKDIR	$@"
+	$(MKD) $@
 
 # Add directory targets to those that need them
 .SECONDEXPANSION:
