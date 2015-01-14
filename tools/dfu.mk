@@ -8,10 +8,12 @@ DFU ?= dfu-programmer
 DFU_TARGETED ?= $(DFU) $(DFU_TARGET)
 
 dfu-flash: $(DFU_HEX)
+	$(ECO) Flashing	$(DFU_HEX)
 	$(DFU_TARGETED) flash --force $(DFU_HEX)
 
 dfu-erase:
-	$(DFU_TARGETED) erase
+	$(ECO) Erasing $(DFU_TARGET)
+	$(DFU_TARGETED) erase || exit 0
 
 dfu-reset:
 	$(DFU_TARGETED) reset
