@@ -21,6 +21,7 @@ AUTO_DEF += ARCH=ARCH_$(ARCH) F_USB=$(F_USB)
 
 AUTO_LIB += $(LUFA_OUT)
 
+LUFA_TARGET ?= LUFA
 
 ##### Targets
 
@@ -34,9 +35,9 @@ $(LUFA_OUT): $(LUFA_OBJS)
 
 $(LUFA_OUT) $(LUFA_OBJS): $(MAKEFILE_LIST)
 
-lufa: $(LUFA_OUT)
+$(LUFA_TARGET): $(LUFA_OUT)
 
-.PHONY: lufa
+.PHONY: $(LUFA_TARGET)
 .PRECIOUS: $(LUFA_OBJS)
 .SECONDARY: $(LUFA_OUT)
 
@@ -44,10 +45,4 @@ lufa: $(LUFA_OUT)
 LUFA_DEPFILES = $(LUFA_OBJS:$(BLD_DIR)%=$(BLD_DEPDIR)%.d)
 -include $(LUFA_DEPFILES)
 
-$(sort $(dir $(LUFA_OUT) $(LUFA_OBJS) $(LUFA_DEPFILES))):
-	$(ECO) "MKDIR	$@"
-	$(MKD) $@
-
-# Add directory targets to those that need them
-.SECONDEXPANSION:
-$(LUFA_OUT) $(LUFA_OBJS) $(LUFA_DEPFILES): | $$(dir $$@)
+AUTO_GENERATED_FILES += $(LUFA_OUT) $(LUFA_OBJS) $(LUFA_DEPFILES)

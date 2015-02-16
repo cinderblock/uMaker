@@ -50,6 +50,9 @@ include $(UMAKER)tools/build.mk
 include $(UMAKER)tools/nrfjprog.mk
 #include $(UMAKER)tools/AVR/avrdude.mk
 
+# Directory creation targets
+include #(UMAKER)tools/mkdir.mk
+
 run: dfu-flash dfu-reset
 
 .PHONY: all run

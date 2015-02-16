@@ -4,8 +4,8 @@ DEVICESERIES ?= nrf51
 VARIANT ?= xxaa
 SOFTDEVICE ?= blank
 
-GCC_VERSION ?= 4.8.4
-GCC_ROOT    ?= C:/Progra~2/GNUTOO~1/4F412~1.820/
+GCC_VERSION ?= 4.9.3
+GCC_ROOT    ?= C:/Progra~2/GNUTOO~1/4947E~1.920/
 GCC_PREFIX  ?= arm-none-eabi
 
 # Define these in your Makefile
@@ -14,7 +14,7 @@ GXXFILES ?= $(AUTO_GXX) $(CPP:%=%.cpp) #$(CXX:%=%.cxx) $(C++:%=%.c++)
 ASMFILES ?= $(AUTO_ASM) $(ASM:%=%.s)
 LIBFILES ?= $(AUTO_LIB) $(LIB:%=%.a)
 
-NRF51_BASEDIR ?= C:/Progra~2/Nordic~1/nRF51S~2.0/Nordic/nrf51822/
+NRF51_BASEDIR ?= C:/Progra~2/Nordic~1/NRF51_~1.0_C/
 
 # Base output file name
 TARGET ?= setTARGETinYourMakefile
