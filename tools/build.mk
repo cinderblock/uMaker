@@ -69,5 +69,7 @@ clean_build:
 $(BLD_OBJS) $(OUT_FILES): $(MAKEFILE_LIST)
 
 # Explicitly include all our build dep files
-BLD_DEPFILES = $(BLD_OBJS:$(BLD_DIR)%=$(BLD_DEPDIR)%.d)
+BLD_DEPFILES ?= $(BLD_OBJS:$(BLD_DIR)%=$(BLD_DEPDIR)%.d)
+
+AUTO_GENERATED_FILES += $(BLD_DEPFILES)
 -include $(BLD_DEPFILES)

@@ -133,6 +133,8 @@ OUT_LIB ?= $(OUT_DIR)lib$(TARGET).a
 
 OUT_FILES = $(OUT_ELF) $(OUT_HEX) $(OUT_LSS) $(OUT_MAP) $(OUT_SYM) $(OUT_EEP) $(OUT_LIB)
 
+AUTO_GENERATED_FILES += $(BLD_GCCOBJ) $(BLD_GXXOBJ) $(BLD_ASMOBJ) $(OUT_FILES)
+
 # Output file format
 OUT_FMT ?= ihex
 
