@@ -63,7 +63,6 @@ BLD_FLAGS_RECOMMENDED += -fshort-enums -funsigned-char -funsigned-bitfields
 # Automatically activated with -O2
 BLD_FLAGS_RECOMMENDED += -fno-inline-small-functions -fno-strict-aliasing
 
-# TODO: make sure this is right and we don't actually want =8 or something
 BLD_FLAGS_RECOMMENDED += -fpack-struct
 
 BLD_FLAGS ?= $(BLD_FLAGS_REQUIRED) $(BLD_FLAGS_STANDARD) $(BLD_FLAGS_RECOMMENDED) $(BLD_FLAGS_EXTRA)
@@ -76,6 +75,7 @@ BLD_GXXFLAGS ?= $(BLD_GXXFLAGS_RECOMMENDED) $(BLD_FLAGS)
 
 BLD_LNKFLAGS ?= $(BLD_FLAGS_AVR)
 
+# TODO: This is not quite right if you change ASM_DIR. May need rework of build.
 BLD_DEPFLAGS = -MMD -MP -MF $(@:$(BLD_DIR)%=$(BLD_DEPDIR)%.d)
 
 BLD_HEXFLAGS ?= -O $(OUT_FMT) -R .eeprom -R .fuse -R .lock
