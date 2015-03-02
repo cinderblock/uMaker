@@ -11,14 +11,17 @@ NRF51_NRFDRIVERS_SRCDIR ?= $(NRF51_SRCDIR)$(NRF51_NRFDRIVERS)/
 NRF51_NRFDRIVERS_BLDDIR ?= $(BLD_DIR)nRF51/$(NRF51_NRFDRIVERS)/
 
 # Names of nRF51 source files to "find" and include
-NRF51_NRFDRIVERS_C ?= simple_uart nrf_soc
-
-# Name of commonly required header files
-NRF51_NRFDRIVERS_H ?= nrf_error
+NRF51_NRFDRIVERS_C ?= *
 
 NRF51_NRFDRIVERS_SRC_FILES ?= $(NRF51_NRFDRIVERS_C:%=%.c)
 
-NRF51_NRFDRIVERS_SRC_FILES_FULL ?= $(foreach file,$(NRF51_NRFDRIVERS_SRC_FILES),$(shell find $(NRF51_NRFDRIVERS_SRCDIR) -type f -name $(file)))
+# Filter sources that depend on user boards.h
+NRF51_NRFDRIVERS_SRC_USERBOARDS_FILTER ?= %spi_master/spi_5W_master.c
+
+# Filter certain sources by default
+NRF51_NRFDRIVERS_SRC_FILES_FILTER ?= $(NRF51_NRFDRIVERS_SRC_USERBOARDS_FILTER)
+
+NRF51_NRFDRIVERS_SRC_FILES_FULL ?= $(filter-out $(NRF51_NRFDRIVERS_SRC_FILES_FILTER),$(foreach file,$(NRF51_NRFDRIVERS_SRC_FILES),$(shell find $(NRF51_NRFDRIVERS_SRCDIR) -type f -name $(file))))
 
 NRF51_NRFDRIVERS_AR ?= nRF51-$(NRF51_NRFDRIVERS).a
 

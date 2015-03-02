@@ -20,7 +20,7 @@ NRF51_BLE_SRC_FILES_BROKEN ?= %ble_services/ble_sps/ble_sps.c
 
 # TODO: Handle this better
 # If the user isn't using a multi-device soft device, don't build device_manager_central.c
-ifeq ($(NRF51_SOFTDEVICE_VERSION),s110)
+ifneq (,$(filter $(NRF51_SOFTDEVICE_VERSION),s110))
  NRF51_BLE_SRC_FILES_AUTO_FILTER += %ble/device_manager/device_manager_central.c
 endif
 

@@ -11,11 +11,31 @@ NRF51_LIBRARIES_SRCDIR ?= $(NRF51_SRCDIR)$(NRF51_LIBRARIES)/
 NRF51_LIBRARIES_BLDDIR ?= $(BLD_DIR)nRF51/$(NRF51_LIBRARIES)/
 
 # Names of nRF51 source files to "find" and include
-NRF51_LIBRARIES_C ?= button
+NRF51_LIBRARIES_C ?= *
 
 NRF51_LIBRARIES_SRC_FILES ?= $(NRF51_LIBRARIES_C:%=%.c)
 
-NRF51_LIBRARIES_SRC_FILES_FULL ?= $(foreach file,$(NRF51_LIBRARIES_SRC_FILES),$(shell find $(NRF51_LIBRARIES_SRCDIR) -type f -name $(file)))
+# TODO: Change so that it only happens if NRF51_LIBRARIES_C is still default
+# If the user isn't using an ANT soft device, don't build ANT things
+ifeq (,$(filter $(NRF51_SOFTDEVICE_VERSION),s210 s310))
+ NRF51_LIBRARIES_SRC_FILES_AUTO_FILTER += %ant_fs/antfs.c
+endif
+
+# Filter arm (aka IAR I think?) sources
+NRF51_LIBRARIES_SRC_IAR_FILTER ?= %arm.c
+
+NRF51_LIBRARIES_SRC_FILTER_HCI_USER_BOARDS ?= %hci/hci_slip.c %hci/hci_transport.c
+NRF51_LIBRARIES_SRC_USERBOARDS_FILTER ?= %bootloader_dfu/dfu_transport_ble.c $(NRF51_LIBRARIES_SRC_FILTER_HCI_USER_BOARDS)
+
+NRF51_LIBRARIES_SRC_FILTER_OTHER ?= %timer/app_timer_freertos.c %timer/app_timer_rtx.c
+
+# BUGFIX: Broken nRF51 sources
+NRF51_LIBRARIES_SRC_FILES_OLD ?= %console/console.c
+
+# Filter certain sources by default
+NRF51_LIBRARIES_SRC_FILES_FILTER ?= $(NRF51_LIBRARIES_SRC_FILTER_OTHER) $(NRF51_LIBRARIES_SRC_FILES_OLD) $(NRF51_LIBRARIES_SRC_FILES_AUTO_FILTER) $(NRF51_LIBRARIES_SRC_IAR_FILTER) $(NRF51_LIBRARIES_SRC_USERBOARDS_FILTER)
+
+NRF51_LIBRARIES_SRC_FILES_FULL ?= $(filter-out $(NRF51_LIBRARIES_SRC_FILES_FILTER),$(foreach file,$(NRF51_LIBRARIES_SRC_FILES),$(shell find $(NRF51_LIBRARIES_SRCDIR) -type f -name $(file))))
 
 NRF51_LIBRARIES_AR ?= nRF51-$(NRF51_LIBRARIES).a
 
