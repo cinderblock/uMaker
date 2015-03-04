@@ -10,8 +10,11 @@ NRF51_BLE_SRCDIR ?= $(NRF51_SRCDIR)$(NRF51_BLE)/
 
 NRF51_BLE_BLDDIR ?= $(BLD_DIR)nRF51/$(NRF51_BLE)/
 
-# Names of nRF51 source files to "find" and include
-NRF51_BLE_C ?= *
+# Only automatically build certain files if we're using a soft device
+ifneq (,$(filter $(NRF51_SOFTDEVICE_VERSION),s110 s120 s130 s210 s310))
+ # Names of nRF51 source files to "find" and include
+ NRF51_BLE_C ?= *
+endif
 
 NRF51_BLE_SRC_FILES ?= $(NRF51_BLE_C:%=%.c)
 

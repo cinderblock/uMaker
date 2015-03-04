@@ -15,12 +15,14 @@ NRF51_SOFTDEVICE_HEADER_INC ?= $(NRF51_SOFTDEVICE_VERSION)/headers
 NRF51_SOFTDEVICE_BLDDIR ?= $(BLD_DIR)nRF51/$(NRF51_SOFTDEVICE)/
 
 # Specifiy the folder name used for the soft device's header files
-NRF51_SOFTDEVICE_VERSION ?= s110
+NRF51_SOFTDEVICE_VERSION ?= blank
 
 NRF51_SOFTDEVICE_DEFINES ?= BLE_STACK_SUPPORT_REQD
 
-# Names of nRF51 source files to "find" and include
-NRF51_SOFTDEVICE_C ?= softdevice_handler
+ifneq ($(NRF51_SOFTDEVICE_VERSION),blank)
+ # Names of nRF51 source files to "find" and include
+ NRF51_SOFTDEVICE_C ?= softdevice_handler
+endif
 
 NRF51_SOFTDEVICE_SRC_FILES ?= $(NRF51_SOFTDEVICE_C:%=%.c)
 

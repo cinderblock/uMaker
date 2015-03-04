@@ -18,8 +18,13 @@ NRF51_NRFDRIVERS_SRC_FILES ?= $(NRF51_NRFDRIVERS_C:%=%.c)
 # Filter sources that depend on user boards.h
 NRF51_NRFDRIVERS_SRC_USERBOARDS_FILTER ?= %spi_master/spi_5W_master.c
 
+# If the user isn't using an BLE soft device, don't build pstorage
+ifeq (,$(filter $(NRF51_SOFTDEVICE_VERSION),s110 s120 s130 s210 s310))
+ NRF51_NRFDRIVERS_SRC_FILES_AUTO_FILTER += %pstorage/pstorage.c
+endif
+
 # Filter certain sources by default
-NRF51_NRFDRIVERS_SRC_FILES_FILTER ?= $(NRF51_NRFDRIVERS_SRC_USERBOARDS_FILTER)
+NRF51_NRFDRIVERS_SRC_FILES_FILTER ?= $(NRF51_NRFDRIVERS_SRC_USERBOARDS_FILTER) $(NRF51_NRFDRIVERS_SRC_FILES_AUTO_FILTER)
 
 NRF51_NRFDRIVERS_SRC_FILES_FULL ?= $(filter-out $(NRF51_NRFDRIVERS_SRC_FILES_FILTER),$(foreach file,$(NRF51_NRFDRIVERS_SRC_FILES),$(shell find $(NRF51_NRFDRIVERS_SRCDIR) -type f -name $(file))))
 
