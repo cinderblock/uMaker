@@ -19,7 +19,7 @@ NRF51_SRCDIR_SD ?= $(NRF51_SRCDIR)softdevice/
 # Find all the files that we're searching for. This will work for either a list of
 # specific files we're looking for, or match the wildcard default. Also, filter
 # out the softdevice folder since that needs special handling
-NRF51_HEADER_FILES_FULL ?= $(filter-out $(NRF51_SRCDIR_SD)%,$(foreach file,$(NRF51_HEADER_FILES),$(shell find $(NRF51_SRCDIR) -type f -name $(file))))
+NRF51_HEADER_FILES_FULL ?= $(filter-out $(NRF51_SRCDIR_SD)%,$(foreach file,$(NRF51_HEADER_FILES),$(shell find $(NRF51_SRCDIR) -type f -name "$(file)")))
 
 # We only want to include the directories of each of theses files, and ideally only once.
 NRF51_INCLUDES ?= $(sort $(dir $(NRF51_HEADER_FILES_FULL)))

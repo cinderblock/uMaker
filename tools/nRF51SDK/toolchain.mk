@@ -41,7 +41,7 @@ AUTO_GENERATED_FILES += $(NRF51_TOOLCHAIN_SRC_FULL)
 # Copy from BASEDIR to SRCDIR
 $(NRF51_TOOLCHAIN_SRCDIR)%:
 	$(ECO) "nRF51 copy	$@"
-	cp -u $(shell find $(NRF51_TOOLCHAIN_BASEDIR) -type f -name $*) $@
+	cp -u $(shell find $(NRF51_TOOLCHAIN_BASEDIR) -type f -name "$*") $@
 
 # A convenience target for initializing our source files
 nRF51/toolchain/copy: $(NRF51_TOOLCHAIN_SRC_FULL)

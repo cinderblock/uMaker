@@ -30,7 +30,7 @@ endif
 # Filter broken sources and others
 NRF51_BLE_SRC_FILES_FILTER ?= $(NRF51_BLE_SRC_FILES_BROKEN) $(NRF51_BLE_SRC_FILES_AUTO_FILTER)
 
-NRF51_BLE_SRC_FILES_FULL ?= $(filter-out $(NRF51_BLE_SRC_FILES_FILTER),$(foreach file,$(NRF51_BLE_SRC_FILES),$(shell find $(NRF51_BLE_SRCDIR) -type f -name $(file))))
+NRF51_BLE_SRC_FILES_FULL ?= $(filter-out $(NRF51_BLE_SRC_FILES_FILTER),$(foreach file,$(NRF51_BLE_SRC_FILES),$(shell find $(NRF51_BLE_SRCDIR) -type f -name "$(file)")))
 
 NRF51_BLE_AR ?= nRF51-$(NRF51_BLE).a
 
