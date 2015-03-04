@@ -1,4 +1,3 @@
-CPU ?= cortex-m0
 DEVICE ?= NRF51
 
 # Which series are we really compiling for? ANT/BLE => (nrf51422/nrf51)
@@ -57,11 +56,14 @@ BLD_DEFINES  ?= $(NRF51_DEFINES) $(AUTO_DEF) $(DEFINES)
 BLD_I_OPTS ?= $(BLD_INCLUDES:%=-I%)
 BLD_D_OPTS ?= $(BLD_DEFINES:%=-D%)
 
+CPU ?= cortex-m0
+
+# Build (and link) flags required for the nRF51 series
 BLD_FLAGS_NRF ?= -mcpu=$(CPU) -mthumb -mabi=aapcs -mfloat-abi=soft
 
 BLD_FLAGS_REQUIRED = $(BLD_FLAGS_NRF) $(BLD_I_OPTS) $(BLD_D_OPTS)
 
-BLD_FLAGS_STANDARD ?= -O$(BLD_OPTIMIZATION) #-pipe
+BLD_FLAGS_STANDARD ?= -O$(BLD_OPTIMIZATION) -pipe
 
 ### Recommended gcc flags for compilation
 #BLD_FLAGS_RECOMMENDED  = -ffreestanding -funsigned-bitfields
@@ -96,17 +98,19 @@ LNK_DIRS ?= $(NRF51_LNK_DIRS)
 
 LNK_L_FLAGS ?= $(LNK_DIRS:%=-L%)
 
+LNK_T_FLAGS ?= -T$(NRF51_LDSCRIPT)
+
+LNK_FLAGS_REQUIRED ?= $(LNK_L_FLAGS) $(LNK_T_FLAGS)
+
 LNK_LINKER_FLAGS ?= -Map=$(OUT_MAP) --gc-sections
 
 LNK_WL_FLAGS ?= $(LNK_LINKER_FLAGS:%=-Wl,%)
 
-LNK_T_FLAGS ?= -T$(NRF51_LDSCRIPT)
+LNK_FLAGS_RECOMMENDED ?= $(LNK_WL_FLAGS)
 
-LNK_FLAGS_RECOMMENDED += $(LNK_L_FLAGS) $(LNK_WL_FLAGS) $(LNK_T_FLAGS)
+LNK_FLAGS_OPTIONAL ?= --specs=nano.specs -lc -lnosys
 
-LNK_FLAGS_OPTIONAL ?= --specs=nano.specs
-
-LNK_FLAGS ?= $(BLD_FLAGS_NRF) $(LNK_FLAGS_RECOMMENDED) $(LNK_FLAGS_OPTIONAL) $(LNK_FLAGS_EXTRA)
+LNK_FLAGS ?= $(BLD_FLAGS_NRF) $(LNK_FLAGS_REQUIRED) $(LNK_FLAGS_RECOMMENDED) $(LNK_FLAGS_OPTIONAL) $(LNK_FLAGS_EXTRA)
 
 BLD_DEPFLAGS = -MMD -MP -MF $(@:$(BLD_DIR)%=$(BLD_DEPDIR)%.d)
 
