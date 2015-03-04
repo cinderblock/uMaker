@@ -96,7 +96,7 @@ LNK_DIRS ?= $(NRF51_LNK_DIRS)
 
 LNK_L_FLAGS ?= $(LNK_DIRS:%=-L%)
 
-LNK_LINKER_FLAGS ?= -Map=$(OUT_MAP) #--gc-sections
+LNK_LINKER_FLAGS ?= -Map=$(OUT_MAP) --gc-sections
 
 LNK_WL_FLAGS ?= $(LNK_LINKER_FLAGS:%=-Wl,%)
 
