@@ -75,7 +75,7 @@ BLD_FLAGS_RECOMMENDED += -Wall
 #BLD_FLAGS_RECOMMENDED += -fno-inline-small-functions -fno-strict-aliasing
 
 # Enable function and data sections so the linker can strip what we aren't using
-BLD_FLAGS_RECOMMENDED += -ffunction-sections -fdata-sections
+BLD_FLAGS_RECOMMENDED += #-ffunction-sections -fdata-sections
 
 BLD_FLAGS ?= $(BLD_FLAGS_REQUIRED) $(BLD_FLAGS_STANDARD) $(BLD_FLAGS_RECOMMENDED) $(BLD_FLAGS_EXTRA)
 
@@ -99,7 +99,7 @@ LNK_T_FLAGS ?= -T$(NRF51_LDSCRIPT)
 
 LNK_FLAGS_REQUIRED ?= $(LNK_L_FLAGS) $(LNK_T_FLAGS)
 
-LNK_LINKER_FLAGS ?= -Map=$(OUT_MAP) --gc-sections
+LNK_LINKER_FLAGS ?= -Map=$(OUT_MAP) #--gc-sections
 
 LNK_WL_FLAGS ?= $(LNK_LINKER_FLAGS:%=-Wl,%)
 
