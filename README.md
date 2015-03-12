@@ -2,6 +2,8 @@
 
 This set of makefiles is intended to be used by all embedded projects. Each file is intended to be included from a main Makefile when its features are needed while providing as many defaults as possible.
 
+Basically, the user's `Makefile` should only include essential lines for just this project.
+
 ## Getting Started
 
  - Copy one of the sample Makefiles to your project dir and rename it to `Makefile`

@@ -69,19 +69,7 @@ clean_build:
 $(BLD_OBJS) $(OUT_FILES): $(MAKEFILE_LIST)
 
 # Explicitly include all our build dep files
-BLD_DEPFILES = $(BLD_OBJS:$(BLD_DIR)%=$(BLD_DEPDIR)%.d)
+BLD_DEPFILES ?= $(BLD_OBJS:$(BLD_DIR)%=$(BLD_DEPDIR)%.d)
+
+AUTO_GENERATED_FILES += $(BLD_DEPFILES)
 -include $(BLD_DEPFILES)
-
-# Older version of make strip trailing '/' from targets unless they're explicitly declared
-$(sort $(dir $(OUT_FILES) $(BLD_ALL_OBJS) $(BLD_DEPFILES))):
-	$(ECO) "MKDIR	$@"
-	$(MKD) $@
-
-# Directories should always end in '/' so you can do things like this
-%/:
-	$(ECO) "MKDIR1	$@"
-	$(MKD) $@
-
-# Add directory targets to those that need them
-.SECONDEXPANSION:
-$(OUT_FILES) $(BLD_ALL_OBJS) $(BLD_DEPFILES): | $$(dir $$@)/
