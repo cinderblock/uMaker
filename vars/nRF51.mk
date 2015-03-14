@@ -66,19 +66,16 @@ BLD_FLAGS_REQUIRED = $(BLD_FLAGS_NRF) $(BLD_I_OPTS) $(BLD_D_OPTS)
 BLD_FLAGS_STANDARD ?= -O$(BLD_OPTIMIZATION) -pipe
 
 ### Recommended gcc flags for compilation
-#BLD_FLAGS_RECOMMENDED  = -ffreestanding -funsigned-bitfields
+BLD_FLAGS_RECOMMENDED  = -ffreestanding -funsigned-bitfields
 
 # Compiler warnings
 BLD_FLAGS_RECOMMENDED += -Wall
-
-# Note really necessary if you write your code right
-#BLD_FLAGS_RECOMMENDED += -fshort-enums -funsigned-char
 
 # Automatically activated with -O2
 #BLD_FLAGS_RECOMMENDED += -fno-inline-small-functions -fno-strict-aliasing
 
 # Enable function and data sections so the linker can strip what we aren't using
-#BLD_FLAGS_RECOMMENDED += -ffunction-sections -fdata-sections
+BLD_FLAGS_RECOMMENDED += #-ffunction-sections -fdata-sections
 
 BLD_FLAGS ?= $(BLD_FLAGS_REQUIRED) $(BLD_FLAGS_STANDARD) $(BLD_FLAGS_RECOMMENDED) $(BLD_FLAGS_EXTRA)
 
@@ -102,7 +99,7 @@ LNK_T_FLAGS ?= -T$(NRF51_LDSCRIPT)
 
 LNK_FLAGS_REQUIRED ?= $(LNK_L_FLAGS) $(LNK_T_FLAGS)
 
-LNK_LINKER_FLAGS ?= -Map=$(OUT_MAP) --gc-sections
+LNK_LINKER_FLAGS ?= -Map=$(OUT_MAP) #--gc-sections
 
 LNK_WL_FLAGS ?= $(LNK_LINKER_FLAGS:%=-Wl,%)
 
