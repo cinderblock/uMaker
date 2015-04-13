@@ -13,7 +13,12 @@ Arduino_BaseDir ?= C:/Arduino
 Arduino_CoreDir ?= $(Arduino_BaseDir)/hardware/arduino/avr/cores/arduino
 
 # Change to include the correct variant directory
-Arduino_Variant ?= mega
+Arduino_Variant ?= standard
+
+# Define "ARDUINO" to this value
+Arduino_Version ?= 100
+
+AUTO_DEF += ARDUINO=100
 
 # Extra needed included for `pins_arduino.h`
 Arduino_VariantsDir ?= $(Arduino_BaseDir)/hardware/arduino/avr/variants/$(Arduino_Variant)
@@ -81,16 +86,17 @@ Arduino_GXX_BuildFlags_Final ?= $(BLD_GXXFLAGS_FINAL)
 
 ##### Targets
 
-$(BLD_DIR)%.c.o: $(Arduino_BaseDir)/%.c
+$(Arduino_BuildDir)/%.c.o: $(Arduino_CoreDir)/%.c
 	$(ECO) "Arduino C	$@"
 	$(BLD_GCC) $< -o $@ -c $(Arduino_GCC_BuildFlags_Final)
 
-$(BLD_DIR)%.cpp.o: $(Arduino_BaseDir)/%.cpp
+$(Arduino_BuildDir)/%.cpp.o: $(Arduino_CoreDir)/%.cpp
 	$(ECO) "Arduino C++	$@"
 	$(BLD_GXX) $< -o $@ -c $(Arduino_GXX_BuildFlags_Final)
 
 # Target to build the final output archive of this module
 $(Arduino_ArchiveFilenameFull): $(Arduino_ObjectFiles)
+	$(ECO) "$(Arduino_BuildDir)/"
 	$(ECO) "Arduino AR	$@"
 	$(BLD_ARR) $@ $(Arduino_ObjectFiles)
 
