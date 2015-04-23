@@ -6,7 +6,7 @@ Some sample Makefiles are provided for a couple systems.
 
 # Important
 
-This is still a Work In Progress.
+This is still a ***Work In Progress***.
 
 I'm still flushing out the main interfaces and project standards.
 
@@ -15,9 +15,58 @@ This readme may not be quite up to date. See comments for most accurate document
 ## Getting Started
 
  - Copy one of the sample Makefiles to your project dir and rename it to `Makefile`
- - Set the var `UMAKER` to the uMaker directory, so that the includes work
- - Set the `C` and/or `CPP` vars in your new `Makefile`
- - Select which uMaker tools are included by including the files you want
+ - Set the var `uMakerPath` to the uMaker directory, so that the includes work
+ - Set the `C` and/or `CPP` vars in your new `Makefile` to compile your C/C++ files
+ - Select which uMaker tools are included (only include the ones you use)
+
+## Modules *aka: tools*
+
+Descriptions of modules and how to use them
+
+### FreeRTOS
+
+Add support for FreeRTOS to your project. This module enables compilation of their
+sources and automatically copies the `portmacro.h` file to your project.
+
+Set `FREERTOS_BASEPORT` to one of the folder names in `FreeRTOS\FreeRTOS\Source\portable\GCC`.
+This module will compile `port.c` from that folder and will copy `portmacro.h`,
+from the same folder, to `FREERTOS_PORTINC`, which defaults to `$(SRCDIR)FreeRTOSinc`.
+
+You will also need to create a file named `FreeRTOSConfig.h` and put that in the
+`FREERTOS_PORTINC` folder. Samples of `FreeRTOSConfig.h` are in the FreeRTOS demo
+folders.
+
+### Arduino
+
+Add support for an Arduino core. By default, only works with the AVR core.
+
+Does **not** handle Arduino Libraries. To use Arduino Libraries, copy them into
+your project's source folder and add them to the list of CPP files to build. This
+is required because Arduino's library "standard" is poorly defined and too
+inconsistent. Therefore, instead of trying to write a crazy uMaker module to
+support all of the possible libraries, we're forcing users to copy code and take
+ownership of the libraries they use.
+
+### mkdir
+
+This module reads the variable `AUTO_GENERATED_FILES` and makes sure each
+generated file depends on a target builds the destination folder when needed.
+
+### makeflags
+
+This module sets some useful default make command line arguments. In particular,
+it disables verbosity. It may also run multiple parallel jobs.
+
+### build
+
+This is a core module that does the main compilation of your C/C++ source files.
+It also links object files into the final output `.elf` and `.hex` files.
+
+### assembly
+
+This module basically runs the same commands as `build` but only until intermediate
+assembly `.asm` files are built. The intention is to allow inspection of compiled
+source files to check for low level issues.
 
 ## Conventions
 
@@ -31,13 +80,15 @@ Most makefiles use uppercase variable names. This is how I've started this proje
 
 ### Paths
 
-All paths to directories must end with a '/'.
+Variables that end in `Path` must end with a `/` or be empty.
 
-*Exception: for cleanliness, includes that are passed to gcc do not need them*
+Variables that end in `Dir` must not end with a `/` nor be empty.
 
 ### Variable defaults
 
-Most variables have sane defaults set. If you need to override them or set extras, you can do so directly in your main Makefile. Nearly all assignments in make-tools are done with ?=, which allows you to define your own versions instead. Many variables also have an xxxxx\_EXTRA variable that they already include and you just need to set.
+Most variables have sane defaults set. If you need to override them or set extras, you can do so directly in your main Makefile. Nearly all assignments in make-tools are done with ?=, which allows you to define your own versions instead.
+
+Many variables also incorporate the same variable but with `Extra` suffixed so that values can be trivially added
 
 ## Recommended Reading
 
