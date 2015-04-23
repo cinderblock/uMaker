@@ -26,11 +26,13 @@ Descriptions of modules and how to use them
 ### FreeRTOS
 
 Add support for FreeRTOS to your project. This module enables compilation of their
-sources and automatically copies the `portmacro.h` file to your project.
+sources and automatically copies the `portmacro.h` and `port.c` files to your
+project.
 
 Set `FREERTOS_BASEPORT` to one of the folder names in `FreeRTOS\FreeRTOS\Source\portable\GCC`.
-This module will compile `port.c` from that folder and will copy `portmacro.h`,
-from the same folder, to `FREERTOS_PORTINC`, which defaults to `$(SRCDIR)FreeRTOSinc`.
+This module will copy both `port.c` and `portmacro.h` to your project. `port.c`
+will be renamed and placed according to `FREERTOS_PORTDEFS_FILE`. `portmacro.h`
+will keep its filename but be put into the folder `FREERTOS_PORTINC`.
 
 You will also need to create a file named `FreeRTOSConfig.h` and put that in the
 `FREERTOS_PORTINC` folder. Samples of `FreeRTOSConfig.h` are in the FreeRTOS demo
