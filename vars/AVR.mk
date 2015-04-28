@@ -4,9 +4,10 @@ ifndef MCU
 endif
 
 # Define these in your Makefile
-GCCFILES ?= $(C:%=%.c)
-GXXFILES ?= $(CPP:%=%.cpp)
-LIBFILES ?= $(LIB:%=%.a)
+GCCFILES ?= $(AUTO_GCC) $(C:%=%.c)
+GXXFILES ?= $(AUTO_GXX) $(CPP:%=%.cpp)
+ASMFILES ?= $(AUTO_ASM) $(ASM:%=$(SRCDIR)%.s)
+LIBFILES ?= $(AUTO_LIB) $(LIB:%=%.a)
 
 # Base output file name
 TARGET ?= setTARGETinYourMakefile
