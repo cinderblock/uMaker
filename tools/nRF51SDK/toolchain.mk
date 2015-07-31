@@ -6,12 +6,12 @@ ifneq ($(VARS_INCLUDE),nRF51)
 $(error You need to include vars/nRF51.mk \(or equivalent\) to use this uMaker tool)
 endif
 
-NRF51_SRCDIR ?= $(NRF51_BASEDIR)components/
+nRF51SDK_SourcePath ?= $(nRF51SDK_BasePath)components/
 
 # This matches the folder name that Nordic assigns
 NRF51_TOOLCHAIN_DIRNAME ?= toolchain
 
-NRF51_TOOLCHAIN_BASEDIR ?= $(NRF51_SRCDIR)$(NRF51_TOOLCHAIN_DIRNAME)/
+NRF51_TOOLCHAIN_BASEDIR ?= $(nRF51SDK_SourcePath)$(NRF51_TOOLCHAIN_DIRNAME)/
 
 NRF51_TOOLCHAIN_HEADERS ?= $(NRF51_TOOLCHAIN_BASEDIR) $(NRF51_TOOLCHAIN_BASEDIR)gcc/
 

@@ -1,12 +1,12 @@
 
 
 
-NRF51_SRCDIR ?= $(NRF51_BASEDIR)components/
+nRF51SDK_SourcePath ?= $(nRF51SDK_BasePath)components/
 
 # This matches the folder name that Nordic assigns
 NRF51_BLE ?= ble
 
-NRF51_BLE_SRCDIR ?= $(NRF51_SRCDIR)$(NRF51_BLE)/
+NRF51_BLE_SRCDIR ?= $(nRF51SDK_SourcePath)$(NRF51_BLE)/
 
 NRF51_BLE_BLDDIR ?= $(BLD_DIR)nRF51/$(NRF51_BLE)/
 
