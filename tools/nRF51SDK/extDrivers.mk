@@ -1,12 +1,12 @@
 
 
 
-NRF51_SRCDIR ?= $(NRF51_BASEDIR)components/
+nRF51SDK_SourcePath ?= $(nRF51SDK_BasePath)components/
 
 # This matches the folder name that Nordic assigns
 NRF51_EXTDRIVERS ?= drivers_ext
 
-NRF51_EXTDRIVERS_SRCDIR ?= $(NRF51_SRCDIR)$(NRF51_EXTDRIVERS)/
+NRF51_EXTDRIVERS_SRCDIR ?= $(nRF51SDK_SourcePath)$(NRF51_EXTDRIVERS)/
 
 NRF51_EXTDRIVERS_BLDDIR ?= $(BLD_DIR)nRF51/$(NRF51_EXTDRIVERS)/
 

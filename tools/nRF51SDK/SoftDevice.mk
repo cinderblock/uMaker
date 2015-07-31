@@ -1,12 +1,12 @@
 
 
 
-NRF51_SRCDIR ?= $(NRF51_BASEDIR)components/
+nRF51SDK_SourcePath ?= $(nRF51SDK_BasePath)components/
 
 # This matches the folder name that Nordic assigns
 NRF51_SOFTDEVICE ?= softdevice
 
-NRF51_SOFTDEVICE_DIR ?= $(NRF51_SRCDIR)$(NRF51_SOFTDEVICE)/
+NRF51_SOFTDEVICE_DIR ?= $(nRF51SDK_SourcePath)$(NRF51_SOFTDEVICE)/
 
 NRF51_SOFTDEVICE_SRCDIR ?= $(NRF51_SOFTDEVICE_DIR)common/
 

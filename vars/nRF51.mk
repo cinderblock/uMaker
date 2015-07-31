@@ -16,7 +16,7 @@ GXXFILES ?= $(AUTO_GXX) $(CPP:%=$(SRCDIR)%.cpp) #$(CXX:%=$(SRCDIR)%.cxx) $(C++:%
 ASMFILES ?= $(AUTO_ASM) $(ASM:%=$(SRCDIR)%.s)
 LIBFILES ?= $(AUTO_LIB) $(LIB:%=%.a)
 
-NRF51_BASEDIR ?= C:/Progra~2/Nordic~1/NRF51_~1.0_C/
+nRF51SDK_BasePath ?= C:/Progra~2/Nordic~1/NRF51_~1.0_C/
 
 # Base output file name
 TARGET ?= setTARGETinYourMakefile
