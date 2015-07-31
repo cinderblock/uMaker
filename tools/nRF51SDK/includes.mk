@@ -19,7 +19,7 @@ ifneq (,$(filter-out blank,$(NRF51_SOFTDEVICE_VERSION)))
 endif
 
 # Soft device header locations to be filtered-out since they're included manually
-NRF51_HEADER_FILES_FILTER ?= $(NRF51_SOFTDEVICE_DIR) $(NRF51_HEADER_FILES_FILTER_OTHER)
+NRF51_HEADER_FILES_FILTER ?= $(NRF51_SOFTDEVICE_DIR) $(NRF51_HEADER_FILES_FILTER_OTHER) asdfasdfxzcvasdfzxcvasdf
 
 # Find all the files that we're searching for. This will work for either a list of
 # specific files we're looking for, or match the wildcard default. Also, filter
