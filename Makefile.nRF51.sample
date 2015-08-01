@@ -28,6 +28,10 @@ include $(uMakerPath)tools/checks.mk
 # Defs for our setup
 include $(uMakerPath)vars/nRF51.mk
 
+# Include some common nRF51 SDK tools
+include $(uMakerPath)tools/nRF51SDK/toolchain.mk
+include $(uMakerPath)tools/nRF51SDK/includes.mk
+
 # Library targets
 #include $(uMakerPath)tools/FreeRTOS.mk
 
