@@ -7,27 +7,33 @@
 # Search only in the real source directory
 nRF51SDK_SourcePath ?= $(nRF51SDK_BasePath)components/
 
-# Find everything by default
-NRF51_HEADERS ?= *
+# List of header file names to search for so that we can automatically include
+# the appropriate directory. Do not include the trailing .h extension. By
+# default, match all file names
+nRF51SDK_HeaderPlainFileNames ?= *
 
-# Set this variable if you only use some
-NRF51_HEADER_FILES ?= $(NRF51_HEADERS:%=%.h)
+# List of files to find with file extensions
+nRF51SDK_HeaderFullFileNames ?= $(nRF51SDK_HeaderPlainFileNames:%=%.h)
 
 # Filter the header files that the soft device replaces
 ifneq (,$(filter-out blank,$(NRF51_SOFTDEVICE_VERSION)))
- NRF51_HEADER_FILES_FILTER_OTHER ?= $(nRF51SDK_SourcePath)drivers_nrf/nrf_soc_nosd/
+ nRF51SDK_HeaderFullFileNames_OtherFilters ?= $(nRF51SDK_SourcePath)drivers_nrf/nrf_soc_nosd/%
 endif
 
-# Soft device header locations to be filtered-out since they're included manually
-NRF51_HEADER_FILES_FILTER ?= $(NRF51_SOFTDEVICE_DIR) $(NRF51_HEADER_FILES_FILTER_OTHER) asdfasdfxzcvasdfzxcvasdf
+nRF51SDK_BuiltinSoftDeviceDirs ?= $(nRF51SDK_SourcePath)softdevice/%
+
+# Soft device header locations to be filtered-out since they're included manually.
+nRF51SDK_HeaderFullFileNames_Filters ?= $(nRF51SDK_BuiltinSoftDeviceDirs) $(nRF51SDK_HeaderFullFileNames_OtherFilters)
 
 # Find all the files that we're searching for. This will work for either a list of
-# specific files we're looking for, or match the wildcard default. Also, filter
-# out the softdevice folder since that needs special handling
-NRF51_HEADER_FILES_FULL ?= $(filter-out $(NRF51_HEADER_FILES_FILTER)%,$(foreach file,$(NRF51_HEADER_FILES),$(shell find $(nRF51SDK_SourcePath) -type f -name "$(file)")))
+# specific files we're looking for, or match the wildcard default
+nRF51SDK_FoundHeaderFiles ?= $(foreach file,$(nRF51SDK_HeaderFullFileNames),$(shell find $(nRF51SDK_SourcePath) -type f -name "$(file)"))
 
-# We only want to include the directories of each of theses files, and ideally only once.
-NRF51_INCLUDES ?= $(sort $(dir $(NRF51_HEADER_FILES_FULL)))
+nRF51SDK_FoundHeaderFilesFiltered ?= $(filter-out $(nRF51SDK_HeaderFullFileNames_Filters) ___SOME_RANDOM_STRING_JUST_IN_CASE_VAR_IS_EMPTY_ASDAASDhasdfGASIUDYASGUYbjcabsDAS,$(nRF51SDK_FoundHeaderFiles))
 
-# Append to the list of files to include
-AUTO_INC += $(NRF51_INCLUDES)
+# We only want to include the directories of each of theses files. sort() also
+# removes duplicates. Also make the list match the Dirs naming standard.
+nRF51SDK_FoundIncludeDirs ?= $(patsubst %/,%,$(sort $(dir $(nRF51SDK_FoundHeaderFilesFiltered))))
+
+# Append to the list of directories to include from
+AUTO_INC += $(nRF51SDK_FoundIncludeDirs)
