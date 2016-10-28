@@ -123,7 +123,7 @@ $(Arduino_makeTarget): $(Arduino_ArchiveFilenameFull)
 .SECONDARY: $(Arduino_ArchiveFilenameFull)
 
 # Explicitly include all our build dep files
-Arduino_depFiles ?= $(Arduino_ObjectFiles:$(Build_Path)%=$(BLD_DEPDIR)%.d)
+Arduino_depFiles ?= $(Arduino_ObjectFiles:$(Build_Path)%=$(Build_DepPath)%.d)
 -include $(Arduino_depFiles)
 
 AUTO_GENERATED_FILES += $(Arduino_ArchiveFilenameFull) $(Arduino_ObjectFiles) $(Arduino_depFiles)

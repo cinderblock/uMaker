@@ -46,7 +46,7 @@ $(AVRpp_TARGET): $(AVRpp_OUT)
 .SECONDARY: $(AVRpp_OUT)
 
 # Explicitly include all our build dep files
-AVRpp_DEPFILES ?= $(AVRpp_OBJS:$(Build_Path)%=$(BLD_DEPDIR)%.d)
+AVRpp_DEPFILES ?= $(AVRpp_OBJS:$(Build_Path)%=$(Build_DepPath)%.d)
 -include $(AVRpp_DEPFILES)
 
 AUTO_GENERATED_FILES += $(AVRpp_OUT) $(AVRpp_OBJS) $(AVRpp_DEPFILES)

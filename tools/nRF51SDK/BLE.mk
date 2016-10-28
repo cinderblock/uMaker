@@ -78,5 +78,5 @@ $(NRF51_BLE_TARGET): $(NRF51_BLE_OUT)
 .SECONDARY: $(NRF51_BLE_OUT)
 
 # Explicitly include all our build dep files
-NRF51_BLE_DEPFILES = $(NRF51_BLE_OBJS:$(Build_Path)%=$(BLD_DEPDIR)%.d)
+NRF51_BLE_DEPFILES = $(NRF51_BLE_OBJS:$(Build_Path)%=$(Build_DepPath)%.d)
 -include $(NRF51_BLE_DEPFILES)

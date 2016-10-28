@@ -49,7 +49,7 @@ $(LUFA_TARGET): $(LUFA_OUT)
 .SECONDARY: $(LUFA_OUT)
 
 # Explicitly include all our build dep files
-LUFA_DEPFILES ?= $(LUFA_OBJS:$(Build_Path)%=$(BLD_DEPDIR)%.d)
+LUFA_DEPFILES ?= $(LUFA_OBJS:$(Build_Path)%=$(Build_DepPath)%.d)
 -include $(LUFA_DEPFILES)
 
 AUTO_GENERATED_FILES += $(LUFA_OUT) $(LUFA_OBJS) $(LUFA_DEPFILES)

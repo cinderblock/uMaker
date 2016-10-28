@@ -16,7 +16,7 @@ TARGET ?= setTARGETinYourMakefile
 
 # Temporary directories to build into
 Build_Path    ?= .bld/
-BLD_DEPDIR ?= $(Build_Path).dep/
+Build_DepPath ?= $(Build_Path).dep/
 
 # Only for libs that we build. Not for ones you're including that are pre-built
 BLD_LIBDIR ?= $(Build_Path)libs/
@@ -81,7 +81,7 @@ BLD_ASMFLAGS ?= $(BLD_ASMFLAGS_RECOMMENDED) $(BLD_FLAGS)
 BLD_LNKFLAGS ?= $(BLD_FLAGS_AVR)
 
 # TODO: This is not quite right if you change ASM_DIR. May need rework of build.
-BLD_DEPFLAGS = -MMD -MP -MF $(@:$(Build_Path)%=$(BLD_DEPDIR)%.d)
+BLD_DEPFLAGS = -MMD -MP -MF $(@:$(Build_Path)%=$(Build_DepPath)%.d)
 
 BLD_HEXFLAGS ?= -O $(OUT_FMT) -R .eeprom -R .fuse -R .lock
 

@@ -64,7 +64,7 @@ $(ArduinoLibraries_makeTarget): $(ArduinoLibraries_ArchiveFilenameFull)
 .SECONDARY: $(ArduinoLibraries_ArchiveFilenameFull)
 
 # Explicitly include all our build dep files
-ArduinoLibraries_depFiles ?= $(ArduinoLibraries_ObjectFiles:$(Build_Path)%=$(BLD_DEPDIR)%.d)
+ArduinoLibraries_depFiles ?= $(ArduinoLibraries_ObjectFiles:$(Build_Path)%=$(Build_DepPath)%.d)
 -include $(ArduinoLibraries_depFiles)
 
 AUTO_GENERATED_FILES += $(ArduinoLibraries_ArchiveFilenameFull) $(ArduinoLibraries_ObjectFiles) $(ArduinoLibraries_depFiles)

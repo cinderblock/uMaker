@@ -65,7 +65,7 @@ clean: clean_build
 
 clean_build:
 	$(ECO) Cleaning Build...
-	$(RMF) $(Build_Path) $(OUT_DIR) $(BLD_LIBDIR) $(BLD_DEPDIR)
+	$(RMF) $(Build_Path) $(OUT_DIR) $(BLD_LIBDIR) $(Build_DepPath)
 
 .PHONY: clean size clean_build build-lss build
 
@@ -75,7 +75,7 @@ clean_build:
 $(BLD_OBJS) $(OUT_FILES): $(MAKEFILE_LIST)
 
 # Explicitly include all our build dep files
-BLD_DEPFILES ?= $(BLD_OBJS:$(Build_Path)%=$(BLD_DEPDIR)%.d)
+BLD_DEPFILES ?= $(BLD_OBJS:$(Build_Path)%=$(Build_DepPath)%.d)
 
 AUTO_GENERATED_FILES += $(BLD_DEPFILES)
 -include $(BLD_DEPFILES)
