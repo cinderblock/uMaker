@@ -8,3 +8,4 @@ Never remove things from this list.
  - `BuildPath` -> `Build_Path` (892190138286790309b8ac811173f9297d96fc3d)
  - `BLD_DEPDIR` -> `Build_DepPath`
  - `BLD_LIBDIR` -> `Build_LibPath`
+ - `OPT` -> `Build_Optimization`

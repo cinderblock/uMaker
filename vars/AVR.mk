@@ -21,7 +21,7 @@ Build_DepPath ?= $(Build_Path).dep/
 # Only for libs that we build. Not for ones you're including that are pre-built
 Build_LibPath ?= $(Build_Path)libs/
 
-OPT ?= 2
+Build_Optimization ?= 2
 BLD_STD_GCC ?= gnu11
 BLD_STD_GXX ?= gnu++11
 
@@ -50,7 +50,7 @@ BLD_FLAGS_AVR ?= -mmcu=$(BLD_AVR_Arch)
 
 BLD_FLAGS_REQUIRED = $(BLD_FLAGS_AVR) $(BLD_I_FLAGS) $(BLD_D_FLAGS) $(BLD_U_FLAGS)
 
-BLD_FLAGS_STANDARD ?= -O$(OPT) -pipe
+BLD_FLAGS_STANDARD ?= -O$(Build_Optimization) -pipe
 
 ### Recommended gcc flags for compilation
 
