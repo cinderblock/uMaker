@@ -80,6 +80,8 @@ All variables should have a namespace prefix to keep things separate. There are 
 
 Most makefiles use uppercase variable names. This is how I've started this project's development, but I'm not seeing a good reason to continue using only uppercase variable names. I'm going to start converting them to CamelCase to ease readability and writeability.
 
+See [renames](Renames.md)
+
 ### Paths
 
 Variables that end in `Path` must end with a `/` or be empty.
