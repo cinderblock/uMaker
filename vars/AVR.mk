@@ -6,10 +6,10 @@ endif
 BLD_AVR_Arch ?= $(MCU)
 
 # Define these in your Makefile
-GCCFILES ?= $(AUTO_GCC) $(C:%=%.$(Build_ExtentionC))
-GXXFILES ?= $(AUTO_GXX) $(CPP:%=%.$(Build_ExtentionCpp))
+GCCFILES ?= $(AUTO_GCC) $(C:%=$(SRCDIR)%.$(Build_ExtentionC))
+GXXFILES ?= $(AUTO_GXX) $(CPP:%=$(SRCDIR)%.$(Build_ExtentionCpp))
 ASMFILES ?= $(AUTO_ASM) $(ASM:%=$(SRCDIR)%.$(Build_ExtentionAssembly))
-LIBFILES ?= $(AUTO_LIB) $(LIB:%=%.$(Build_ExtentionLibrary))
+LIBFILES ?= $(AUTO_LIB) $(LIB:%=$(SRCDIR)%.$(Build_ExtentionLibrary))
 
 # Base output file name
 TARGET ?= setTARGETinYourMakefile
