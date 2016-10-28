@@ -71,7 +71,7 @@ Arduino_ArchiveFilename ?= $(Arduino_BuildName).$(Arduino_Build_ExtentionLibrary
 Arduino_ArchiveFilenameFull ?= $(BLD_LIBDIR)$(Arduino_ArchiveFilename)
 
 # Directory the .o files will be saved to
-Arduino_BuildDir ?= $(BuildPath)$(Arduino_BuildName)
+Arduino_BuildDir ?= $(Build_Path)$(Arduino_BuildName)
 
 # List of all object files to build
 Arduino_ObjectFiles ?= $(Arduino_Files:$(Arduino_CoreDir)/%=$(Arduino_BuildDir)/%.$(Arduino_Build_ExtentionObject))
@@ -123,7 +123,7 @@ $(Arduino_makeTarget): $(Arduino_ArchiveFilenameFull)
 .SECONDARY: $(Arduino_ArchiveFilenameFull)
 
 # Explicitly include all our build dep files
-Arduino_depFiles ?= $(Arduino_ObjectFiles:$(BuildPath)%=$(BLD_DEPDIR)%.d)
+Arduino_depFiles ?= $(Arduino_ObjectFiles:$(Build_Path)%=$(BLD_DEPDIR)%.d)
 -include $(Arduino_depFiles)
 
 AUTO_GENERATED_FILES += $(Arduino_ArchiveFilenameFull) $(Arduino_ObjectFiles) $(Arduino_depFiles)

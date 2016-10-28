@@ -17,7 +17,7 @@ AVRpp_FILES ?= $(AVRpp_SRC:%=AVR++/%.$(AVRpp_Build_ExtentionCpp))
 
 AVRpp_AR ?= AVR++.$(AVRpp_Build_ExtentionLibrary)
 
-AVRpp_OBJS ?= $(AVRpp_FILES:%=$(BuildPath)%.$(AVRpp_Build_ExtentionObject))
+AVRpp_OBJS ?= $(AVRpp_FILES:%=$(Build_Path)%.$(AVRpp_Build_ExtentionObject))
 
 AVRpp_OUT ?= $(BLD_LIBDIR)$(AVRpp_AR)
 
@@ -29,7 +29,7 @@ AUTO_INC += $(AVRpp_BASEDIR)
 
 ##### Targets
 
-$(BuildPath)%.$(AVRpp_Build_ExtentionCpp).$(AVRpp_Build_ExtentionObject): $(AVRpp_BASEDIR)%.$(AVRpp_Build_ExtentionCpp)
+$(Build_Path)%.$(AVRpp_Build_ExtentionCpp).$(AVRpp_Build_ExtentionObject): $(AVRpp_BASEDIR)%.$(AVRpp_Build_ExtentionCpp)
 	$(ECO) "AVR++		$@"
 	$(BLD_GXX) $< -o $@ -c $(BLD_GXXFLAGS_FINAL)
 
@@ -46,7 +46,7 @@ $(AVRpp_TARGET): $(AVRpp_OUT)
 .SECONDARY: $(AVRpp_OUT)
 
 # Explicitly include all our build dep files
-AVRpp_DEPFILES ?= $(AVRpp_OBJS:$(BuildPath)%=$(BLD_DEPDIR)%.d)
+AVRpp_DEPFILES ?= $(AVRpp_OBJS:$(Build_Path)%=$(BLD_DEPDIR)%.d)
 -include $(AVRpp_DEPFILES)
 
 AUTO_GENERATED_FILES += $(AVRpp_OUT) $(AVRpp_OBJS) $(AVRpp_DEPFILES)

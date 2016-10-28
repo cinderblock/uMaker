@@ -2,7 +2,7 @@
 
 ASM ?= $(C:%=%.$(Build_ExtentionC).$(Build_ExtentionAssembly)) $(CPP:%=%.$(Build_ExtentionCpp).$(Build_ExtentionAssembly))
 
-ASM_DIR ?= $(BuildPath)
+ASM_DIR ?= $(Build_Path)
 
 ASM_FILES ?= $(ASM:%=$(ASM_DIR)%)
 

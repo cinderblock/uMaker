@@ -22,11 +22,11 @@ nRF51SDK_BasePath ?= C:/Progra~2/Nordic~1/NRF51_~1.0_C/
 TARGET ?= setTARGETinYourMakefile
 
 # Temporary directories to build into
-BuildPath    ?= .bld/
-BLD_DEPDIR ?= $(BuildPath).dep/
+Build_Path    ?= .bld/
+BLD_DEPDIR ?= $(Build_Path).dep/
 
 # Only for libs that we build. Not for ones you're including that are pre-built
-BLD_LIBDIR ?= $(BuildPath)libs/
+BLD_LIBDIR ?= $(Build_Path)libs/
 
 OPTIMIZATION ?= 2
 
@@ -111,7 +111,7 @@ LNK_FLAGS_OPTIONAL ?= --specs=nano.specs -lc -lnosys
 
 LNK_FLAGS ?= $(BLD_FLAGS_NRF) $(LNK_FLAGS_REQUIRED) $(LNK_FLAGS_RECOMMENDED) $(LNK_FLAGS_OPTIONAL) $(LNK_FLAGS_EXTRA)
 
-BLD_DEPFLAGS = -MMD -MP -MF $(@:$(BuildPath)%=$(BLD_DEPDIR)%.d)
+BLD_DEPFLAGS = -MMD -MP -MF $(@:$(Build_Path)%=$(BLD_DEPDIR)%.d)
 
 BLD_HEXFLAGS ?= -O $(OUT_FMT)
 
@@ -122,9 +122,9 @@ BLD_ASMFLAGS_FINAL ?= $(BLD_ASMFLAGS) $(BLD_DEPFLAGS) $(ASFLAGS)
 BLD_LNKFLAGS_FINAL ?= $(LNK_FLAGS) $(LDFLAGS) $(LDLIBS)
 BLD_HEXFLAGS_FINAL ?= $(BLD_HEXFLAGS)
 
-BLD_GCCOBJ ?= $(GCCFILES:%=$(BuildPath)%.$(Build_ExtentionObject))
-BLD_GXXOBJ ?= $(GXXFILES:%=$(BuildPath)%.$(Build_ExtentionObject))
-BLD_ASMOBJ ?= $(ASMFILES:%=$(BuildPath)%.$(Build_ExtentionObject))
+BLD_GCCOBJ ?= $(GCCFILES:%=$(Build_Path)%.$(Build_ExtentionObject))
+BLD_GXXOBJ ?= $(GXXFILES:%=$(Build_Path)%.$(Build_ExtentionObject))
+BLD_ASMOBJ ?= $(ASMFILES:%=$(Build_Path)%.$(Build_ExtentionObject))
 BLD_LIBOBJ ?= $(LIBFILES)
 
 BLD_OBJS = $(BLD_GCCOBJ) $(BLD_GXXOBJ) $(BLD_ASMOBJ) $(AUTO_OBJ)

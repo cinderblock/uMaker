@@ -8,7 +8,7 @@ NRF51_BLE ?= ble
 
 NRF51_BLE_SRCDIR ?= $(nRF51SDK_SourcePath)$(NRF51_BLE)/
 
-NRF51_BLE_BLDDIR ?= $(BuildPath)nRF51/$(NRF51_BLE)/
+NRF51_BLE_BLDDIR ?= $(Build_Path)nRF51/$(NRF51_BLE)/
 
 # Only automatically build certain files if we're using a soft device
 ifneq (,$(filter $(NRF51_SOFTDEVICE_VERSION),s110 s120 s130 s210 s310))
@@ -78,5 +78,5 @@ $(NRF51_BLE_TARGET): $(NRF51_BLE_OUT)
 .SECONDARY: $(NRF51_BLE_OUT)
 
 # Explicitly include all our build dep files
-NRF51_BLE_DEPFILES = $(NRF51_BLE_OBJS:$(BuildPath)%=$(BLD_DEPDIR)%.d)
+NRF51_BLE_DEPFILES = $(NRF51_BLE_OBJS:$(Build_Path)%=$(BLD_DEPDIR)%.d)
 -include $(NRF51_BLE_DEPFILES)

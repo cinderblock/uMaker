@@ -13,17 +13,17 @@ Build_ExtentionObject ?= o
 Build_ExtentionLibrary ?= a
 
 # Create object files from .c sources
-$(BuildPath)%.$(Build_ExtentionC).$(Build_ExtentionObject): $(SRCDIR)%.$(Build_ExtentionC)
+$(Build_Path)%.$(Build_ExtentionC).$(Build_ExtentionObject): $(SRCDIR)%.$(Build_ExtentionC)
 	$(ECO) "CC	$@"
 	$(BLD_GCC) -o $@ $< -c $(BLD_GCCFLAGS_FINAL)
 
 # Create object files from .cpp sources
-$(BuildPath)%.$(Build_ExtentionCpp).$(Build_ExtentionObject): $(SRCDIR)%.$(Build_ExtentionCpp)
+$(Build_Path)%.$(Build_ExtentionCpp).$(Build_ExtentionObject): $(SRCDIR)%.$(Build_ExtentionCpp)
 	$(ECO) "C++	$@"
 	$(BLD_GXX) -o $@ $< -c $(BLD_GXXFLAGS_FINAL)
 
 # Create object files from .s sources
-$(BuildPath)%.$(Build_ExtentionAssembly).$(Build_ExtentionObject): $(SRCDIR)%.$(Build_ExtentionAssembly)
+$(Build_Path)%.$(Build_ExtentionAssembly).$(Build_ExtentionObject): $(SRCDIR)%.$(Build_ExtentionAssembly)
 	$(ECO) "ASM	$@"
 	$(BLD_ASM) -o $@ $< -c $(BLD_ASMFLAGS_FINAL)
 
@@ -65,7 +65,7 @@ clean: clean_build
 
 clean_build:
 	$(ECO) Cleaning Build...
-	$(RMF) $(BuildPath) $(OUT_DIR) $(BLD_LIBDIR) $(BLD_DEPDIR)
+	$(RMF) $(Build_Path) $(OUT_DIR) $(BLD_LIBDIR) $(BLD_DEPDIR)
 
 .PHONY: clean size clean_build build-lss build
 
@@ -75,7 +75,7 @@ clean_build:
 $(BLD_OBJS) $(OUT_FILES): $(MAKEFILE_LIST)
 
 # Explicitly include all our build dep files
-BLD_DEPFILES ?= $(BLD_OBJS:$(BuildPath)%=$(BLD_DEPDIR)%.d)
+BLD_DEPFILES ?= $(BLD_OBJS:$(Build_Path)%=$(BLD_DEPDIR)%.d)
 
 AUTO_GENERATED_FILES += $(BLD_DEPFILES)
 -include $(BLD_DEPFILES)
