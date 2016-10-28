@@ -24,7 +24,7 @@ NRF51_TOOLCHAIN_SRCSDK ?= system_$(DEVICESERIES).c gcc/gcc_startup_nrf51.s
 NRF51_TOOLCHAIN_SRC ?= $(notdir $(NRF51_TOOLCHAIN_SRCSDK))
 
 # Directory to copy the toolchain's init files to
-NRF51_TOOLCHAIN_SRCDIR ?= $(SRCDIR)nRF51/
+NRF51_TOOLCHAIN_SRCDIR ?= $(Source_Path)nRF51/
 
 NRF51_TOOLCHAIN_SRC_FULL ?= $(NRF51_TOOLCHAIN_SRC:%=$(NRF51_TOOLCHAIN_SRCDIR)%)
 
@@ -38,7 +38,7 @@ AUTO_GENERATED_FILES += $(NRF51_TOOLCHAIN_SRC_FULL)
 
 ##### Targets
 
-# Copy from BASEDIR to SRCDIR
+# Copy from BASEDIR to Source_Path
 $(NRF51_TOOLCHAIN_SRCDIR)%:
 	$(ECO) "nRF51 copy	$@"
 	cp -u $(shell find $(NRF51_TOOLCHAIN_BASEDIR) -type f -name "$*") $@

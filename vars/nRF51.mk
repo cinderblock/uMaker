@@ -11,9 +11,9 @@ GCC_ROOT    ?= C:/Progra~2/GNUTOO~1/4947E~1.920/
 GCC_PREFIX  ?= arm-none-eabi
 
 # Define these in your Makefile
-GCCFILES ?= $(AUTO_GCC) $(C:%=$(SRCDIR)%.$(Build_ExtentionC))
-GXXFILES ?= $(AUTO_GXX) $(CPP:%=$(SRCDIR)%.$(Build_ExtentionCpp))
-ASMFILES ?= $(AUTO_ASM) $(ASM:%=$(SRCDIR)%.$(Build_ExtentionAssembly))
+GCCFILES ?= $(AUTO_GCC) $(C:%=$(Source_Path)%.$(Build_ExtentionC))
+GXXFILES ?= $(AUTO_GXX) $(CPP:%=$(Source_Path)%.$(Build_ExtentionCpp))
+ASMFILES ?= $(AUTO_ASM) $(ASM:%=$(Source_Path)%.$(Build_ExtentionAssembly))
 LIBFILES ?= $(AUTO_LIB) $(LIB:%=%.$(Build_ExtentionLibrary))
 
 nRF51SDK_BasePath ?= C:/Progra~2/Nordic~1/NRF51_~1.0_C/
@@ -34,8 +34,8 @@ BLD_OPTIMIZATION ?= $(OPTIMIZATION)
 Build_LanguageStandard_GCC ?= gnu11
 Build_LanguageStandard_GXX ?= gnu++11
 
-# Directory that src files are in. ie: SRCDIR = src/
-SRCDIR ?=
+# Directory that src files are in. ie: Source_Path = src/
+Source_Path ?=
 
 # Directory for compiled output files
 OUT_DIR ?= out/
@@ -45,8 +45,8 @@ NRF51_DEFINES ?= $(DEVICE)
 
 ## Setup final flags we're going to use
 
-# Don't forget to include your SRCDIR
-INCLUDES ?= $(if $(SRCDIR),$(SRCDIR:%/=%),.)
+# Don't forget to include your Source_Path
+INCLUDES ?= $(if $(Source_Path),$(Source_Path:%/=%),.)
 
 # Leading -I flags take precedence
 BLD_INCLUDES ?= $(INCLUDES) $(AUTO_INC)

@@ -9,12 +9,12 @@ ASM_FILES ?= $(ASM:%=$(ASM_DIR)%)
 asm: $(ASM_FILES)
 
 # Create assembly files from .c sources
-$(ASM_DIR)%.$(Build_ExtentionC).$(Build_ExtentionAssembly): $(SRCDIR)%.$(Build_ExtentionC) $(MAKEFILE_LIST)
+$(ASM_DIR)%.$(Build_ExtentionC).$(Build_ExtentionAssembly): $(Source_Path)%.$(Build_ExtentionC) $(MAKEFILE_LIST)
 	$(ECO) "CC AS	$@"
 	$(BLD_GCC) -o $@ $< -S $(BLD_GCCFLAGS_FINAL)
 
 # Create object files from .cpp sources
-$(ASM_DIR)%.$(Build_ExtentionCpp).$(Build_ExtentionAssembly): $(SRCDIR)%.$(Build_ExtentionCpp) $(MAKEFILE_LIST)
+$(ASM_DIR)%.$(Build_ExtentionCpp).$(Build_ExtentionAssembly): $(Source_Path)%.$(Build_ExtentionCpp) $(MAKEFILE_LIST)
 	$(ECO) "C++ AS	$@"
 	$(BLD_GXX) -o $@ $< -S $(BLD_GXXFLAGS_FINAL)
 

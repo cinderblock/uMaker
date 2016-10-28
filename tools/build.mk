@@ -13,17 +13,17 @@ Build_ExtentionObject ?= o
 Build_ExtentionLibrary ?= a
 
 # Create object files from .c sources
-$(Build_Path)%.$(Build_ExtentionC).$(Build_ExtentionObject): $(SRCDIR)%.$(Build_ExtentionC)
+$(Build_Path)%.$(Build_ExtentionC).$(Build_ExtentionObject): $(Source_Path)%.$(Build_ExtentionC)
 	$(ECO) "CC	$@"
 	$(BLD_GCC) -o $@ $< -c $(BLD_GCCFLAGS_FINAL)
 
 # Create object files from .cpp sources
-$(Build_Path)%.$(Build_ExtentionCpp).$(Build_ExtentionObject): $(SRCDIR)%.$(Build_ExtentionCpp)
+$(Build_Path)%.$(Build_ExtentionCpp).$(Build_ExtentionObject): $(Source_Path)%.$(Build_ExtentionCpp)
 	$(ECO) "C++	$@"
 	$(BLD_GXX) -o $@ $< -c $(BLD_GXXFLAGS_FINAL)
 
 # Create object files from .s sources
-$(Build_Path)%.$(Build_ExtentionAssembly).$(Build_ExtentionObject): $(SRCDIR)%.$(Build_ExtentionAssembly)
+$(Build_Path)%.$(Build_ExtentionAssembly).$(Build_ExtentionObject): $(Source_Path)%.$(Build_ExtentionAssembly)
 	$(ECO) "ASM	$@"
 	$(BLD_ASM) -o $@ $< -c $(BLD_ASMFLAGS_FINAL)
 
