@@ -11,10 +11,10 @@ ArduinoLibraries_Names ?= EEPROM
 ArduinoLibraries_FullDirs = $(foreach lib,$(ArduinoLibraries_Names),$(firstword $(foreach dir,$(ArduinoLibraries_Dirs),$(wildcard $(dir)/$(lib)))))
 
 # The real list of cSource names to build
-ArduinoLibraries_cFiles ?= $(foreach dir,$(ArduinoLibraries_FullDirs),$(shell find $(dir) -name '*.c'))
+ArduinoLibraries_cFiles ?= $(foreach dir,$(ArduinoLibraries_FullDirs),$(shell find $(dir) -name '*.'$(Arduino_Build_ExtentionC)))
 
 # The real list of cppSource names to build
-ArduinoLibraries_cppFiles ?= $(foreach dir,$(ArduinoLibraries_FullDirs),$(shell find $(dir) -name '*.cpp'))
+ArduinoLibraries_cppFiles ?= $(foreach dir,$(ArduinoLibraries_FullDirs),$(shell find $(dir) -name '*.'$(Arduino_Build_ExtentionCpp)))
 
 # List of source files to build with complete paths
 ArduinoLibraries_Files ?= $(ArduinoLibraries_cFiles) $(ArduinoLibraries_cppFiles)
@@ -23,13 +23,13 @@ ArduinoLibraries_Files ?= $(ArduinoLibraries_cFiles) $(ArduinoLibraries_cppFiles
 ArduinoLibraries_BuildName ?= ArduinoLibraries
 
 # Output filename, missing path
-ArduinoLibraries_ArchiveFilename ?= $(ArduinoLibraries_BuildName).a
+ArduinoLibraries_ArchiveFilename ?= $(ArduinoLibraries_BuildName).$(Arduino_Build_ExtentionLibrary)
 
 ArduinoLibraries_ArchiveFilenameFull ?= $(BLD_LIBDIR)$(ArduinoLibraries_ArchiveFilename)
 
 ArduinoLibraries_BuildDir ?= $(BuildPath)$(ArduinoLibraries_BuildName)/
 
-ArduinoLibraries_ObjectFiles ?= $(ArduinoLibraries_Files:$(ArduinoLibraries_Dirs)%=$(ArduinoLibraries_BuildDir)%.o)
+ArduinoLibraries_ObjectFiles ?= $(ArduinoLibraries_Files:$(ArduinoLibraries_Dirs)%=$(ArduinoLibraries_BuildDir)%.$(Arduino_Build_ExtentionObject))
 
 AUTO_LIB += $(ArduinoLibraries_ArchiveFilenameFull)
 
@@ -43,11 +43,11 @@ ArduinoLibraries_GXX_BuildFlags_Final ?= $(BLD_GXXFLAGS_FINAL)
 
 ##### Targets
 
-$(BuildPath)%.c.o: $(ArduinoLibraries_BaseDir)%.c
+$(BuildPath)%.$(Arduino_Build_ExtentionC).$(Arduino_Build_ExtentionObject): $(ArduinoLibraries_BaseDir)%.$(Arduino_Build_ExtentionC)
 	$(ECO) "Arduino C	$@"
 	$(BLD_GCC) $< -o $@ -c $(ArduinoLibraries_GCC_BuildFlags_Final)
 
-	$(BuildPath)%.cpp.o: $(ArduinoLibraries_BaseDir)%.cpp
+	$(BuildPath)%.$(Arduino_Build_ExtentionCpp).$(Arduino_Build_ExtentionObject): $(ArduinoLibraries_BaseDir)%.$(Arduino_Build_ExtentionCpp)
 		$(ECO) "Arduino C++	$@"
 		$(BLD_GXX) $< -o $@ -c $(ArduinoLibraries_GXX_BuildFlags_Final)
 

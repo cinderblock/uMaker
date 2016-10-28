@@ -6,6 +6,13 @@
 # If you'd like to use the Arduino Libraries like EEPROM and SoftwareSerial, see
 # the file ArduinoLibraries.mk
 
+# We use fixed values for the variables that probably shouldn't change if the developer decides to use a different file extention for their source files.
+Arduino_Build_ExtentionC ?= c
+Arduino_Build_ExtentionCpp ?= cpp
+Arduino_Build_ExtentionAssembly ?= S
+Arduino_Build_ExtentionObject ?= $(Build_ExtentionObject)
+Arduino_Build_ExtentionLibrary ?= $(Build_ExtentionLibrary)
+
 # Location of main Arduino folder.
 Arduino_BaseDir ?= C:/Arduino
 
@@ -52,13 +59,13 @@ Arduino_Auto_cSources = hooks WInterrupts wiring wiring_analog wiring_digital wi
 Arduino_cSources ?= $(Arduino_Auto_cSources)
 
 # List of source files to build with complete paths
-Arduino_Files ?= $(Arduino_cppSources:%=$(Arduino_CoreDir)/%.cpp) $(Arduino_cSources:%=$(Arduino_CoreDir)/%.c)
+Arduino_Files ?= $(Arduino_cppSources:%=$(Arduino_CoreDir)/%.$(Arduino_Build_ExtentionCpp)) $(Arduino_cSources:%=$(Arduino_CoreDir)/%.$(Arduino_Build_ExtentionC))
 
 # Name to give certain files/dirs while building
 Arduino_BuildName ?= Arduino
 
 # Output filename, missing path
-Arduino_ArchiveFilename ?= $(Arduino_BuildName).a
+Arduino_ArchiveFilename ?= $(Arduino_BuildName).$(Arduino_Build_ExtentionLibrary)
 
 # Output filename, with path
 Arduino_ArchiveFilenameFull ?= $(BLD_LIBDIR)$(Arduino_ArchiveFilename)
@@ -67,7 +74,7 @@ Arduino_ArchiveFilenameFull ?= $(BLD_LIBDIR)$(Arduino_ArchiveFilename)
 Arduino_BuildDir ?= $(BuildPath)$(Arduino_BuildName)
 
 # List of all object files to build
-Arduino_ObjectFiles ?= $(Arduino_Files:$(Arduino_CoreDir)/%=$(Arduino_BuildDir)/%.o)
+Arduino_ObjectFiles ?= $(Arduino_Files:$(Arduino_CoreDir)/%=$(Arduino_BuildDir)/%.$(Arduino_Build_ExtentionObject))
 
 # Add our output archive to the list of automatically included libs
 AUTO_LIB += $(Arduino_ArchiveFilenameFull)
@@ -86,11 +93,11 @@ Arduino_GXX_BuildFlags_Final ?= $(BLD_GXXFLAGS_FINAL)
 
 ##### Targets
 
-$(Arduino_BuildDir)/%.c.o: $(Arduino_CoreDir)/%.c
+$(Arduino_BuildDir)/%.$(Arduino_Build_ExtentionC).$(Arduino_Build_ExtentionObject): $(Arduino_CoreDir)/%.$(Arduino_Build_ExtentionC)
 	$(ECO) "Arduino C	$@"
 	$(BLD_GCC) $< -o $@ -c $(Arduino_GCC_BuildFlags_Final)
 
-$(Arduino_BuildDir)/%.cpp.o: $(Arduino_CoreDir)/%.cpp
+$(Arduino_BuildDir)/%.$(Arduino_Build_ExtentionCpp).$(Arduino_Build_ExtentionObject): $(Arduino_CoreDir)/%.$(Arduino_Build_ExtentionCpp)
 	$(ECO) "Arduino C++	$@"
 	$(BLD_GXX) $< -o $@ -c $(Arduino_GXX_BuildFlags_Final)
 

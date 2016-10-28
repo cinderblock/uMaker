@@ -6,18 +6,24 @@ build-lss: $(OUT_LSS)
 
 build: $(OUT_ELF)
 
+Build_ExtentionC ?= c
+Build_ExtentionCpp ?= cpp
+Build_ExtentionAssembly ?= S
+Build_ExtentionObject ?= o
+Build_ExtentionLibrary ?= a
+
 # Create object files from .c sources
-$(BuildPath)%.c.o: $(SRCDIR)%.c
+$(BuildPath)%.$(Build_ExtentionC).$(Build_ExtentionObject): $(SRCDIR)%.$(Build_ExtentionC)
 	$(ECO) "CC	$@"
 	$(BLD_GCC) -o $@ $< -c $(BLD_GCCFLAGS_FINAL)
 
 # Create object files from .cpp sources
-$(BuildPath)%.cpp.o: $(SRCDIR)%.cpp
+$(BuildPath)%.$(Build_ExtentionCpp).$(Build_ExtentionObject): $(SRCDIR)%.$(Build_ExtentionCpp)
 	$(ECO) "C++	$@"
 	$(BLD_GXX) -o $@ $< -c $(BLD_GXXFLAGS_FINAL)
 
 # Create object files from .s sources
-$(BuildPath)%.s.o: $(SRCDIR)%.s
+$(BuildPath)%.$(Build_ExtentionAssembly).$(Build_ExtentionObject): $(SRCDIR)%.$(Build_ExtentionAssembly)
 	$(ECO) "ASM	$@"
 	$(BLD_ASM) -o $@ $< -c $(BLD_ASMFLAGS_FINAL)
 

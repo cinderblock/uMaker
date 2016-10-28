@@ -11,10 +11,10 @@ GCC_ROOT    ?= C:/Progra~2/GNUTOO~1/4947E~1.920/
 GCC_PREFIX  ?= arm-none-eabi
 
 # Define these in your Makefile
-GCCFILES ?= $(AUTO_GCC) $(C:%=$(SRCDIR)%.c)
-GXXFILES ?= $(AUTO_GXX) $(CPP:%=$(SRCDIR)%.cpp) #$(CXX:%=$(SRCDIR)%.cxx) $(C++:%=$(SRCDIR)%.c++)
-ASMFILES ?= $(AUTO_ASM) $(ASM:%=$(SRCDIR)%.s)
-LIBFILES ?= $(AUTO_LIB) $(LIB:%=%.a)
+GCCFILES ?= $(AUTO_GCC) $(C:%=$(SRCDIR)%.$(Build_ExtentionC))
+GXXFILES ?= $(AUTO_GXX) $(CPP:%=$(SRCDIR)%.$(Build_ExtentionCpp))
+ASMFILES ?= $(AUTO_ASM) $(ASM:%=$(SRCDIR)%.$(Build_ExtentionAssembly))
+LIBFILES ?= $(AUTO_LIB) $(LIB:%=%.$(Build_ExtentionLibrary))
 
 nRF51SDK_BasePath ?= C:/Progra~2/Nordic~1/NRF51_~1.0_C/
 
@@ -122,9 +122,9 @@ BLD_ASMFLAGS_FINAL ?= $(BLD_ASMFLAGS) $(BLD_DEPFLAGS) $(ASFLAGS)
 BLD_LNKFLAGS_FINAL ?= $(LNK_FLAGS) $(LDFLAGS) $(LDLIBS)
 BLD_HEXFLAGS_FINAL ?= $(BLD_HEXFLAGS)
 
-BLD_GCCOBJ ?= $(GCCFILES:%=$(BuildPath)%.o)
-BLD_GXXOBJ ?= $(GXXFILES:%=$(BuildPath)%.o)
-BLD_ASMOBJ ?= $(ASMFILES:%=$(BuildPath)%.o)
+BLD_GCCOBJ ?= $(GCCFILES:%=$(BuildPath)%.$(Build_ExtentionObject))
+BLD_GXXOBJ ?= $(GXXFILES:%=$(BuildPath)%.$(Build_ExtentionObject))
+BLD_ASMOBJ ?= $(ASMFILES:%=$(BuildPath)%.$(Build_ExtentionObject))
 BLD_LIBOBJ ?= $(LIBFILES)
 
 BLD_OBJS = $(BLD_GCCOBJ) $(BLD_GXXOBJ) $(BLD_ASMOBJ) $(AUTO_OBJ)
@@ -137,7 +137,7 @@ OUT_MAP ?= $(OUT_DIR)$(TARGET).map
 OUT_SYM ?= $(OUT_DIR)$(TARGET).sym
 OUT_EEP ?= $(OUT_DIR)$(TARGET).eep
 
-OUT_LIB ?= $(OUT_DIR)lib$(TARGET).a
+OUT_LIB ?= $(OUT_DIR)lib$(TARGET).$(Build_ExtentionLibrary)
 
 OUT_FILES = $(OUT_ELF) $(OUT_HEX) $(OUT_LSS) $(OUT_MAP) $(OUT_SYM) $(OUT_EEP) $(OUT_LIB)
 

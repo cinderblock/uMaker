@@ -6,12 +6,19 @@ ARCH ?= AVR8
 LUFA_PATH ?= LUFA
 include $(LUFA_BASEDIR)LUFA/Build/lufa_sources.mk
 
+# We use fixed values for the variables that probably shouldn't change if the developer decides to use a different file extention for their source files.
+LUFA_Build_ExtentionC ?= c
+LUFA_Build_ExtentionCpp ?= cpp
+LUFA_Build_ExtentionAssembly ?= S
+LUFA_Build_ExtentionObject ?= $(Build_ExtentionObject)
+LUFA_Build_ExtentionLibrary ?= $(Build_ExtentionLibrary)
+
 # Relative to LUFA_BASEDIR
 LUFA_SRC ?= $(LUFA_SRC_USB) $(LUFA_SRC_USBCLASS) $(LUFA_SRC_PLATFORM)
 
-LUFA_AR ?= LUFA.a
+LUFA_AR ?= LUFA.$(LUFA_Build_ExtentionLibrary)
 
-LUFA_OBJS ?= $(LUFA_SRC:%=$(BuildPath)%.o)
+LUFA_OBJS ?= $(LUFA_SRC:%=$(BuildPath)%.$(LUFA_Build_ExtentionObject))
 
 LUFA_OUT ?= $(BLD_LIBDIR)$(LUFA_AR)
 
@@ -25,7 +32,7 @@ LUFA_TARGET ?= LUFA
 
 ##### Targets
 
-$(BuildPath)%.c.o: $(LUFA_BASEDIR)%.c
+$(BuildPath)%.$(LUFA_Build_ExtentionC).$(LUFA_Build_ExtentionObject): $(LUFA_BASEDIR)%.$(LUFA_Build_ExtentionC)
 	$(ECO) "LUFA	$@"
 	$(BLD_GCC) $< -o $@ -c $(BLD_GCCFLAGS_FINAL)
 

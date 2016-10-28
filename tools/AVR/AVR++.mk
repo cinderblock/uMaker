@@ -5,12 +5,19 @@ AVRpp_BASEDIR ?= AVR++/
 # base source names to build
 AVRpp_SRC ?= ADC USART DecPrintFormatter gccGuard
 
+# We use fixed values for the variables that probably shouldn't change if the developer decides to use a different file extention for their source files.
+AVRpp_Build_ExtentionC ?= c
+AVRpp_Build_ExtentionCpp ?= cpp
+AVRpp_Build_ExtentionAssembly ?= S
+AVRpp_Build_ExtentionObject ?= $(Build_ExtentionObject)
+AVRpp_Build_ExtentionLibrary ?= $(Build_ExtentionLibrary)
+
 # Relative to AVRpp_BASEDIR
-AVRpp_FILES ?= $(AVRpp_SRC:%=AVR++/%.cpp)
+AVRpp_FILES ?= $(AVRpp_SRC:%=AVR++/%.$(AVRpp_Build_ExtentionCpp))
 
-AVRpp_AR ?= AVR++.a
+AVRpp_AR ?= AVR++.$(AVRpp_Build_ExtentionLibrary)
 
-AVRpp_OBJS ?= $(AVRpp_FILES:%=$(BuildPath)%.o)
+AVRpp_OBJS ?= $(AVRpp_FILES:%=$(BuildPath)%.$(AVRpp_Build_ExtentionObject))
 
 AVRpp_OUT ?= $(BLD_LIBDIR)$(AVRpp_AR)
 
@@ -22,7 +29,7 @@ AUTO_INC += $(AVRpp_BASEDIR)
 
 ##### Targets
 
-$(BuildPath)%.cpp.o: $(AVRpp_BASEDIR)%.cpp
+$(BuildPath)%.$(AVRpp_Build_ExtentionCpp).$(AVRpp_Build_ExtentionObject): $(AVRpp_BASEDIR)%.$(AVRpp_Build_ExtentionCpp)
 	$(ECO) "AVR++		$@"
 	$(BLD_GXX) $< -o $@ -c $(BLD_GXXFLAGS_FINAL)
 
