@@ -20,7 +20,7 @@ AVRDUDE_PROGRAMMER ?= usbtiny
 
 AVRDUDE_WRITE_FLASH ?= -U flash:w:$(OUT_HEX)
 #AVRDUDE_WRITE_EEPROM = -U eeprom:w:$(OUT_EEP)
-AVRDUDE_WRITE_FUSES ?= -U hfuse:w:$(OUT_DIR)/hfuse.hex:i -U lfuse:w:$(OUT_DIR)/lfuse.hex:i -U efuse:w:$(OUT_DIR)/efuse.hex:i
+AVRDUDE_WRITE_FUSES ?= -U hfuse:w:$(Build_OutputPath)/hfuse.hex:i -U lfuse:w:$(Build_OutputPath)/lfuse.hex:i -U efuse:w:$(Build_OutputPath)/efuse.hex:i
 
 
 

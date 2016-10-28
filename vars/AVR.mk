@@ -32,7 +32,7 @@ UNDEFINES = AVR
 Source_Path ?=
 
 # Directory for fully compiled files
-OUT_DIR ?= out/
+Build_OutputPath ?= out/
 
 # Set this in your Makefile as you like
 DEFINES ?= F_CPU=$(F_CPU)
@@ -101,14 +101,14 @@ BLD_LIBOBJ ?= $(LIBFILES)
 BLD_OBJS ?= $(BLD_GCCOBJ) $(BLD_GXXOBJ) $(BLD_ASMOBJ) $(AUTO_OBJ)
 BLD_LIBS ?= $(BLD_LIBOBJ)
 
-OUT_ELF ?= $(OUT_DIR)$(TARGET).elf
-OUT_HEX ?= $(OUT_DIR)$(TARGET).hex
-OUT_LSS ?= $(OUT_DIR)$(TARGET).lss
-OUT_MAP ?= $(OUT_DIR)$(TARGET).map
-OUT_SYM ?= $(OUT_DIR)$(TARGET).sym
-OUT_EEP ?= $(OUT_DIR)$(TARGET).eep
+OUT_ELF ?= $(Build_OutputPath)$(TARGET).elf
+OUT_HEX ?= $(Build_OutputPath)$(TARGET).hex
+OUT_LSS ?= $(Build_OutputPath)$(TARGET).lss
+OUT_MAP ?= $(Build_OutputPath)$(TARGET).map
+OUT_SYM ?= $(Build_OutputPath)$(TARGET).sym
+OUT_EEP ?= $(Build_OutputPath)$(TARGET).eep
 
-OUT_LIB ?= $(OUT_DIR)lib$(TARGET).$(Build_ExtentionLibrary)
+OUT_LIB ?= $(Build_OutputPath)lib$(TARGET).$(Build_ExtentionLibrary)
 
 OUT_FILES = $(OUT_ELF) $(OUT_HEX) $(OUT_LSS) $(OUT_MAP) $(OUT_SYM) $(OUT_EEP) $(OUT_LIB)
 

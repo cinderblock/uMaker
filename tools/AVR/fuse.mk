@@ -1,9 +1,9 @@
 
-FUSE_OUT ?= $(OUT_DIR)/fuses.hex
+FUSE_OUT ?= $(Build_OutputPath)/fuses.hex
 
-FUSE_OUT_L ?= $(OUT_DIR)/lfuse.hex
-FUSE_OUT_H ?= $(OUT_DIR)/hfuse.hex
-FUSE_OUT_E ?= $(OUT_DIR)/efuse.hex
+FUSE_OUT_L ?= $(Build_OutputPath)/lfuse.hex
+FUSE_OUT_H ?= $(Build_OutputPath)/hfuse.hex
+FUSE_OUT_E ?= $(Build_OutputPath)/efuse.hex
 
 fuse: $(FUSE_OUT)
 

@@ -1,7 +1,7 @@
 
 # Convert ELF to COFF for use in debugging / simulating in AVR Studio or VMLAB.
 
-COFF_OUT ?= $(OUT_DIR)$(TARGET).cof
+COFF_OUT ?= $(Build_OutputPath)$(TARGET).cof
 
 COFF_TYPE ?= coff-avr
 COFF_TYPE ?= coff-ext-avr

@@ -12,3 +12,4 @@ Never remove things from this list.
  - `BLD_STD_GCC` -> `Build_LanguageStandard_GCC`
  - `BLD_STD_GXX` -> `Build_LanguageStandard_GXX`
  - `SRCDIR` -> `Source_Path`
+ - `OUT_DIR` -> `Build_OutputPath`
