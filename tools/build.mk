@@ -20,9 +20,9 @@ Build_Defines  ?= $(AUTO_DEF) $(DEFINES)
 Build_Undefines ?= $(AUTO_UNDEF) $(UNDEFINES)
 
 # Add appropriate command line flags to each include, define, and undefine
-BLD_I_FLAGS ?= $(Build_IncludeDirs:%=-I%)
-BLD_D_FLAGS ?= $(Build_Defines:%=-D%)
-BLD_U_FLAGS ?= $(Build_Undefines:%=-U%)
+Build_Flags_Includes ?= $(Build_IncludeDirs:%=-I%)
+Build_Flags_Defines ?= $(Build_Defines:%=-D%)
+Build_Flags_Undefines ?= $(Build_Undefines:%=-U%)
 
 # Create object files from .c sources
 $(Build_Path)%.$(Build_ExtentionC).$(Build_ExtentionObject): $(Source_Path)%.$(Build_ExtentionC)

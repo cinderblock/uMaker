@@ -17,3 +17,6 @@ Never remove things from this list.
  - `BLD_DEFINES` -> `Build_Defines`
  - `BLD_UNDEFINES` -> `Build_Undefines`
  - `NRF51_DEFINES` removed. Append `AUTO_DEFINES` instead.
+ - `BLD_I_FLAGS` -> `Build_Flags_Includes`
+ - `BLD_D_FLAGS` -> `Build_Flags_Defines`
+ - `BLD_U_FLAGS` -> `Build_Flags_Undefines`

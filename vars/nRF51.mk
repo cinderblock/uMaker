@@ -53,7 +53,7 @@ CPU ?= cortex-m0
 # Build (and link) flags required for the nRF51 series
 BLD_FLAGS_NRF ?= -mcpu=$(CPU) -mthumb -mabi=aapcs -mfloat-abi=soft
 
-BLD_FLAGS_REQUIRED = $(BLD_FLAGS_NRF) $(BLD_I_OPTS) $(BLD_D_OPTS)
+BLD_FLAGS_REQUIRED = $(BLD_FLAGS_NRF) $(Build_Flags_Includes) $(Build_Flags_Defines) $(Build_Flags_Undefines)
 
 BLD_FLAGS_STANDARD ?= -O$(BLD_OPTIMIZATION) -pipe
 
@@ -74,7 +74,7 @@ BLD_FLAGS ?= $(BLD_FLAGS_REQUIRED) $(BLD_FLAGS_STANDARD) $(BLD_FLAGS_RECOMMENDED
 BLD_GCCFLAGS_RECOMMENDED ?= -std=$(Build_LanguageStandard_GCC) -Wstrict-prototypes
 BLD_GXXFLAGS_RECOMMENDED ?= -std=$(Build_LanguageStandard_GXX) -fno-exceptions
 
-BLD_ASMFLAGS ?= $(BLD_I_OPTS) $(BLD_D_OPTS)
+BLD_ASMFLAGS ?= $(Build_Flags_Includes) $(Build_Flags_Defines) $(Build_Flags_Undefines)
 
 BLD_GCCFLAGS ?= $(BLD_GCCFLAGS_RECOMMENDED) $(BLD_FLAGS)
 BLD_GXXFLAGS ?= $(BLD_GXXFLAGS_RECOMMENDED) $(BLD_FLAGS)

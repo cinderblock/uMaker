@@ -39,7 +39,7 @@ DEFINES ?= F_CPU=$(F_CPU)
 
 BLD_FLAGS_AVR ?= -mmcu=$(BLD_AVR_Arch)
 
-BLD_FLAGS_REQUIRED = $(BLD_FLAGS_AVR) $(BLD_I_FLAGS) $(BLD_D_FLAGS) $(BLD_U_FLAGS)
+BLD_FLAGS_REQUIRED = $(BLD_FLAGS_AVR) $(Build_Flags_Includes) $(Build_Flags_Defines) $(Build_Flags_Undefines)
 
 BLD_FLAGS_STANDARD ?= -O$(Build_Optimization) -pipe
 
