@@ -41,20 +41,12 @@ Source_Path ?=
 Build_OutputPath ?= out/
 
 # Nordic expects some defines if you're using their libraries
-NRF51_DEFINES ?= $(DEVICE)
+AUTO_DEFINES += $(DEVICE)
 
 ## Setup final flags we're going to use
 
 # Don't forget to include your Source_Path
 INCLUDES ?= $(if $(Source_Path),$(Source_Path:%/=%),.)
-
-# Leading -I flags take precedence
-Build_IncludeDirs ?= $(INCLUDES) $(AUTO_INC)
-# Trailing -D flags override previous ones
-Build_Defines  ?= $(NRF51_DEFINES) $(AUTO_DEF) $(DEFINES)
-
-BLD_I_OPTS ?= $(Build_IncludeDirs:%=-I%)
-BLD_D_OPTS ?= $(Build_Defines:%=-D%)
 
 CPU ?= cortex-m0
 

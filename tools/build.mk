@@ -12,6 +12,18 @@ Build_ExtentionAssembly ?= S
 Build_ExtentionObject ?= o
 Build_ExtentionLibrary ?= a
 
+# Leading includes take precedence
+Build_IncludeDirs ?= $(INCLUDES) $(AUTO_INC)
+# Trailing defines override previous ones
+Build_Defines  ?= $(AUTO_DEF) $(DEFINES)
+
+Build_Undefines ?= $(AUTO_UNDEF) $(UNDEFINES)
+
+# Add appropriate command line flags to each include, define, and undefine
+BLD_I_FLAGS ?= $(Build_IncludeDirs:%=-I%)
+BLD_D_FLAGS ?= $(Build_Defines:%=-D%)
+BLD_U_FLAGS ?= $(Build_Undefines:%=-U%)
+
 # Create object files from .c sources
 $(Build_Path)%.$(Build_ExtentionC).$(Build_ExtentionObject): $(Source_Path)%.$(Build_ExtentionC)
 	$(ECO) "CC	$@"

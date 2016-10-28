@@ -37,15 +37,6 @@ Build_OutputPath ?= out/
 # Set this in your Makefile as you like
 DEFINES ?= F_CPU=$(F_CPU)
 
-Build_IncludeDirs ?= $(AUTO_INC) $(INCLUDES)
-Build_Defines ?= $(AUTO_DEF) $(DEFINES)
-Build_Undefines ?= $(AUTO_UNDEF) $(UNDEFINES)
-
-# Transform user facing variables to how gcc wants them
-BLD_I_FLAGS ?= $(Build_IncludeDirs:%=-I%)
-BLD_D_FLAGS ?= $(Build_Defines:%=-D%)
-BLD_U_FLAGS ?= $(Build_Undefines:%=-U%)
-
 BLD_FLAGS_AVR ?= -mmcu=$(BLD_AVR_Arch)
 
 BLD_FLAGS_REQUIRED = $(BLD_FLAGS_AVR) $(BLD_I_FLAGS) $(BLD_D_FLAGS) $(BLD_U_FLAGS)

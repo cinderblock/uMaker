@@ -16,3 +16,4 @@ Never remove things from this list.
  - `BLD_INCLUDES` -> `Build_IncludeDirs`
  - `BLD_DEFINES` -> `Build_Defines`
  - `BLD_UNDEFINES` -> `Build_Undefines`
+ - `NRF51_DEFINES` removed. Append `AUTO_DEFINES` instead.
