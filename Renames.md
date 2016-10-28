@@ -9,3 +9,5 @@ Never remove things from this list.
  - `BLD_DEPDIR` -> `Build_DepPath`
  - `BLD_LIBDIR` -> `Build_LibPath`
  - `OPT` -> `Build_Optimization`
+ - `BLD_STD_GCC` -> `Build_LanguageStandard_GCC`
+ - `BLD_STD_GXX` -> `Build_LanguageStandard_GXX`

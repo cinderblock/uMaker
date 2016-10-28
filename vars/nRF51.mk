@@ -31,8 +31,8 @@ Build_LibPath ?= $(Build_Path)libs/
 OPTIMIZATION ?= 2
 
 BLD_OPTIMIZATION ?= $(OPTIMIZATION)
-BLD_STD_GCC ?= gnu11
-BLD_STD_GXX ?= gnu++11
+Build_LanguageStandard_GCC ?= gnu11
+Build_LanguageStandard_GXX ?= gnu++11
 
 # Directory that src files are in. ie: SRCDIR = src/
 SRCDIR ?=
@@ -79,8 +79,8 @@ BLD_FLAGS_RECOMMENDED += #-ffunction-sections -fdata-sections
 
 BLD_FLAGS ?= $(BLD_FLAGS_REQUIRED) $(BLD_FLAGS_STANDARD) $(BLD_FLAGS_RECOMMENDED) $(BLD_FLAGS_EXTRA)
 
-BLD_GCCFLAGS_RECOMMENDED ?= -std=$(BLD_STD_GCC) -Wstrict-prototypes
-BLD_GXXFLAGS_RECOMMENDED ?= -std=$(BLD_STD_GXX) -fno-exceptions
+BLD_GCCFLAGS_RECOMMENDED ?= -std=$(Build_LanguageStandard_GCC) -Wstrict-prototypes
+BLD_GXXFLAGS_RECOMMENDED ?= -std=$(Build_LanguageStandard_GXX) -fno-exceptions
 
 BLD_ASMFLAGS ?= $(BLD_I_OPTS) $(BLD_D_OPTS)
 

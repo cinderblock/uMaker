@@ -22,8 +22,8 @@ Build_DepPath ?= $(Build_Path).dep/
 Build_LibPath ?= $(Build_Path)libs/
 
 Build_Optimization ?= 2
-BLD_STD_GCC ?= gnu11
-BLD_STD_GXX ?= gnu++11
+Build_LanguageStandard_GCC ?= gnu11
+Build_LanguageStandard_GXX ?= gnu++11
 
 # Get rid of the silly AVR #define that gnu sets outside of the reserved namespace
 UNDEFINES = AVR
@@ -70,8 +70,8 @@ BLD_FLAGS_RECOMMENDED += -fpack-struct
 
 BLD_FLAGS ?= $(BLD_FLAGS_REQUIRED) $(BLD_FLAGS_STANDARD) $(BLD_FLAGS_RECOMMENDED) $(BLD_FLAGS_EXTRA)
 
-BLD_GCCFLAGS_RECOMMENDED ?= -std=$(BLD_STD_GCC) -Wstrict-prototypes
-BLD_GXXFLAGS_RECOMMENDED ?= -std=$(BLD_STD_GXX) -fno-exceptions
+BLD_GCCFLAGS_RECOMMENDED ?= -std=$(Build_LanguageStandard_GCC) -Wstrict-prototypes
+BLD_GXXFLAGS_RECOMMENDED ?= -std=$(Build_LanguageStandard_GXX) -fno-exceptions
 BLD_ASMFLAGS_RECOMMENDED ?=
 
 BLD_GCCFLAGS ?= $(BLD_GCCFLAGS_RECOMMENDED) $(BLD_FLAGS)
