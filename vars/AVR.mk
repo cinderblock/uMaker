@@ -132,6 +132,4 @@ BLD_NMM ?= "$(BLD_BIN_PREFIX)avr-nm"
 
 RMF ?= rm -rf
 
-MKD ?= mkdir -p
-
 ECO ?= @echo
