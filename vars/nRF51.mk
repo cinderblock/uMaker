@@ -49,12 +49,12 @@ NRF51_DEFINES ?= $(DEVICE)
 INCLUDES ?= $(if $(Source_Path),$(Source_Path:%/=%),.)
 
 # Leading -I flags take precedence
-BLD_INCLUDES ?= $(INCLUDES) $(AUTO_INC)
+Build_IncludeDirs ?= $(INCLUDES) $(AUTO_INC)
 # Trailing -D flags override previous ones
-BLD_DEFINES  ?= $(NRF51_DEFINES) $(AUTO_DEF) $(DEFINES)
+Build_Defines  ?= $(NRF51_DEFINES) $(AUTO_DEF) $(DEFINES)
 
-BLD_I_OPTS ?= $(BLD_INCLUDES:%=-I%)
-BLD_D_OPTS ?= $(BLD_DEFINES:%=-D%)
+BLD_I_OPTS ?= $(Build_IncludeDirs:%=-I%)
+BLD_D_OPTS ?= $(Build_Defines:%=-D%)
 
 CPU ?= cortex-m0
 

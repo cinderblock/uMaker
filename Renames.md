@@ -13,3 +13,6 @@ Never remove things from this list.
  - `BLD_STD_GXX` -> `Build_LanguageStandard_GXX`
  - `SRCDIR` -> `Source_Path`
  - `OUT_DIR` -> `Build_OutputPath`
+ - `BLD_INCLUDES` -> `Build_IncludeDirs`
+ - `BLD_DEFINES` -> `Build_Defines`
+ - `BLD_UNDEFINES` -> `Build_Undefines`
