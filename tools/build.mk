@@ -65,7 +65,7 @@ clean: clean_build
 
 clean_build:
 	$(ECO) Cleaning Build...
-	$(RMF) $(Build_Path) $(OUT_DIR) $(BLD_LIBDIR) $(Build_DepPath)
+	$(RMF) $(Build_Path) $(OUT_DIR) $(Build_LibPath) $(Build_DepPath)
 
 .PHONY: clean size clean_build build-lss build
 

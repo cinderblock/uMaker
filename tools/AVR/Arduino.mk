@@ -68,7 +68,7 @@ Arduino_BuildName ?= Arduino
 Arduino_ArchiveFilename ?= $(Arduino_BuildName).$(Arduino_Build_ExtentionLibrary)
 
 # Output filename, with path
-Arduino_ArchiveFilenameFull ?= $(BLD_LIBDIR)$(Arduino_ArchiveFilename)
+Arduino_ArchiveFilenameFull ?= $(Build_LibPath)$(Arduino_ArchiveFilename)
 
 # Directory the .o files will be saved to
 Arduino_BuildDir ?= $(Build_Path)$(Arduino_BuildName)

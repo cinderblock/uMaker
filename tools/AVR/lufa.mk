@@ -20,7 +20,7 @@ LUFA_AR ?= LUFA.$(LUFA_Build_ExtentionLibrary)
 
 LUFA_OBJS ?= $(LUFA_SRC:%=$(Build_Path)%.$(LUFA_Build_ExtentionObject))
 
-LUFA_OUT ?= $(BLD_LIBDIR)$(LUFA_AR)
+LUFA_OUT ?= $(Build_LibPath)$(LUFA_AR)
 
 F_USB ?= $(F_CPU)
 

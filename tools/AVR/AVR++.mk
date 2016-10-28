@@ -19,7 +19,7 @@ AVRpp_AR ?= AVR++.$(AVRpp_Build_ExtentionLibrary)
 
 AVRpp_OBJS ?= $(AVRpp_FILES:%=$(Build_Path)%.$(AVRpp_Build_ExtentionObject))
 
-AVRpp_OUT ?= $(BLD_LIBDIR)$(AVRpp_AR)
+AVRpp_OUT ?= $(Build_LibPath)$(AVRpp_AR)
 
 AUTO_LIB += $(AVRpp_OUT)
 

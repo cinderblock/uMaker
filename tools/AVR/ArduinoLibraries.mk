@@ -25,7 +25,7 @@ ArduinoLibraries_BuildName ?= ArduinoLibraries
 # Output filename, missing path
 ArduinoLibraries_ArchiveFilename ?= $(ArduinoLibraries_BuildName).$(Arduino_Build_ExtentionLibrary)
 
-ArduinoLibraries_ArchiveFilenameFull ?= $(BLD_LIBDIR)$(ArduinoLibraries_ArchiveFilename)
+ArduinoLibraries_ArchiveFilenameFull ?= $(Build_LibPath)$(ArduinoLibraries_ArchiveFilename)
 
 ArduinoLibraries_BuildDir ?= $(Build_Path)$(ArduinoLibraries_BuildName)/
 

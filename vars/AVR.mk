@@ -19,7 +19,7 @@ Build_Path    ?= .bld/
 Build_DepPath ?= $(Build_Path).dep/
 
 # Only for libs that we build. Not for ones you're including that are pre-built
-BLD_LIBDIR ?= $(Build_Path)libs/
+Build_LibPath ?= $(Build_Path)libs/
 
 OPT ?= 2
 BLD_STD_GCC ?= gnu11

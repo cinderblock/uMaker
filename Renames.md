@@ -7,3 +7,4 @@ Never remove things from this list.
  - `BLD_DIR` -> `BuildPath` (a62e133f6d1fffda0f1c63c5d611bb1c3fcea16f) -> `Build_Path` (892190138286790309b8ac811173f9297d96fc3d)
  - `BuildPath` -> `Build_Path` (892190138286790309b8ac811173f9297d96fc3d)
  - `BLD_DEPDIR` -> `Build_DepPath`
+ - `BLD_LIBDIR` -> `Build_LibPath`
