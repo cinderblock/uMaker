@@ -86,7 +86,7 @@ See [renames](Renames.md)
 
 Variables that end in `Path` must end with a `/` or be empty.
 
-Variables that end in `Dir` must not end with a `/` nor be empty.
+Variables that end in `Dir` must **not** end with a `/` **nor** be empty.
 
 ### Variable defaults
 
