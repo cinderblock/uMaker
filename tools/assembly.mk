@@ -2,7 +2,7 @@
 
 ASM ?= $(C:%=%.c.s) $(CPP:%=%.cpp.S)
 
-ASM_DIR ?= $(BLD_DIR)
+ASM_DIR ?= $(BuildPath)
 
 ASM_FILES ?= $(ASM:%=$(ASM_DIR)%)
 

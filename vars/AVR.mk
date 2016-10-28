@@ -15,11 +15,11 @@ LIBFILES ?= $(AUTO_LIB) $(LIB:%=%.a)
 TARGET ?= setTARGETinYourMakefile
 
 # Temporary directories to build into
-BLD_DIR    ?= .bld/
-BLD_DEPDIR ?= $(BLD_DIR).dep/
+BuildPath    ?= .bld/
+BLD_DEPDIR ?= $(BuildPath).dep/
 
 # Only for libs that we build. Not for ones you're including that are pre-built
-BLD_LIBDIR ?= $(BLD_DIR)libs/
+BLD_LIBDIR ?= $(BuildPath)libs/
 
 OPT ?= 2
 BLD_STD_GCC ?= gnu11
@@ -79,7 +79,7 @@ BLD_GXXFLAGS ?= $(BLD_GXXFLAGS_RECOMMENDED) $(BLD_FLAGS)
 BLD_LNKFLAGS ?= $(BLD_FLAGS_AVR)
 
 # TODO: This is not quite right if you change ASM_DIR. May need rework of build.
-BLD_DEPFLAGS = -MMD -MP -MF $(@:$(BLD_DIR)%=$(BLD_DEPDIR)%.d)
+BLD_DEPFLAGS = -MMD -MP -MF $(@:$(BuildPath)%=$(BLD_DEPDIR)%.d)
 
 BLD_HEXFLAGS ?= -O $(OUT_FMT) -R .eeprom -R .fuse -R .lock
 
@@ -90,8 +90,8 @@ BLD_LNKFLAGS_FINAL ?= $(BLD_LNKFLAGS) $(LDFLAGS) $(LDLIBS)
 
 BLD_HEXFLAGS_FINAL ?= $(BLD_HEXFLAGS)
 
-BLD_GCCOBJ ?= $(GCCFILES:%=$(BLD_DIR)%.o)
-BLD_GXXOBJ ?= $(GXXFILES:%=$(BLD_DIR)%.o)
+BLD_GCCOBJ ?= $(GCCFILES:%=$(BuildPath)%.o)
+BLD_GXXOBJ ?= $(GXXFILES:%=$(BuildPath)%.o)
 BLD_LIBOBJ ?= $(LIBFILES)
 
 BLD_OBJS ?= $(BLD_GCCOBJ) $(BLD_GXXOBJ) $(AUTO_OBJ)

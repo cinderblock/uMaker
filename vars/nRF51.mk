@@ -22,11 +22,11 @@ nRF51SDK_BasePath ?= C:/Progra~2/Nordic~1/NRF51_~1.0_C/
 TARGET ?= setTARGETinYourMakefile
 
 # Temporary directories to build into
-BLD_DIR    ?= .bld/
-BLD_DEPDIR ?= $(BLD_DIR).dep/
+BuildPath    ?= .bld/
+BLD_DEPDIR ?= $(BuildPath).dep/
 
 # Only for libs that we build. Not for ones you're including that are pre-built
-BLD_LIBDIR ?= $(BLD_DIR)libs/
+BLD_LIBDIR ?= $(BuildPath)libs/
 
 OPTIMIZATION ?= 2
 
@@ -87,7 +87,7 @@ BLD_ASMFLAGS ?= $(BLD_I_OPTS) $(BLD_D_OPTS)
 BLD_GCCFLAGS ?= $(BLD_GCCFLAGS_RECOMMENDED) $(BLD_FLAGS)
 BLD_GXXFLAGS ?= $(BLD_GXXFLAGS_RECOMMENDED) $(BLD_FLAGS)
 
-nRF51_ldScriptPrefix ?= 
+nRF51_ldScriptPrefix ?=
 
 NRF51_LDSCRIPT ?= $(nRF51_ldScriptPrefix)$(DEVICESERIES)_$(VARIANT).ld
 
@@ -111,7 +111,7 @@ LNK_FLAGS_OPTIONAL ?= --specs=nano.specs -lc -lnosys
 
 LNK_FLAGS ?= $(BLD_FLAGS_NRF) $(LNK_FLAGS_REQUIRED) $(LNK_FLAGS_RECOMMENDED) $(LNK_FLAGS_OPTIONAL) $(LNK_FLAGS_EXTRA)
 
-BLD_DEPFLAGS = -MMD -MP -MF $(@:$(BLD_DIR)%=$(BLD_DEPDIR)%.d)
+BLD_DEPFLAGS = -MMD -MP -MF $(@:$(BuildPath)%=$(BLD_DEPDIR)%.d)
 
 BLD_HEXFLAGS ?= -O $(OUT_FMT)
 
@@ -122,9 +122,9 @@ BLD_ASMFLAGS_FINAL ?= $(BLD_ASMFLAGS) $(BLD_DEPFLAGS) $(ASFLAGS)
 BLD_LNKFLAGS_FINAL ?= $(LNK_FLAGS) $(LDFLAGS) $(LDLIBS)
 BLD_HEXFLAGS_FINAL ?= $(BLD_HEXFLAGS)
 
-BLD_GCCOBJ ?= $(GCCFILES:%=$(BLD_DIR)%.o)
-BLD_GXXOBJ ?= $(GXXFILES:%=$(BLD_DIR)%.o)
-BLD_ASMOBJ ?= $(ASMFILES:%=$(BLD_DIR)%.o)
+BLD_GCCOBJ ?= $(GCCFILES:%=$(BuildPath)%.o)
+BLD_GXXOBJ ?= $(GXXFILES:%=$(BuildPath)%.o)
+BLD_ASMOBJ ?= $(ASMFILES:%=$(BuildPath)%.o)
 BLD_LIBOBJ ?= $(LIBFILES)
 
 BLD_OBJS = $(BLD_GCCOBJ) $(BLD_GXXOBJ) $(BLD_ASMOBJ) $(AUTO_OBJ)

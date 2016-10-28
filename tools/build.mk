@@ -7,17 +7,17 @@ build-lss: $(OUT_LSS)
 build: $(OUT_ELF)
 
 # Create object files from .c sources
-$(BLD_DIR)%.c.o: $(SRCDIR)%.c
+$(BuildPath)%.c.o: $(SRCDIR)%.c
 	$(ECO) "CC	$@"
 	$(BLD_GCC) -o $@ $< -c $(BLD_GCCFLAGS_FINAL)
 
 # Create object files from .cpp sources
-$(BLD_DIR)%.cpp.o: $(SRCDIR)%.cpp
+$(BuildPath)%.cpp.o: $(SRCDIR)%.cpp
 	$(ECO) "C++	$@"
 	$(BLD_GXX) -o $@ $< -c $(BLD_GXXFLAGS_FINAL)
 
 # Create object files from .s sources
-$(BLD_DIR)%.s.o: $(SRCDIR)%.s
+$(BuildPath)%.s.o: $(SRCDIR)%.s
 	$(ECO) "ASM	$@"
 	$(BLD_ASM) -o $@ $< -c $(BLD_ASMFLAGS_FINAL)
 
@@ -59,7 +59,7 @@ clean: clean_build
 
 clean_build:
 	$(ECO) Cleaning Build...
-	$(RMF) $(BLD_DIR) $(OUT_DIR) $(BLD_LIBDIR) $(BLD_DEPDIR)
+	$(RMF) $(BuildPath) $(OUT_DIR) $(BLD_LIBDIR) $(BLD_DEPDIR)
 
 .PHONY: clean size clean_build build-lss build
 
@@ -69,7 +69,7 @@ clean_build:
 $(BLD_OBJS) $(OUT_FILES): $(MAKEFILE_LIST)
 
 # Explicitly include all our build dep files
-BLD_DEPFILES ?= $(BLD_OBJS:$(BLD_DIR)%=$(BLD_DEPDIR)%.d)
+BLD_DEPFILES ?= $(BLD_OBJS:$(BuildPath)%=$(BLD_DEPDIR)%.d)
 
 AUTO_GENERATED_FILES += $(BLD_DEPFILES)
 -include $(BLD_DEPFILES)

@@ -27,7 +27,7 @@ ArduinoLibraries_ArchiveFilename ?= $(ArduinoLibraries_BuildName).a
 
 ArduinoLibraries_ArchiveFilenameFull ?= $(BLD_LIBDIR)$(ArduinoLibraries_ArchiveFilename)
 
-ArduinoLibraries_BuildDir ?= $(BLD_DIR)$(ArduinoLibraries_BuildName)/
+ArduinoLibraries_BuildDir ?= $(BuildPath)$(ArduinoLibraries_BuildName)/
 
 ArduinoLibraries_ObjectFiles ?= $(ArduinoLibraries_Files:$(ArduinoLibraries_Dirs)%=$(ArduinoLibraries_BuildDir)%.o)
 
@@ -43,11 +43,11 @@ ArduinoLibraries_GXX_BuildFlags_Final ?= $(BLD_GXXFLAGS_FINAL)
 
 ##### Targets
 
-$(BLD_DIR)%.c.o: $(ArduinoLibraries_BaseDir)%.c
+$(BuildPath)%.c.o: $(ArduinoLibraries_BaseDir)%.c
 	$(ECO) "Arduino C	$@"
 	$(BLD_GCC) $< -o $@ -c $(ArduinoLibraries_GCC_BuildFlags_Final)
 
-	$(BLD_DIR)%.cpp.o: $(ArduinoLibraries_BaseDir)%.cpp
+	$(BuildPath)%.cpp.o: $(ArduinoLibraries_BaseDir)%.cpp
 		$(ECO) "Arduino C++	$@"
 		$(BLD_GXX) $< -o $@ -c $(ArduinoLibraries_GXX_BuildFlags_Final)
 
@@ -64,7 +64,7 @@ $(ArduinoLibraries_makeTarget): $(ArduinoLibraries_ArchiveFilenameFull)
 .SECONDARY: $(ArduinoLibraries_ArchiveFilenameFull)
 
 # Explicitly include all our build dep files
-ArduinoLibraries_depFiles ?= $(ArduinoLibraries_ObjectFiles:$(BLD_DIR)%=$(BLD_DEPDIR)%.d)
+ArduinoLibraries_depFiles ?= $(ArduinoLibraries_ObjectFiles:$(BuildPath)%=$(BLD_DEPDIR)%.d)
 -include $(ArduinoLibraries_depFiles)
 
 AUTO_GENERATED_FILES += $(ArduinoLibraries_ArchiveFilenameFull) $(ArduinoLibraries_ObjectFiles) $(ArduinoLibraries_depFiles)

@@ -11,7 +11,7 @@ LUFA_SRC ?= $(LUFA_SRC_USB) $(LUFA_SRC_USBCLASS) $(LUFA_SRC_PLATFORM)
 
 LUFA_AR ?= LUFA.a
 
-LUFA_OBJS ?= $(LUFA_SRC:%=$(BLD_DIR)%.o)
+LUFA_OBJS ?= $(LUFA_SRC:%=$(BuildPath)%.o)
 
 LUFA_OUT ?= $(BLD_LIBDIR)$(LUFA_AR)
 
@@ -25,7 +25,7 @@ LUFA_TARGET ?= LUFA
 
 ##### Targets
 
-$(BLD_DIR)%.c.o: $(LUFA_BASEDIR)%.c
+$(BuildPath)%.c.o: $(LUFA_BASEDIR)%.c
 	$(ECO) "LUFA	$@"
 	$(BLD_GCC) $< -o $@ -c $(BLD_GCCFLAGS_FINAL)
 
@@ -42,7 +42,7 @@ $(LUFA_TARGET): $(LUFA_OUT)
 .SECONDARY: $(LUFA_OUT)
 
 # Explicitly include all our build dep files
-LUFA_DEPFILES ?= $(LUFA_OBJS:$(BLD_DIR)%=$(BLD_DEPDIR)%.d)
+LUFA_DEPFILES ?= $(LUFA_OBJS:$(BuildPath)%=$(BLD_DEPDIR)%.d)
 -include $(LUFA_DEPFILES)
 
 AUTO_GENERATED_FILES += $(LUFA_OUT) $(LUFA_OBJS) $(LUFA_DEPFILES)
