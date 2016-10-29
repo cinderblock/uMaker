@@ -61,7 +61,7 @@ it disables verbosity. It may also run multiple parallel jobs.
 
 ### build
 
-This is a core module that does the main compilation of your C/C++ source files.
+This is a core module that does the main compilation of your C/C++/S source files.
 It also links object files into the final output `.elf` and `.hex` files.
 
 ### assembly
