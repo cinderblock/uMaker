@@ -44,31 +44,31 @@ CPU ?= cortex-m0
 # Build (and link) flags required for the nRF51 series
 nRF51_Build_Flags ?= -mcpu=$(CPU) -mthumb -mabi=aapcs -mfloat-abi=soft
 
-BLD_FLAGS_REQUIRED = $(nRF51_Build_Flags) $(Build_Flags_Includes) $(Build_Flags_Defines) $(Build_Flags_Undefines)
+Build_Flags_Required = $(nRF51_Build_Flags) $(Build_Flags_Includes) $(Build_Flags_Defines) $(Build_Flags_Undefines)
 
-BLD_FLAGS_STANDARD ?= -O$(BLD_OPTIMIZATION) -pipe
+Build_Flags_Standard ?= -O$(BLD_OPTIMIZATION) -pipe
 
 ### Recommended gcc flags for compilation
-BLD_FLAGS_RECOMMENDED  = -ffreestanding -funsigned-bitfields
+Build_Flags_Recommended  = -ffreestanding -funsigned-bitfields
 
 # Compiler warnings
-BLD_FLAGS_RECOMMENDED += -Wall
+Build_Flags_Recommended += -Wall
 
 # Automatically activated with -O2
-#BLD_FLAGS_RECOMMENDED += -fno-inline-small-functions -fno-strict-aliasing
+#Build_Flags_Recommended += -fno-inline-small-functions -fno-strict-aliasing
 
 # Enable function and data sections so the linker can strip what we aren't using
-BLD_FLAGS_RECOMMENDED += #-ffunction-sections -fdata-sections
+Build_Flags_Recommended += #-ffunction-sections -fdata-sections
 
-BLD_FLAGS ?= $(BLD_FLAGS_REQUIRED) $(BLD_FLAGS_STANDARD) $(BLD_FLAGS_RECOMMENDED) $(BLD_FLAGS_EXTRA)
+Build_Flags ?= $(Build_Flags_Required) $(Build_Flags_Standard) $(Build_Flags_Recommended) $(Build_Flags_Extra)
 
 BLD_GCCFLAGS_RECOMMENDED ?= -std=$(Build_LanguageStandard_GCC) -Wstrict-prototypes
 BLD_GXXFLAGS_RECOMMENDED ?= -std=$(Build_LanguageStandard_GXX) -fno-exceptions
 
 BLD_ASMFLAGS ?= $(Build_Flags_Includes) $(Build_Flags_Defines) $(Build_Flags_Undefines)
 
-BLD_GCCFLAGS ?= $(BLD_GCCFLAGS_RECOMMENDED) $(BLD_FLAGS)
-BLD_GXXFLAGS ?= $(BLD_GXXFLAGS_RECOMMENDED) $(BLD_FLAGS)
+BLD_GCCFLAGS ?= $(BLD_GCCFLAGS_RECOMMENDED) $(Build_Flags)
+BLD_GXXFLAGS ?= $(BLD_GXXFLAGS_RECOMMENDED) $(Build_Flags)
 
 nRF51_ldScriptPrefix ?=
 
