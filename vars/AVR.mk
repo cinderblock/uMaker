@@ -3,7 +3,8 @@ ifndef MCU
  $(error Define MCU in your Makefile to enable AVR compilation)
 endif
 
-BLD_AVR_Arch ?= $(MCU)
+AVR_MCU ?= $(MCU)
+AVR_Architecture ?= $(AVR_MCU)
 
 # Define these in your Makefile
 GCCFILES ?= $(AUTO_GCC) $(C:%=$(Source_Path)%.$(Build_ExtentionC))
@@ -37,7 +38,7 @@ Build_OutputPath ?= out/
 # Set this in your Makefile as you like
 DEFINES ?= F_CPU=$(F_CPU)
 
-BLD_FLAGS_AVR ?= -mmcu=$(BLD_AVR_Arch)
+BLD_FLAGS_AVR ?= -mmcu=$(AVR_Architecture)
 
 BLD_FLAGS_REQUIRED = $(BLD_FLAGS_AVR) $(Build_Flags_Includes) $(Build_Flags_Defines) $(Build_Flags_Undefines)
 
