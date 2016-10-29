@@ -10,12 +10,6 @@ GCC_VERSION ?= 4.9.3
 GCC_ROOT    ?= C:/Progra~2/GNUTOO~1/4947E~1.920/
 GCC_PREFIX  ?= arm-none-eabi
 
-# Define these in your Makefile
-GCCFILES ?= $(AUTO_GCC) $(C:%=$(Source_Path)%.$(Build_ExtentionC))
-GXXFILES ?= $(AUTO_GXX) $(CPP:%=$(Source_Path)%.$(Build_ExtentionCpp))
-ASMFILES ?= $(AUTO_ASM) $(ASM:%=$(Source_Path)%.$(Build_ExtentionAssembly))
-LIBFILES ?= $(AUTO_LIB) $(LIB:%=%.$(Build_ExtentionLibrary))
-
 nRF51SDK_BasePath ?= C:/Progra~2/Nordic~1/NRF51_~1.0_C/
 
 # Base output file name
@@ -33,9 +27,6 @@ OPTIMIZATION ?= 2
 BLD_OPTIMIZATION ?= $(OPTIMIZATION)
 Build_LanguageStandard_GCC ?= gnu11
 Build_LanguageStandard_GXX ?= gnu++11
-
-# Directory that src files are in. ie: Source_Path = src/
-Source_Path ?=
 
 # Directory for compiled output files
 Build_OutputPath ?= out/

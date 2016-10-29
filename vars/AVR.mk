@@ -6,12 +6,6 @@ endif
 AVR_MCU ?= $(MCU)
 AVR_Architecture ?= $(AVR_MCU)
 
-# Define these in your Makefile
-GCCFILES ?= $(AUTO_GCC) $(C:%=$(Source_Path)%.$(Build_ExtentionC))
-GXXFILES ?= $(AUTO_GXX) $(CPP:%=$(Source_Path)%.$(Build_ExtentionCpp))
-ASMFILES ?= $(AUTO_ASM) $(ASM:%=$(Source_Path)%.$(Build_ExtentionAssembly))
-LIBFILES ?= $(AUTO_LIB) $(LIB:%=$(Source_Path)%.$(Build_ExtentionLibrary))
-
 # Base output file name
 TARGET ?= setTARGETinYourMakefile
 
@@ -28,9 +22,6 @@ Build_LanguageStandard_GXX ?= gnu++11
 
 # Get rid of the silly AVR #define that gnu sets outside of the reserved namespace
 UNDEFINES = AVR
-
-# Directory that src files are in. ie: Source_Path = src/
-Source_Path ?=
 
 # Directory for fully compiled files
 Build_OutputPath ?= out/
