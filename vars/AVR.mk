@@ -76,10 +76,10 @@ BLD_LNKFLAGS_FINAL ?= $(BLD_LNKFLAGS) $(LDFLAGS) $(LDLIBS)
 
 BLD_HEXFLAGS_FINAL ?= $(BLD_HEXFLAGS)
 
-BLD_GCCOBJ ?= $(GCCFILES:%=$(Build_Path)%.$(Build_ExtentionObject))
-BLD_GXXOBJ ?= $(GXXFILES:%=$(Build_Path)%.$(Build_ExtentionObject))
-BLD_ASMOBJ ?= $(ASMFILES:%=$(Build_Path)%.$(Build_ExtentionObject))
-BLD_LIBOBJ ?= $(LIBFILES)
+BLD_GCCOBJ ?= $(Source_cFilesFinal:%=$(Build_Path)%.$(Build_ExtentionObject))
+BLD_GXXOBJ ?= $(Source_cppFilesFinal:%=$(Build_Path)%.$(Build_ExtentionObject))
+BLD_ASMOBJ ?= $(Source_asmFilesFinal:%=$(Build_Path)%.$(Build_ExtentionObject))
+BLD_LIBOBJ ?= $(Source_libFilesFinal)
 
 BLD_OBJS ?= $(BLD_GCCOBJ) $(BLD_GXXOBJ) $(BLD_ASMOBJ) $(AUTO_OBJ)
 BLD_LIBS ?= $(BLD_LIBOBJ)

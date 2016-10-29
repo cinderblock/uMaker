@@ -4,11 +4,11 @@
 ## to add generic and project specific features. Ideally, there are no real targets
 ## here. Just variables, or overrides, that the included helper makefiles will use.
 
-# List of C file basenames to build
-C =
+# List of c file basenames to build
+cNames =
 
-# List of CPP file basenames to build
-CPP = main Board test/Test
+# List of cpp file basenames to build
+cppNames = main Board test/Test
 
 all: build #run
 

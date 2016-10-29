@@ -27,3 +27,11 @@ Never remove things from this list.
  - `BLD_FLAGS_RECOMMENDED` -> `Build_Flags_Recommended`
  - `BLD_FLAGS_EXTRA` -> `Build_Flags_Extra`
  - `BLD_FLAGS` -> `Build_Flags`
+ - `C` -> `cNames`
+ - `CPP` -> `cppNames`
+ - `ASM` -> `asmNames`
+ - `LIB` -> `libNames`
+ - `CFILES` -> `Source_cFilesFinal`
+ - `CPPFILES` -> `Source_cppFilesFinal`
+ - `ASMFILES` -> `Source_asmFilesFinal`
+ - `LIBFILES` -> `Source_libFilesFinal`
