@@ -42,9 +42,9 @@ INCLUDES ?= $(if $(Source_Path),$(Source_Path:%/=%),.)
 CPU ?= cortex-m0
 
 # Build (and link) flags required for the nRF51 series
-BLD_FLAGS_NRF ?= -mcpu=$(CPU) -mthumb -mabi=aapcs -mfloat-abi=soft
+nRF51_Build_Flags ?= -mcpu=$(CPU) -mthumb -mabi=aapcs -mfloat-abi=soft
 
-BLD_FLAGS_REQUIRED = $(BLD_FLAGS_NRF) $(Build_Flags_Includes) $(Build_Flags_Defines) $(Build_Flags_Undefines)
+BLD_FLAGS_REQUIRED = $(nRF51_Build_Flags) $(Build_Flags_Includes) $(Build_Flags_Defines) $(Build_Flags_Undefines)
 
 BLD_FLAGS_STANDARD ?= -O$(BLD_OPTIMIZATION) -pipe
 
@@ -92,7 +92,7 @@ LNK_FLAGS_RECOMMENDED ?= $(LNK_WL_FLAGS)
 
 LNK_FLAGS_OPTIONAL ?= --specs=nano.specs -lc -lnosys
 
-LNK_FLAGS ?= $(BLD_FLAGS_NRF) $(LNK_FLAGS_REQUIRED) $(LNK_FLAGS_RECOMMENDED) $(LNK_FLAGS_OPTIONAL) $(LNK_FLAGS_EXTRA)
+LNK_FLAGS ?= $(nRF51_Build_Flags) $(LNK_FLAGS_REQUIRED) $(LNK_FLAGS_RECOMMENDED) $(LNK_FLAGS_OPTIONAL) $(LNK_FLAGS_EXTRA)
 
 BLD_DEPFLAGS = -MMD -MP -MF $(@:$(Build_Path)%=$(Build_DepPath)%.d)
 

@@ -29,9 +29,9 @@ Build_OutputPath ?= out/
 # Set this in your Makefile as you like
 DEFINES ?= F_CPU=$(F_CPU)
 
-BLD_FLAGS_AVR ?= -mmcu=$(AVR_Architecture)
+AVR_Build_Flags ?= -mmcu=$(AVR_Architecture)
 
-BLD_FLAGS_REQUIRED = $(BLD_FLAGS_AVR) $(Build_Flags_Includes) $(Build_Flags_Defines) $(Build_Flags_Undefines)
+BLD_FLAGS_REQUIRED = $(AVR_Build_Flags) $(Build_Flags_Includes) $(Build_Flags_Defines) $(Build_Flags_Undefines)
 
 BLD_FLAGS_STANDARD ?= -O$(Build_Optimization) -pipe
 
@@ -61,7 +61,7 @@ BLD_GCCFLAGS ?= $(BLD_GCCFLAGS_RECOMMENDED) $(BLD_FLAGS)
 BLD_GXXFLAGS ?= $(BLD_GXXFLAGS_RECOMMENDED) $(BLD_FLAGS)
 BLD_ASMFLAGS ?= $(BLD_ASMFLAGS_RECOMMENDED) $(BLD_FLAGS)
 
-BLD_LNKFLAGS ?= $(BLD_FLAGS_AVR)
+BLD_LNKFLAGS ?= $(AVR_Build_Flags)
 
 # TODO: This is not quite right if you change ASM_DIR. May need rework of build.
 BLD_DEPFLAGS = -MMD -MP -MF $(@:$(Build_Path)%=$(Build_DepPath)%.d)

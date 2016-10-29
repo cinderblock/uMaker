@@ -20,3 +20,5 @@ Never remove things from this list.
  - `BLD_I_FLAGS` -> `Build_Flags_Includes`
  - `BLD_D_FLAGS` -> `Build_Flags_Defines`
  - `BLD_U_FLAGS` -> `Build_Flags_Undefines`
+ - `BLD_FLAGS_AVR` -> `AVR_Build_Flags`
+ - `BLD_FLAGS_NRF` -> `nRF51_Build_Flags`
