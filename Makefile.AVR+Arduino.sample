@@ -22,7 +22,7 @@ run: avrdude-flash
 uMakerPath = uMaker/
 
 # Load local settings
--include local.mk
+-include local.$(shell hostname).mk
 
 # Generate list of source files from basenames
 include $(uMakerPath)tools/source.mk
