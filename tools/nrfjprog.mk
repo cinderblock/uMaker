@@ -1,5 +1,7 @@
 
 nrfjprog: $(OUT_HEX)
-	nrfjprog --erase --reset --program $(OUT_HEX) --snr $(SNR) --verify
+	nrfjprog --eraseall
+	nrfjprog --program $(OUT_HEX) --verify
+	nrfjprog --pinreset
 
 .PHONY: nrfjprog
