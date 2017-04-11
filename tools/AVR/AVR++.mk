@@ -3,7 +3,7 @@
 AVRpp_BASEDIR ?= AVR++/
 
 # base source names to build
-AVRpp_SRC ?= ADC USART DecPrintFormatter gccGuard
+AVRpp_SRC ?= ADC USART gccGuard
 
 # Relative to AVRpp_BASEDIR
 AVRpp_FILES ?= $(AVRpp_SRC:%=AVR++/%.cpp)
