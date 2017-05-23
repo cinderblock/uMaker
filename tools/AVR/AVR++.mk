@@ -31,7 +31,7 @@ AUTO_INC += $(AVRpp_BASEDIR)
 
 $(Build_Path)%.$(AVRpp_Build_ExtentionCpp).$(AVRpp_Build_ExtentionObject): $(AVRpp_BASEDIR)%.$(AVRpp_Build_ExtentionCpp)
 	$(ECO) "AVR++		$@"
-	$(BLD_GXX) $< -o $@ -c $(BLD_GXXFLAGS_FINAL)
+	$(BLD_GXX) $< -o $@ -c $(Build_Flags_GXX_Final)
 
 $(AVRpp_OUT): $(AVRpp_OBJS)
 	$(ECO) "AVR++ AR	$@"

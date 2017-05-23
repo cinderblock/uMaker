@@ -34,7 +34,7 @@ LUFA_TARGET ?= LUFA
 
 $(Build_Path)%.$(LUFA_Build_ExtentionC).$(LUFA_Build_ExtentionObject): $(LUFA_BASEDIR)%.$(LUFA_Build_ExtentionC)
 	$(ECO) "LUFA	$@"
-	$(BLD_GCC) $< -o $@ -c $(BLD_GCCFLAGS_FINAL)
+	$(BLD_GCC) $< -o $@ -c $(Build_Flags_GCC_Final)
 
 $(LUFA_OUT): $(LUFA_OBJS)
 	$(ECO) "AR	$@"

@@ -1,76 +1,75 @@
-FREERTOS_BASEPORT ?= ATMega323
+FreeRTOS_Port ?= ATMega323
 
-FREERTOS_BASEDIR ?= ../FreeRTOS/FreeRTOS/
+FreeRTOS_Base_Path ?= freertos/FreeRTOS/
 
-FREERTOS_SRCDIR ?= $(FREERTOS_BASEDIR)Source/
-FREERTOS_INCDIR ?= $(FREERTOS_SRCDIR)include/
+FreeRTOS_Source_Path ?= $(FreeRTOS_Base_Path)Source/
+FreeRTOS_Include_Dir ?= $(FreeRTOS_Source_Path)include
 
-FREERTOS_PORTDIR ?= $(FREERTOS_SRCDIR)portable/GCC/$(FREERTOS_BASEPORT)/
+FreeRTOS_Port_Path ?= $(FreeRTOS_Source_Path)portable/GCC/$(FreeRTOS_Port)/
 
-FREERTOS_BLDDIR ?= $(Build_Path)FreeRTOS/
+FreeRTOS_Build_Path ?= $(Build_Path)FreeRTOS/
 
 # Folder that has your `portmacro.h`
-FREERTOS_PORTINC ?= $(Source_Path)FreeRTOSinc
-FREERTOS_PORTINC_DIR ?= $(FREERTOS_PORTINC)/
+FreeRTOS_PortInc_Dir ?= $(Source_Path)FreeRTOSinc
+FreeRTOS_PortInc_Path ?= $(FreeRTOS_PortInc_Dir)/
+FreeRTOS_Portmacro_Name ?= portmacro.h
 
-FREERTOS_PORTMACRO_HEADER_NAME ?= portmacro.h
+FreeRTOS_Portmacro_File ?= $(FreeRTOS_PortInc_Path)$(FreeRTOS_Portmacro_Name)
 
-FREERTOS_PORTMACRO_HEADER_FILE ?= $(FREERTOS_PORTINC_DIR)$(FREERTOS_PORTMACRO_HEADER_NAME)
+FreeRTOS_PortDefinitions_Path ?= $(Source_Path)
+FreeRTOS_PortDefinitions_Name ?= FreeRTOSPortDefinitions.c
+FreeRTOS_PortDefinitions_File ?= $(FreeRTOS_PortDefinitions_Path)$(FreeRTOS_PortDefinitions_Name)
 
-FREERTOS_PORTDEFS_NAME ?= FreeRTOSPortDefinitions.c
-FREERTOS_PORTDEFS_FILE ?= $(Source_Path)$(FREERTOS_PORTDEFS_NAME)
+# Relative to FreeRTOS_Source_Path
+FreeRTOS_cFiles ?= croutine event_groups list queue tasks timers portable/MemMang/heap_4
+FreeRTOS_Source_cFilenames ?= $(FreeRTOS_cFiles:%=%.c)
 
-# Relative to FREERTOS_SRCDIR
-FREERTOS_C ?= croutine event_groups list queue tasks timers portable/MemMang/heap_1
-FREERTOS_SRC ?= $(FREERTOS_C:%=%.c)
+FreeRTOS_Archive_Name ?= FreeRTOS.a
 
-FREERTOS_AR ?= FreeRTOS.a
+FreeRTOS_Objects ?= $(FreeRTOS_Source_cFilenames:%=$(FreeRTOS_Build_Path)%.o)
 
-FREERTOS_OBJS ?= $(FREERTOS_SRC:%=$(FREERTOS_BLDDIR)%.o)
+FreeRTOS_Build_Out ?= $(Build_LibPath)$(FreeRTOS_Archive_Name)
 
-FREERTOS_OUT ?= $(Build_LibPath)$(FREERTOS_AR)
+FreeRTOS_Build_Flags_GCC_Final ?= $(Build_Flags_GCC_Final) $(FREERTOS_GCCFLAGS_EXTRA)
 
-FREERTOS_GCCFLAGS_FINAL ?= $(BLD_GCCFLAGS_FINAL) $(FREERTOS_GCCFLAGS_EXTRA)
+AUTO_INC += $(FreeRTOS_Include_Dir) $(FreeRTOS_PortInc_Dir)
 
-AUTO_INC += $(FREERTOS_INCDIR) $(FREERTOS_PORTINC)
+AUTO_LIB += $(FreeRTOS_Build_Out)
 
-AUTO_LIB += $(FREERTOS_OUT)
+AUTO_GCC += $(FreeRTOS_PortDefinitions_File)
 
-AUTO_GCC += $(FREERTOS_PORTDEFS_FILE)
-
-FREERTOS_TARGET ?= FreeRTOS-lib
-
+FreeRTOS_Target ?= FreeRTOS-lib
 
 ##### Targets
 
-$(FREERTOS_PORTDEFS_FILE): | $(dir $(FREERTOS_PORTDEFS_FILE)) $(FREERTOS_PORTDIR)port.c
+$(FreeRTOS_PortDefinitions_File): | $(dir $(FreeRTOS_PortDefinitions_File)) $(FreeRTOS_Port_Path)port.c
 	$(ECO) "FreeRTOS init	$@"
-	cp -u $(FREERTOS_PORTDIR)port.c $@
+	cp -u $(FreeRTOS_Port_Path)port.c $@
 
-$(FREERTOS_PORTMACRO_HEADER_FILE): | $(dir $(FREERTOS_PORTMACRO_HEADER_FILE)) $(FREERTOS_PORTDIR)portmacro.h
+$(FreeRTOS_Portmacro_File): | $(dir $(FreeRTOS_Portmacro_File)) $(FreeRTOS_Port_Path)portmacro.h
 	$(ECO) "FreeRTOS init	$@"
-	cp -u $(FREERTOS_PORTDIR)portmacro.h $@
+	cp -u $(FreeRTOS_Port_Path)portmacro.h $@
 
-$(FREERTOS_PORTDEFS_FILE:$(Source_Path)%=$(Build_Path)%.o): | $(FREERTOS_PORTMACRO_HEADER_FILE)
+$(FreeRTOS_PortDefinitions_File:$(Source_Path)%=$(Build_Path)%.o): | $(FreeRTOS_Portmacro_File)
 
-$(FREERTOS_BLDDIR)%.c.o: $(FREERTOS_SRCDIR)%.c | $(FREERTOS_PORTMACRO_HEADER_FILE)
+$(FreeRTOS_Build_Path)%.c.o: $(FreeRTOS_Source_Path)%.c | $(FreeRTOS_Portmacro_File)
 	$(ECO) "FreeRTOS CC $@"
-	$(BLD_GCC) $< -o $@ -c $(FREERTOS_GCCFLAGS_FINAL)
+	$(BLD_GCC) $< -o $@ -c $(FreeRTOS_Build_Flags_GCC_Final)
 
-$(FREERTOS_OUT): $(FREERTOS_OBJS)
+$(FreeRTOS_Build_Out): $(FreeRTOS_Objects)
 	$(ECO) "FreeRTOS AR	$@"
-	$(BLD_ARR) $@ $(FREERTOS_OBJS)
+	$(BLD_ARR) $@ $(FreeRTOS_Objects)
 
-$(FREERTOS_OUT) $(FREERTOS_OBJS): | $(MAKEFILE_LIST)
+$(FreeRTOS_Build_Out) $(FreeRTOS_Objects): | $(MAKEFILE_LIST)
 
-$(FREERTOS_TARGET): $(FREERTOS_OUT)
+$(FreeRTOS_Target): $(FreeRTOS_Build_Out)
 
-.PHONY: $(FREERTOS_TARGET)
-.PRECIOUS: $(FREERTOS_OBJS)
-.SECONDARY: $(FREERTOS_OUT)
+.PHONY: $(FreeRTOS_Target)
+.PRECIOUS: $(FreeRTOS_Objects)
+.SECONDARY: $(FreeRTOS_Build_Out)
 
 # Explicitly include all our build dep files
-FREERTOS_DEPFILES = $(FREERTOS_OBJS:$(Build_Path)%=$(Build_DepPath)%.d)
--include $(FREERTOS_DEPFILES)
+FreeRTOS_DepFiles = $(FreeRTOS_Objects:$(Build_Path)%=$(Build_DepPath)%.d)
+-include $(FreeRTOS_DepFiles)
 
-AUTO_GENERATED_FILES += $(FREERTOS_OUT) $(FREERTOS_OBJS) $(FREERTOS_DEPFILES) $(FREERTOS_PORTMACRO_HEADER_FILE) $(FREERTOS_PORTDEFS_FILE)
+AUTO_GENERATED_FILES += $(FreeRTOS_Build_Out) $(FreeRTOS_Objects) $(FreeRTOS_DepFiles) $(FreeRTOS_Portmacro_File) $(FreeRTOS_PortDefinitions_File)

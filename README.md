@@ -29,13 +29,13 @@ Add support for FreeRTOS to your project. This module enables compilation of the
 sources and automatically copies the `portmacro.h` and `port.c` files to your
 project.
 
-Set `FREERTOS_BASEPORT` to one of the folder names in `FreeRTOS\FreeRTOS\Source\portable\GCC`.
+Set `FreeRTOS_Port` to one of the folder names in `FreeRTOS\FreeRTOS\Source\portable\GCC`.
 This module will copy both `port.c` and `portmacro.h` to your project. `port.c`
-will be renamed and placed according to `FREERTOS_PORTDEFS_FILE`. `portmacro.h`
-will keep its filename but be put into the folder `FREERTOS_PORTINC`.
+will be renamed and placed according to `FreeRTOS_PortDefinitions_File`. `portmacro.h`
+will keep its filename but be put into the folder `FreeRTOS_PortInc_Dir`.
 
 You will also need to create a file named `FreeRTOSConfig.h` and put that in the
-`FREERTOS_PORTINC` folder. Samples of `FreeRTOSConfig.h` are in the FreeRTOS demo
+`FreeRTOS_PortInc_Dir` folder. Samples of `FreeRTOSConfig.h` are in the FreeRTOS demo
 folders.
 
 ### Arduino
@@ -87,6 +87,14 @@ See [renames](Renames.md)
 Variables that end in `Path` must end with a `/` or be empty.
 
 Variables that end in `Dir` must **not** end with a `/` **nor** be empty.
+
+```
+# Valid Paths vs Dirs
+Build_Path = .build/
+Arduino_BaseDir = Arduino
+Build_LibPath = 
+Arduino_BuildDir = .
+```
 
 ### Variable defaults
 

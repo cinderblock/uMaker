@@ -86,10 +86,10 @@ Arduino_makeTarget ?= $(Arduino_BuildName)
 AUTO_INC += $(Arduino_CoreDir) $(Arduino_VariantsDir)
 
 # All of the flags used to build the C source files, nearly
-Arduino_GCC_BuildFlags_Final ?= $(BLD_GCCFLAGS_FINAL)
+Arduino_GCC_BuildFlags_Final ?= $(Build_Flags_GCC_Final)
 
 # All of the flags used to build the C++ source files, nearly
-Arduino_GXX_BuildFlags_Final ?= $(BLD_GXXFLAGS_FINAL)
+Arduino_GXX_BuildFlags_Final ?= $(Build_Flags_GXX_Final)
 
 ##### Targets
 

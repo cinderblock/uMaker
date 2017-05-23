@@ -12,25 +12,6 @@ GCC_PREFIX  ?= arm-none-eabi
 
 nRF51SDK_BasePath ?= C:/Progra~2/Nordic~1/NRF51_~1.0_C/
 
-# Base output file name
-TARGET ?= setTARGETinYourMakefile
-
-# Temporary directories to build into
-Build_Path    ?= .bld/
-Build_DepPath ?= $(Build_Path).dep/
-
-# Only for libs that we build. Not for ones you're including that are pre-built
-Build_LibPath ?= $(Build_Path)libs/
-
-OPTIMIZATION ?= 2
-
-BLD_OPTIMIZATION ?= $(OPTIMIZATION)
-Build_LanguageStandard_GCC ?= gnu11
-Build_LanguageStandard_GXX ?= gnu++11
-
-# Directory for compiled output files
-Build_OutputPath ?= out/
-
 # Nordic expects some defines if you're using their libraries
 AUTO_DEFINES += $(DEVICE)
 
@@ -46,7 +27,7 @@ nRF51_Build_Flags ?= -mcpu=$(CPU) -mthumb -mabi=aapcs -mfloat-abi=soft
 
 Build_Flags_Required = $(nRF51_Build_Flags) $(Build_Flags_Includes) $(Build_Flags_Defines) $(Build_Flags_Undefines)
 
-Build_Flags_Standard ?= -O$(BLD_OPTIMIZATION) -pipe
+Build_Flags_Standard ?= -O$(Build_Optimization) -pipe
 
 ### Recommended gcc flags for compilation
 Build_Flags_Recommended  = -ffreestanding -funsigned-bitfields
@@ -94,58 +75,5 @@ LNK_FLAGS_OPTIONAL ?= --specs=nano.specs -lc -lnosys
 
 LNK_FLAGS ?= $(nRF51_Build_Flags) $(LNK_FLAGS_REQUIRED) $(LNK_FLAGS_RECOMMENDED) $(LNK_FLAGS_OPTIONAL) $(LNK_FLAGS_EXTRA)
 
-BLD_DEPFLAGS = -MMD -MP -MF $(@:$(Build_Path)%=$(Build_DepPath)%.d)
-
-BLD_HEXFLAGS ?= -O $(OUT_FMT)
-
-# Collect all our flags in one final place. Also include standard user flags
-BLD_GCCFLAGS_FINAL ?= $(BLD_GCCFLAGS) $(BLD_DEPFLAGS) $(CPPFLAGS) $(CFLAGS)
-BLD_GXXFLAGS_FINAL ?= $(BLD_GXXFLAGS) $(BLD_DEPFLAGS) $(CPPFLAGS) $(CXXFLAGS)
-BLD_ASMFLAGS_FINAL ?= $(BLD_ASMFLAGS) $(BLD_DEPFLAGS) $(ASFLAGS)
-BLD_LNKFLAGS_FINAL ?= $(LNK_FLAGS) $(LDFLAGS) $(LDLIBS)
-BLD_HEXFLAGS_FINAL ?= $(BLD_HEXFLAGS)
-
-BLD_GCCOBJ ?= $(Source_cFilesFinal:%=$(Build_Path)%.$(Build_ExtentionObject))
-BLD_GXXOBJ ?= $(Source_cppFilesFinal:%=$(Build_Path)%.$(Build_ExtentionObject))
-BLD_ASMOBJ ?= $(Source_asmFilesFinal:%=$(Build_Path)%.$(Build_ExtentionObject))
-BLD_LIBOBJ ?= $(Source_libFilesFinal)
-
-BLD_OBJS = $(BLD_GCCOBJ) $(BLD_GXXOBJ) $(BLD_ASMOBJ) $(AUTO_OBJ)
-BLD_LIBS = $(BLD_LIBOBJ)
-
-OUT_ELF ?= $(Build_OutputPath)$(TARGET).elf
-OUT_HEX ?= $(Build_OutputPath)$(TARGET).hex
-OUT_LSS ?= $(Build_OutputPath)$(TARGET).lss
-OUT_MAP ?= $(Build_OutputPath)$(TARGET).map
-OUT_SYM ?= $(Build_OutputPath)$(TARGET).sym
-OUT_EEP ?= $(Build_OutputPath)$(TARGET).eep
-
-OUT_LIB ?= $(Build_OutputPath)lib$(TARGET).$(Build_ExtentionLibrary)
-
-OUT_FILES = $(OUT_ELF) $(OUT_HEX) $(OUT_LSS) $(OUT_MAP) $(OUT_SYM) $(OUT_EEP) $(OUT_LIB)
-
-AUTO_GENERATED_FILES += $(BLD_GCCOBJ) $(BLD_GXXOBJ) $(BLD_ASMOBJ) $(OUT_FILES)
-
-# Output file format
-OUT_FMT ?= ihex
-
-BLD_ALL_OBJS ?= $(BLD_OBJS) $(BLD_LIBS)
-OUT_DEPS ?= $(BLD_ALL_OBJS) $(AUTO_OUT_DEPS)
 
 VARS_INCLUDE=nRF51
-
-BLD_BIN_PREFIX ?= $(GCC_ROOT)bin/$(GCC_PREFIX)-
-
-BLD_GCC ?= "$(BLD_BIN_PREFIX)gcc"
-BLD_GXX ?= "$(BLD_BIN_PREFIX)g++"
-BLD_ASM ?= "$(BLD_BIN_PREFIX)g++"
-BLD_LNK ?= "$(BLD_BIN_PREFIX)g++"
-BLD_OCP ?= "$(BLD_BIN_PREFIX)objcopy"
-BLD_ODP ?= "$(BLD_BIN_PREFIX)objdump"
-BLD_SZE ?= "$(BLD_BIN_PREFIX)size"
-BLD_ARR ?= "$(BLD_BIN_PREFIX)ar" rcs
-BLD_NMM ?= "$(BLD_BIN_PREFIX)nm"
-
-RMF ?= rm -rf
-
-ECO ?= @echo

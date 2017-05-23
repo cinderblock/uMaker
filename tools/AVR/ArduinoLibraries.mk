@@ -37,9 +37,9 @@ ArduinoLibraries_makeTarget ?= $(ArduinoLibraries_BuildName)
 
 AUTO_INC += $(ArduinoLibraries_Dirs)
 
-ArduinoLibraries_GCC_BuildFlags_Final ?= $(BLD_GCCFLAGS_FINAL)
+ArduinoLibraries_GCC_BuildFlags_Final ?= $(Build_Flags_GCC_Final)
 
-ArduinoLibraries_GXX_BuildFlags_Final ?= $(BLD_GXXFLAGS_FINAL)
+ArduinoLibraries_GXX_BuildFlags_Final ?= $(Build_Flags_GXX_Final)
 
 ##### Targets
 
