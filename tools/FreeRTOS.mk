@@ -36,7 +36,8 @@ AUTO_INC += $(FreeRTOS_Include_Dir) $(FreeRTOS_PortInc_Dir)
 
 AUTO_LIB += $(FreeRTOS_Build_Out)
 
-AUTO_GCC += $(FreeRTOS_PortDefinitions_File)
+# TODO: Fix AUTO_GCC when Source_Dir is not .
+#AUTO_GCC += $(FreeRTOS_PortDefinitions_File)
 
 FreeRTOS_Target ?= FreeRTOS-lib
 
