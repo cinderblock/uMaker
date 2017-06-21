@@ -1,15 +1,23 @@
-XMC_Device ?= XMC1200
+XMC_Series ?= XMC1200
+XMC_Device ?= XMC1200x0032
 
 GCC_VERSION ?= 4.9.3
 GCC_ROOT    ?= C:/Progra~2/GNUTOO~1/50A5A~1.420/
 GCC_PREFIX  ?= arm-none-eabi
 
-XMC_InitialStart_BasePath ?= XMC/
+XMC_Peripheral_Library_Path ?= XMC_Peripheral_Library/
 
-AUTO_INC += $(XMC_InitialStart_BasePath)Libraries/CMSIS/Infineon/XMC1100_series/Include
-AUTO_INC += $(XMC_InitialStart_BasePath)Libraries/CMSIS/Include
+XMC_CMSIS_Path ?= $(XMC_Peripheral_Library_Path)CMSIS/
 
-AUTO_GCC += $(XMC_InitialStart_BasePath)Libraries/Newlib/syscalls.c
+XMC_CMSIS_SeriesPath ?= $(XMC_CMSIS_Path)Infineon/$(XMC_Series)_series/
+
+XMC_CMSIS_SourcePath ?= $(XMC_CMSIS_SeriesPath)Source/
+
+AUTO_INC += $(XMC_CMSIS_SeriesPath)Include
+AUTO_INC += $(XMC_CMSIS_Path)Include
+
+# TODO: Maybe make this it's own uMaker tool?
+#AUTO_GCC += $(XMC_Peripheral_Library_Path)ThirdPartyLibraries/Newlib/syscalls.c
 
 ## Setup final flags we're going to use
 
@@ -25,13 +33,15 @@ XMC_Build_Flags_Debug ?= -g -gdwarf-2
 
 Build_Flags_Required = $(XMC_Build_Flags) $(Build_Flags_Includes) $(Build_Flags_Defines) $(Build_Flags_Undefines)
 
-Build_Flags_Standard ?= -O$(BLD_OPTIMIZATION) -pipe
+Build_Optimization ?= 2
+
+Build_Flags_Standard ?= -O$(Build_Optimization) -pipe
 
 ### Recommended gcc flags for compilation
 Build_Flags_Recommended  = -ffreestanding -funsigned-bitfields
 
 # Compiler warnings
-Build_Flags_Recommended += -Wall
+Build_Flags_Recommended += -Wall -Wfatal-errors
 
 # Automatically activated with -O2
 #Build_Flags_Recommended += -fno-inline-small-functions -fno-strict-aliasing
@@ -54,9 +64,9 @@ Build_Flags_GCC ?= $(Build_Flags_GCC_Recommended) $(Build_Flags)
 Build_Flags_GXX ?= $(Build_Flags_GXX_Recommended) $(Build_Flags)
 
 # Path that linker script sits in
-XMC_LinkerScript_Path ?= $(XMC_InitialStart_BasePath)
+XMC_LinkerScript_Path ?= $(XMC_CMSIS_SourcePath)GCC/
 # Name of linker script to use
-XMC_LinkerScript_Name ?= linker_script.ld
+XMC_LinkerScript_Name ?= $(XMC_Device).ld
 
 # Full path to linker script
 XMC_LinkerScript ?= $(XMC_LinkerScript_Path)$(XMC_LinkerScript_Name)
@@ -65,7 +75,7 @@ XMC_LinkerScript ?= $(XMC_LinkerScript_Path)$(XMC_LinkerScript_Name)
 Linker_T_Flag ?= -T$(XMC_LinkerScript)
 
 # List of directories to look in for libraries
-Linker_Directories ?= 
+Linker_Directories ?=
 
 # List of linker directories, each prefixed with "-L"
 Linker_L_Flags ?= $(Linker_Directories:%=-L%)
