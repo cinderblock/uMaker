@@ -52,9 +52,6 @@ BLD_FLAGS_STANDARD ?= -O$(OPT) -pipe
 
 ### Recommended gcc flags for compilation
 
-# main() can return void
-BLD_FLAGS_RECOMMENDED  = -ffreestanding
-
 # Compiler warnings
 BLD_FLAGS_RECOMMENDED += -Wall
 
