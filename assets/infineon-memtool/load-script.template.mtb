@@ -1,9 +1,0 @@
-
-
-connect
-open_file HEXFILE_ABSOLUTE
-select_all_sections
-add_selected_sections
-program
-disconnect
-exit

@@ -40,17 +40,17 @@ InfineonMemtool_Build_Files ?= $(InfineonMemtool_Build_LoadScript_Fullname) $(In
 # Replacement values need to be suitable for usaing inside a sed script; slashes (/) escaped
 
 InfineonMemtool_OutHex_abs ?= $(abspath $(OUT_HEX))
-InfineonMemtool_OutHex_absLetter ?= $(subst /,\\,$(InfineonMemtool_OutHex_abs:/c%=C:%))
+InfineonMemtool_OutHex_absLetter ?= $(subst /,\,$(InfineonMemtool_OutHex_abs:/c%=C:%))
 
 # Example value:
 InfineonMemtool_Build_LoadScript_Replacement_HEXFILE_ABSOLUTE ?= $(InfineonMemtool_OutHex_absLetter)
 
 # Relative to Memtool settings file
 # Example value: target-settings.cfg
-InfineonMemtool_Build_ProjectSettings_Replacement_TARGETSETTINGS_FILENAME ?= $(subst /,\/,$(InfineonMemtool_Build_TargetSettings_Filename))
+InfineonMemtool_Build_ProjectSettings_Replacement_TARGETSETTINGS_FILENAME ?= $(InfineonMemtool_Build_TargetSettings_Filename)
 
 # Anything really
-InfineonMemtool_Build_TargetSettings_Replacement_MAIN_DESCRIPTION ?= $(subst /,\/,$(InfineonMemtool_TargetDescription))
+InfineonMemtool_Build_TargetSettings_Replacement_MAIN_DESCRIPTION ?= $(InfineonMemtool_TargetDescription)
 
 # Example value: XMC1202-T016X0032
 InfineonMemtool_Build_TargetSettings_Replacement_CONTROLLER_TYPE ?= $(XMC_PartNumber)
@@ -58,32 +58,24 @@ InfineonMemtool_Build_TargetSettings_Replacement_CONTROLLER_TYPE ?= $(XMC_PartNu
 # Example value: COM4
 InfineonMemtool_Build_TargetSettings_Replacement_COMPORT ?= $(InfineonMemtool_ComPort)
 
-InfineonMemtool_Build_LoadScript_Replacements ?= -e 's/HEXFILE_ABSOLUTE/$(InfineonMemtool_Build_LoadScript_Replacement_HEXFILE_ABSOLUTE)/'
-InfineonMemtool_Build_ProjectSettings_Replacements ?= -e 's/TARGET_INFO_FILE/$(InfineonMemtool_Build_ProjectSettings_Replacement_TARGETSETTINGS_FILENAME)/'
-InfineonMemtool_Build_TargetSettings_Replacements ?= -e 's/MAIN_DESCRIPTION/$(InfineonMemtool_Build_TargetSettings_Replacement_MAIN_DESCRIPTION)/' -e 's/CONTROLLER_TYPE/$(InfineonMemtool_Build_TargetSettings_Replacement_CONTROLLER_TYPE)/' -e 's/COMPORT/$(InfineonMemtool_Build_TargetSettings_Replacement_COMPORT)/'
 
-InfineonMemtool_Build_LoadScript_sedArgs ?= $(InfineonMemtool_Build_sedFlags) $(InfineonMemtool_Build_LoadScript_Replacements)
-InfineonMemtool_Build_ProjectSettings_sedArgs ?= $(InfineonMemtool_Build_sedFlags) $(InfineonMemtool_Build_ProjectSettings_Replacements)
-InfineonMemtool_Build_TargetSettings_sedArgs ?= $(InfineonMemtool_Build_sedFlags) $(InfineonMemtool_Build_TargetSettings_Replacements)
-
-$(InfineonMemtool_Build_LoadScript_Fullname): $(InfineonMemtool_Template_LoadScript_Fullname)
+$(InfineonMemtool_Build_LoadScript_Fullname):
 	$(ECO) Memtool	$(InfineonMemtool_Build_LoadScript_Fullname)
-	sed $(InfineonMemtool_Build_LoadScript_sedArgs) $< > $@
+	echo "$$IMT_LOAD_SCRIPT" > $@
 
-$(InfineonMemtool_Build_ProjectSettings_Fullname): $(InfineonMemtool_Template_ProjectSettings_Fullname)
+$(InfineonMemtool_Build_ProjectSettings_Fullname):
 	$(ECO) Memtool	$(InfineonMemtool_Build_ProjectSettings_Fullname)
-	sed $(InfineonMemtool_Build_ProjectSettings_sedArgs) $< > $@
+	echo "$$IMT_PROJECT_SETTINGS" > $@
 
-$(InfineonMemtool_Build_TargetSettings_Fullname): $(InfineonMemtool_Template_TargetSettings_Fullname)
+$(InfineonMemtool_Build_TargetSettings_Fullname):
 	$(ECO) Memtool	$(InfineonMemtool_Build_TargetSettings_Fullname)
-	sed $(InfineonMemtool_Build_TargetSettings_sedArgs) $< > $@
-
+	echo "$$IMT_TARGET_SETTINGS" > $@
 
 $(InfineonMemtool_Build_Files): $(MAKEFILE_LIST)
 
 AUTO_GENERATED_FILES += $(InfineonMemtool_Build_Files)
 
- $(InfineonMemtool_Target)-files: $(InfineonMemtool_Build_Files)
+$(InfineonMemtool_Target)-files: $(InfineonMemtool_Build_Files)
 
 $(InfineonMemtool_Target)-upload: $(OUT_HEX) $(InfineonMemtool_Target)-files
 	$(ECO) Launching Memtool
@@ -91,3 +83,159 @@ $(InfineonMemtool_Target)-upload: $(OUT_HEX) $(InfineonMemtool_Target)-files
 
 .PHONY: $(InfineonMemtool_Target)-upload $(InfineonMemtool_Target)-files
 .SECONDARY: $(InfineonMemtool_Build_Files)
+
+# For generating `.mtb` file for memtool
+define IMT_LOAD_SCRIPT
+open_file $(InfineonMemtool_Build_LoadScript_Replacement_HEXFILE_ABSOLUTE)
+select_all_sections
+add_selected_sections
+connect
+program_all
+disconnect
+#exit
+endef
+export IMT_LOAD_SCRIPT
+
+# For generating `.imt` project settings file
+define IMT_PROJECT_SETTINGS
+[Main]
+Signature=IMT_MEMTOOL_1.0
+Version=4.7
+Logo=1
+AutoConnect=0
+AutoReopen=1
+LastFileExt=hex
+TargInfoFile=$(InfineonMemtool_Build_ProjectSettings_Replacement_TARGETSETTINGS_FILENAME)
+LastHexMode=0
+LastFillSize=0
+LastFillPatt=0
+ShowExecTime=0
+ShowLog=1
+LogLevel=75
+DiagLog=0
+BeepOnFail=1
+PeriodRetry=0
+RetryTime=2
+LastModule=0
+VerifyProt=0
+VerifyProtFile=verify.txt
+AllowOverwrite=0
+IgnoreErrorsInHexFiles=0
+LookForOtherCommDevs=0
+IgnoreReadMemErrors=0
+IgnoreMappingErrors=0
+SkipLockedSectors=0
+BinReadStart=0x0
+BinReadSize=0x0
+ReqCoreName=
+LastFileSecSel=all
+DlgFrame=1,1402,709,1865,1558
+LogFrame=2,220,599,1789,3479
+[Memtool0.FlashMod_PFLASH]
+Enabled=1
+AdvancedRemap=0
+RemapRead=1
+AllowOverwrite=1
+UserRemap=0
+RunTimeStart=0xFFFFFFFF
+AutoChipErase=1
+AutoErase=0
+SimulateRAM=0
+AutoVerify=1
+AutoChipProt=0
+SkipUnchangedSectors=0
+FillGaps=0
+FillByte=-1
+AutoSetBootMode=1
+AbmHeaderHandling=0
+AbmHeader1=
+AbmHeader2=
+HsmVectabHandling=0
+HsmVectab1=
+HsmVectab2=
+Driver=
+DrvStart=0xFFFFFFFF
+DrvExecAddr=0xFFFFFFFF
+VerifyDrv=1
+BakDrvRam=0
+TrBufSize=0xFFFFFFFF
+TrBufStart=0xFFFFFFFF
+VerifyTrBuf=0
+CheckTrBuf=0
+TryReadCfi=0
+VerifyByCrc=1
+MarginControl=0
+DisableProtection=0
+ExcludeDflashFromProtection=0
+BmiCfg=65488
+endef
+export IMT_PROJECT_SETTINGS
+
+# For generating `.cfg` target settings file
+define IMT_TARGET_SETTINGS
+[Main]
+Signature=UDE_TARGINFO_2.0
+Description=$(InfineonMemtool_Build_TargetSettings_Replacement_MAIN_DESCRIPTION)
+MCUs=Controller0
+[Controller0]
+Family=ARM
+Type=$(InfineonMemtool_Build_TargetSettings_Replacement_CONTROLLER_TYPE)
+Enabled=1
+IntClock=64000
+ExtClock=8000
+[Controller0.CORTEX]
+Protocol=MINIMON
+Enabled=1
+[Controller0.CORTEX.MiniMonTargIntf]
+PortType=COMX
+PortSel=$(InfineonMemtool_Build_TargetSettings_Replacement_COMPORT)
+ReqReset=0
+ReqResetMsg=
+ResetOnConnect=1
+ResetWaitTime=500
+ExecInitCmds=0
+ExtStartMode=0
+BaudRate=9600
+KLineProt=0
+UseRS232Drv=1
+CanPortNum=1
+AssureSendOfComPort=0
+Stm32AscBaudrateForConnect=0
+MonType=ASC
+CheckAckCode=1
+AlwaysEINIT=0
+UseExtMon=0
+MonitorPath=
+UseExtMon2=0
+Mon2Path=
+Mon2Start=0xFFFFFFFF
+SCRMSupport=0
+SCRMBaudRate=0
+RSTCON_H=0x0
+S0BRL=-1
+UseChangedBaudRate=0
+Sv2PLLCON=0x7103
+Sv2ASC0BG=0xFFFF
+Sv2CANBTR=0xFFFF
+TcPllValue=0x0
+TcPllValue2=0x0
+TcPllValue3=0x0
+TcAscBgValue=0x0
+TcCanBtrValue=0x0
+XC2000ScrmClock=40000000
+MaxReadBlockSize=0
+BootPasswd0=0xFEEDFACE
+BootPasswd1=0xCAFEBEEF
+AurixEdBootWorkaround=0
+OnConnect0=clr RTS
+OnConnect1=wait 100
+OnConnect2=set RTS
+
+[Controller0.CORTEX.MiniMonTargIntf.InitScript]
+[Controller0.PFLASH]
+Enabled=1
+EnableMemtoolByDefault=1
+[Controller0.CORTEX.LoadedAddOn]
+UDEMemtool=1
+endef
+export IMT_TARGET_SETTINGS
