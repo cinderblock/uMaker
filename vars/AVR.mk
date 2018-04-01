@@ -40,9 +40,9 @@ BLD_GCCFLAGS_RECOMMENDED ?= -std=$(Build_LanguageStandard_GCC) -Wstrict-prototyp
 BLD_GXXFLAGS_RECOMMENDED ?= -std=$(Build_LanguageStandard_GXX) -fno-exceptions
 BLD_ASMFLAGS_RECOMMENDED ?=
 
-BLD_GCCFLAGS ?= $(BLD_GCCFLAGS_RECOMMENDED) $(Build_Flags)
-BLD_GXXFLAGS ?= $(BLD_GXXFLAGS_RECOMMENDED) $(Build_Flags)
-BLD_ASMFLAGS ?= $(BLD_ASMFLAGS_RECOMMENDED) $(Build_Flags)
+Build_Flags_GCC ?= $(BLD_GCCFLAGS_RECOMMENDED) $(Build_Flags)
+Build_Flags_GXX ?= $(BLD_GXXFLAGS_RECOMMENDED) $(Build_Flags)
+Build_Flags_ASM ?= $(BLD_ASMFLAGS_RECOMMENDED) $(Build_Flags)
 
 BLD_LNKFLAGS ?= $(AVR_Build_Flags)
 
