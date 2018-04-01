@@ -8,7 +8,7 @@ VARIANT ?= xxaa
 
 GCC_VERSION ?= 4.9.3
 GCC_ROOT    ?= C:/Progra~2/GNUTOO~1/4947E~1.920/
-GCC_PREFIX  ?= arm-none-eabi
+GCC_PREFIX  ?= arm-none-eabi-
 
 nRF51SDK_BasePath ?= C:/Progra~2/Nordic~1/NRF51_~1.0_C/
 

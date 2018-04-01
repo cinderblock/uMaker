@@ -47,6 +47,6 @@ BLD_ASMFLAGS ?= $(BLD_ASMFLAGS_RECOMMENDED) $(Build_Flags)
 BLD_LNKFLAGS ?= $(AVR_Build_Flags)
 
 # Assume avr-gcc et al. are in PATH
-BLD_BIN_PREFIX = avr-
+GCC_PREFIX = avr-
 
 VARS_INCLUDE=AVR
