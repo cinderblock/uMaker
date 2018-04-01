@@ -14,7 +14,7 @@ DEFINES ?= F_CPU=$(F_CPU)
 
 AVR_Build_Flags ?= -mmcu=$(AVR_Architecture)
 
-Build_Flags_Required = $(AVR_Build_Flags) $(Build_Flags_Includes) $(Build_Flags_Defines) $(Build_Flags_Undefines)
+Build_Flags_Required ?= $(AVR_Build_Flags) $(Build_Flags_Includes) $(Build_Flags_Defines) $(Build_Flags_Undefines)
 
 Build_Flags_Standard ?= -O$(Build_Optimization) -pipe
 
