@@ -19,6 +19,8 @@ uMakerPath = uMaker/
 # Load local settings
 -include local.$(shell hostname).mk
 
+include $(uMakerPath)tools/paths.mk
+
 # Generate list of source files from basenames
 include $(uMakerPath)tools/source.mk
 
