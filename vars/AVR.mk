@@ -31,6 +31,8 @@ Build_Flags_Recommended += -fno-inline-small-functions -fno-strict-aliasing
 
 Build_Flags_Recommended += -fpack-struct
 
+Build_Flags_Recommended += -ffunction-sections
+
 Build_Flags ?= $(Build_Flags_Required) $(Build_Flags_Standard) $(Build_Flags_Recommended) $(Build_Flags_Extra)
 
 BLD_GCCFLAGS_RECOMMENDED ?= -std=$(Build_LanguageStandard_GCC) -Wstrict-prototypes
@@ -40,6 +42,8 @@ BLD_ASMFLAGS_RECOMMENDED ?=
 Build_Flags_GCC ?= $(BLD_GCCFLAGS_RECOMMENDED) $(Build_Flags)
 Build_Flags_GXX ?= $(BLD_GXXFLAGS_RECOMMENDED) $(Build_Flags)
 Build_Flags_ASM ?= $(BLD_ASMFLAGS_RECOMMENDED) $(Build_Flags)
+
+Link_Flags_Recommended += -Wl,--gc-sections
 
 LNK_FLAGS ?= $(AVR_Build_Flags) $(Link_Flags_Recommended)
 
