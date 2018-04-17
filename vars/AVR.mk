@@ -14,7 +14,7 @@ DEFINES ?= F_CPU=$(F_CPU)
 
 AVR_Build_Flags ?= -mmcu=$(AVR_Architecture)
 
-Build_Flags_Required = $(AVR_Build_Flags) $(Build_Flags_Includes) $(Build_Flags_Defines) $(Build_Flags_Undefines)
+Build_Flags_Required ?= $(AVR_Build_Flags) $(Build_Flags_Includes) $(Build_Flags_Defines) $(Build_Flags_Undefines)
 
 Build_Flags_Standard ?= -O$(Build_Optimization) -pipe
 
@@ -37,13 +37,12 @@ BLD_GCCFLAGS_RECOMMENDED ?= -std=$(Build_LanguageStandard_GCC) -Wstrict-prototyp
 BLD_GXXFLAGS_RECOMMENDED ?= -std=$(Build_LanguageStandard_GXX) -fno-exceptions
 BLD_ASMFLAGS_RECOMMENDED ?=
 
-BLD_GCCFLAGS ?= $(BLD_GCCFLAGS_RECOMMENDED) $(Build_Flags)
-BLD_GXXFLAGS ?= $(BLD_GXXFLAGS_RECOMMENDED) $(Build_Flags)
-BLD_ASMFLAGS ?= $(BLD_ASMFLAGS_RECOMMENDED) $(Build_Flags)
+Build_Flags_GCC ?= $(BLD_GCCFLAGS_RECOMMENDED) $(Build_Flags)
+Build_Flags_GXX ?= $(BLD_GXXFLAGS_RECOMMENDED) $(Build_Flags)
+Build_Flags_ASM ?= $(BLD_ASMFLAGS_RECOMMENDED) $(Build_Flags)
 
 BLD_LNKFLAGS ?= $(AVR_Build_Flags)
 
-# Assume avr-gcc et al. are in PATH
-GCC_VARIANT ?= avr-
+GCC_VARIANT ?= avr
 
 VARS_INCLUDE=AVR

@@ -1,6 +1,7 @@
 
 # Location of AVR++ library. There should be a folder 'AVR++' inside this one
-AVRpp_BASEDIR ?= AVR++/
+AVRpp_BASEDIR ?= AVR++
+AVRpp_BASEPath ?= $(AVRpp_BASEDIR)/
 
 # base source names to build
 AVRpp_SRC ?= ADC USART gccGuard
@@ -29,7 +30,7 @@ AUTO_INC += $(AVRpp_BASEDIR)
 
 ##### Targets
 
-$(Build_Path)%.$(AVRpp_Build_ExtentionCpp).$(AVRpp_Build_ExtentionObject): $(AVRpp_BASEDIR)%.$(AVRpp_Build_ExtentionCpp)
+$(Build_Path)%.$(AVRpp_Build_ExtentionCpp).$(AVRpp_Build_ExtentionObject): $(AVRpp_BASEPath)%.$(AVRpp_Build_ExtentionCpp)
 	$(ECO) "AVR++		$@"
 	$(BLD_GXX) $< -o $@ -c $(Build_Flags_GXX_Final)
 
