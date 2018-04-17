@@ -41,7 +41,7 @@ Build_Flags_GCC ?= $(BLD_GCCFLAGS_RECOMMENDED) $(Build_Flags)
 Build_Flags_GXX ?= $(BLD_GXXFLAGS_RECOMMENDED) $(Build_Flags)
 Build_Flags_ASM ?= $(BLD_ASMFLAGS_RECOMMENDED) $(Build_Flags)
 
-LNK_FLAGS ?= $(AVR_Build_Flags)
+LNK_FLAGS ?= $(AVR_Build_Flags) $(Link_Flags_Recommended)
 
 GCC_VARIANT ?= avr
 
