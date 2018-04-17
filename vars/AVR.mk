@@ -20,9 +20,6 @@ Build_Flags_Standard ?= -O$(Build_Optimization) -pipe
 
 ### Recommended gcc flags for compilation
 
-# main() can return void
-Build_Flags_Recommended  = -ffreestanding
-
 # Compiler warnings
 Build_Flags_Recommended += -Wall
 

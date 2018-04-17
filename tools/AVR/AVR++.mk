@@ -3,7 +3,7 @@
 AVRpp_BASEDIR ?= AVR++/
 
 # base source names to build
-AVRpp_SRC ?= ADC USART DecPrintFormatter gccGuard
+AVRpp_SRC ?= ADC USART gccGuard
 
 # We use fixed values for the variables that probably shouldn't change if the developer decides to use a different file extention for their source files.
 AVRpp_Build_ExtentionC ?= c
