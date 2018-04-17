@@ -36,3 +36,5 @@ Never remove things from this list.
  - `ASMFILES` -> `Source_asmFilesFinal`
  - `LIBFILES` -> `Source_libFilesFinal`
  - `BLD_BIN_PREFIX` -> `GCC_BinPath`
+ - `CPP` -> `cppNames`
+ - `C` -> `cNames`
