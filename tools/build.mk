@@ -150,3 +150,6 @@ BLD_DEPFILES ?= $(BLD_OBJS:$(Build_Path)%=$(Build_DepPath)%.d)
 
 AUTO_GENERATED_FILES += $(BLD_DEPFILES)
 -include $(BLD_DEPFILES)
+
+# Special target that tells make to delete files created by failed builds
+.DELETE_ON_ERRORS:
