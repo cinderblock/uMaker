@@ -57,17 +57,23 @@ OUT_FMT ?= ihex
 
 OUT_DEPS ?= $(BLD_OBJS) $(BLD_LIBS) $(AUTO_OUT_DEPS)
 
-BLD_BIN_PREFIX ?= $(GCC_ROOT)bin/$(GCC_PREFIX)-
+ifdef GCC_VARIANT
+  GCC_PREFIX ?= $(GCC_VARIANT)-
+endif
 
-BLD_GCC ?= "$(BLD_BIN_PREFIX)gcc"
-BLD_GXX ?= "$(BLD_BIN_PREFIX)g++"
-BLD_ASM ?= "$(BLD_BIN_PREFIX)g++"
-BLD_LNK ?= "$(BLD_BIN_PREFIX)g++"
-BLD_OCP ?= "$(BLD_BIN_PREFIX)objcopy"
-BLD_ODP ?= "$(BLD_BIN_PREFIX)objdump"
-BLD_SZE ?= "$(BLD_BIN_PREFIX)size"
-BLD_ARR ?= "$(BLD_BIN_PREFIX)ar" rcs
-BLD_NMM ?= "$(BLD_BIN_PREFIX)nm"
+ifdef GCC_RootDir
+  GCC_BinPath ?= $(GCC_RootDir)/bin/
+endif
+
+BLD_GCC ?= "$(GCC_BinPath)$(GCC_PREFIX)gcc"
+BLD_GXX ?= "$(GCC_BinPath)$(GCC_PREFIX)g++"
+BLD_ASM ?= "$(GCC_BinPath)$(GCC_PREFIX)g++"
+BLD_LNK ?= "$(GCC_BinPath)$(GCC_PREFIX)g++"
+BLD_OCP ?= "$(GCC_BinPath)$(GCC_PREFIX)objcopy"
+BLD_ODP ?= "$(GCC_BinPath)$(GCC_PREFIX)objdump"
+BLD_SZE ?= "$(GCC_BinPath)$(GCC_PREFIX)size"
+BLD_ARR ?= "$(GCC_BinPath)$(GCC_PREFIX)ar" rcs
+BLD_NMM ?= "$(GCC_BinPath)$(GCC_PREFIX)nm"
 
 RMF ?= rm -rf
 

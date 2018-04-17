@@ -3,7 +3,7 @@ XMC_Device ?= XMC1200x0032
 
 GCC_VERSION ?= 4.9.3
 GCC_ROOT    ?= C:/Progra~2/GNUTOO~1/50A5A~1.420/
-GCC_PREFIX  ?= arm-none-eabi
+GCC_VARIANT  ?= arm-none-eabi
 
 XMC_Peripheral_Library_Path ?= XMC_Peripheral_Library/
 
