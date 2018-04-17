@@ -1,7 +1,7 @@
 
 # Location of AVR++ library. There should be a folder 'AVR++' inside this one
-AVRpp_BASEDIR ?= AVR++
-AVRpp_BASEPath ?= $(AVRpp_BASEDIR)/
+AVRpp_BaseDir ?= AVR++
+AVRpp_BasePath ?= $(AVRpp_BaseDir)/
 
 # base source names to build
 AVRpp_SRC ?= ADC USART gccGuard
@@ -13,7 +13,7 @@ AVRpp_Build_ExtentionAssembly ?= S
 AVRpp_Build_ExtentionObject ?= $(Build_ExtentionObject)
 AVRpp_Build_ExtentionLibrary ?= $(Build_ExtentionLibrary)
 
-# Relative to AVRpp_BASEDIR
+# Relative to AVRpp_BaseDir
 AVRpp_FILES ?= $(AVRpp_SRC:%=AVR++/%.$(AVRpp_Build_ExtentionCpp))
 
 AVRpp_AR ?= AVR++.$(AVRpp_Build_ExtentionLibrary)
@@ -26,11 +26,11 @@ AUTO_LIB += $(AVRpp_OUT)
 
 AVRpp_TARGET ?= AVR++
 
-AUTO_INC += $(AVRpp_BASEDIR)
+AUTO_INC += $(AVRpp_BaseDir)
 
 ##### Targets
 
-$(Build_Path)%.$(AVRpp_Build_ExtentionCpp).$(AVRpp_Build_ExtentionObject): $(AVRpp_BASEPath)%.$(AVRpp_Build_ExtentionCpp)
+$(Build_Path)%.$(AVRpp_Build_ExtentionCpp).$(AVRpp_Build_ExtentionObject): $(AVRpp_BasePath)%.$(AVRpp_Build_ExtentionCpp)
 	$(ECO) "AVR++		$@"
 	$(BLD_GXX) $< -o $@ -c $(Build_Flags_GXX_Final)
 
