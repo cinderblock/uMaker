@@ -1,24 +1,30 @@
 
 
-LUFA_BASEDIR ?= ../LUFA/
+LUFA_BaseDir ?= lufa
+LUFA_BasePath ?= $(LUFA_BaseDir)/
 
+# Variables required by LUFA
 ARCH ?= AVR8
-LUFA_PATH ?= LUFA
-include $(LUFA_BASEDIR)LUFA/Build/lufa_sources.mk
+LUFA_PATH ?= $(LUFA_BasePath)LUFA
+include $(LUFA_BasePath)LUFA/Build/lufa_sources.mk
+
+
+LUFA_SrcBasePath ?= $(LUFA_PATH)/Drivers/
 
 # We use fixed values for the variables that probably shouldn't change if the developer decides to use a different file extention for their source files.
 LUFA_Build_ExtentionC ?= c
-LUFA_Build_ExtentionCpp ?= cpp
 LUFA_Build_ExtentionAssembly ?= S
 LUFA_Build_ExtentionObject ?= $(Build_ExtentionObject)
 LUFA_Build_ExtentionLibrary ?= $(Build_ExtentionLibrary)
 
-# Relative to LUFA_BASEDIR
-LUFA_SRC ?= $(LUFA_SRC_USB) $(LUFA_SRC_USBCLASS) $(LUFA_SRC_PLATFORM)
+LUFA_Build_Path ?= $(Build_Path)LUFA/
+
+# Relative to LUFA_BasePath
+LUFA_SRC ?= $(LUFA_SRC_ALL_FILES)
 
 LUFA_AR ?= LUFA.$(LUFA_Build_ExtentionLibrary)
 
-LUFA_OBJS ?= $(LUFA_SRC:%=$(Build_Path)%.$(LUFA_Build_ExtentionObject))
+LUFA_OBJS ?= $(LUFA_SRC:$(LUFA_SrcBasePath)%=$(LUFA_Build_Path)%.$(LUFA_Build_ExtentionObject))
 
 LUFA_OUT ?= $(Build_LibPath)$(LUFA_AR)
 
@@ -32,12 +38,12 @@ LUFA_TARGET ?= LUFA
 
 ##### Targets
 
-$(Build_Path)%.$(LUFA_Build_ExtentionC).$(LUFA_Build_ExtentionObject): $(LUFA_BASEDIR)%.$(LUFA_Build_ExtentionC)
+$(LUFA_Build_Path)%.$(LUFA_Build_ExtentionC).$(LUFA_Build_ExtentionObject): $(LUFA_SrcBasePath)%.$(LUFA_Build_ExtentionC)
 	$(ECO) "LUFA	$@"
 	$(BLD_GCC) $< -o $@ -c $(Build_Flags_GCC_Final)
 
 $(LUFA_OUT): $(LUFA_OBJS)
-	$(ECO) "AR	$@"
+	$(ECO) "LUFA AR	$@"
 	$(BLD_ARR) $@ $(LUFA_OBJS)
 
 $(LUFA_OUT) $(LUFA_OBJS): $(MAKEFILE_LIST)
@@ -49,7 +55,7 @@ $(LUFA_TARGET): $(LUFA_OUT)
 .SECONDARY: $(LUFA_OUT)
 
 # Explicitly include all our build dep files
-LUFA_DEPFILES ?= $(LUFA_OBJS:$(Build_Path)%=$(Build_DepPath)%.d)
+LUFA_DEPFILES ?= $(LUFA_OBJS:$(LUFA_Build_Path)%=$(Build_DepPath)LUFA/%.d)
 -include $(LUFA_DEPFILES)
 
 AUTO_GENERATED_FILES += $(LUFA_OUT) $(LUFA_OBJS) $(LUFA_DEPFILES)
