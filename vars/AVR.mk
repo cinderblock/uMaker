@@ -7,10 +7,10 @@ AVR_MCU ?= $(MCU)
 AVR_Architecture ?= $(AVR_MCU)
 
 # Get rid of the silly AVR #define that gnu sets outside of the reserved namespace
-UNDEFINES = AVR
+AUTO_UNDEF = AVR
 
 # Set this in your Makefile as you like
-DEFINES ?= F_CPU=$(F_CPU)
+AUTO_DEF += F_CPU=$(F_CPU)
 
 AVR_Build_Flags ?= -mmcu=$(AVR_Architecture)
 
