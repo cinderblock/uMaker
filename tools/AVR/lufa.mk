@@ -34,6 +34,8 @@ AUTO_DEF += ARCH=ARCH_$(ARCH) F_USB=$(F_USB)
 
 AUTO_LIB += $(LUFA_OUT)
 
+AUTO_INC += $(LUFA_BaseDir)
+
 LUFA_TARGET ?= LUFA
 
 ##### Targets
