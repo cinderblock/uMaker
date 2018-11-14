@@ -17,25 +17,19 @@ InfineonMemtool_MemtoolBin ?= "$(InfineonMemtool_MemtoolPath)$(InfineonMemtool_M
 
 InfineonMemtool_BuildAbsolutePath ?= $(abspath $(InfineonMemtool_OutPath))/
 
-InfineonMemtool_AssetPath ?= ${uMakerPath}assets/infineon-memtool/
-
-InfineonMemtool_Template_LoadScript_Filename ?= load-script.template.mtb
-InfineonMemtool_Template_ProjectSettings_Filename ?= project-settings.imt.template.cfg
-InfineonMemtool_Template_TargetSettings_Filename ?= target-settings.template.cfg
-
 InfineonMemtool_Build_LoadScript_Filename ?= load-script.mtb
 InfineonMemtool_Build_ProjectSettings_Filename ?= project-settings.imt
 InfineonMemtool_Build_TargetSettings_Filename ?= target-settings.cfg
-
-InfineonMemtool_Template_LoadScript_Fullname ?= $(InfineonMemtool_AssetPath)$(InfineonMemtool_Template_LoadScript_Filename)
-InfineonMemtool_Template_ProjectSettings_Fullname ?= $(InfineonMemtool_AssetPath)$(InfineonMemtool_Template_ProjectSettings_Filename)
-InfineonMemtool_Template_TargetSettings_Fullname ?= $(InfineonMemtool_AssetPath)$(InfineonMemtool_Template_TargetSettings_Filename)
+InfineonMemtool_Build_MemtoolConfig_Filename ?= IMTMemtool.ini
 
 InfineonMemtool_Build_LoadScript_Fullname ?= $(InfineonMemtool_OutPath)$(InfineonMemtool_Build_LoadScript_Filename)
 InfineonMemtool_Build_ProjectSettings_Fullname ?= $(InfineonMemtool_OutPath)$(InfineonMemtool_Build_ProjectSettings_Filename)
 InfineonMemtool_Build_TargetSettings_Fullname ?= $(InfineonMemtool_OutPath)$(InfineonMemtool_Build_TargetSettings_Filename)
+InfineonMemtool_Build_MemtoolConfig_Fullname ?= $(InfineonMemtool_OutPath)$(InfineonMemtool_Build_MemtoolConfig_Filename)
 
-InfineonMemtool_Build_Files ?= $(InfineonMemtool_Build_LoadScript_Fullname) $(InfineonMemtool_Build_ProjectSettings_Fullname) $(InfineonMemtool_Build_TargetSettings_Fullname)
+InfineonMemtool_Build_MemtoolConfig_Final ?= "C:/Users/Cameron/Documents/Infineon/IMT 4.7/IMTMemtool.ini"
+
+InfineonMemtool_Build_Files ?= $(InfineonMemtool_Build_LoadScript_Fullname) $(InfineonMemtool_Build_ProjectSettings_Fullname) $(InfineonMemtool_Build_TargetSettings_Fullname) $(InfineonMemtool_Build_MemtoolConfig_Fullname)
 
 # Replacement values need to be suitable for usaing inside a sed script; slashes (/) escaped
 
@@ -71,17 +65,24 @@ $(InfineonMemtool_Build_TargetSettings_Fullname):
 	$(ECO) Memtool	$(InfineonMemtool_Build_TargetSettings_Fullname)
 	echo "$$IMT_TARGET_SETTINGS" > $@
 
+$(InfineonMemtool_Build_MemtoolConfig_Fullname):
+	$(ECO) Memtool	$(InfineonMemtool_Build_MemtoolConfig_Fullname)
+	echo "$$IMT_CONFIG_SETTINGS" > $@
+
+$(InfineonMemtool_Target)-ini: $(InfineonMemtool_Build_MemtoolConfig_Fullname)
+	cp $(InfineonMemtool_Build_MemtoolConfig_Fullname) $(InfineonMemtool_Build_MemtoolConfig_Final)
+
 $(InfineonMemtool_Build_Files): $(MAKEFILE_LIST)
 
 AUTO_GENERATED_FILES += $(InfineonMemtool_Build_Files)
 
 $(InfineonMemtool_Target)-files: $(InfineonMemtool_Build_Files)
 
-$(InfineonMemtool_Target)-upload: $(OUT_HEX) $(InfineonMemtool_Target)-files
+$(InfineonMemtool_Target)-upload: $(OUT_HEX) $(InfineonMemtool_Target)-files $(InfineonMemtool_Target)-ini
 	$(ECO) Launching Memtool
 	$(InfineonMemtool_MemtoolBin) $(InfineonMemtool_Build_LoadScript_Fullname)
 
-.PHONY: $(InfineonMemtool_Target)-upload $(InfineonMemtool_Target)-files
+.PHONY: $(InfineonMemtool_Target)-upload $(InfineonMemtool_Target)-files $(InfineonMemtool_Target)-ini
 .SECONDARY: $(InfineonMemtool_Build_Files)
 
 # For generating `.mtb` file for memtool
@@ -90,9 +91,9 @@ open_file $(InfineonMemtool_Build_LoadScript_Replacement_HEXFILE_ABSOLUTE)
 select_all_sections
 add_selected_sections
 connect
-program_all
+program
 disconnect
-#exit
+exit
 endef
 export IMT_LOAD_SCRIPT
 
@@ -239,3 +240,47 @@ EnableMemtoolByDefault=1
 UDEMemtool=1
 endef
 export IMT_TARGET_SETTINGS
+
+# For generating `.cfg` target settings file
+define IMT_CONFIG_SETTINGS
+[Main]
+Logo=1
+AutoConnect=1
+AutoReopen=1
+LastFileExt=hex
+TargInfoFile=$(InfineonMemtool_Build_TargetSettings_Fullname)
+WorkPath=C:\Users\Cameron\git\Materna Medical\Birth Device 2 Trial - Code\out\
+LastHexMode=0
+LastFillSize=0
+LastFillPatt=0
+ShowExecTime=0
+ShowLog=1
+LogLevel=75
+DiagLog=0
+BeepOnFail=1
+PeriodRetry=0
+RetryTime=2
+LastModule=0
+VerifyProt=0
+VerifyProtFile=verify.txt
+AllowOverwrite=0
+IgnoreErrorsInHexFiles=0
+LookForOtherCommDevs=0
+IgnoreReadMemErrors=0
+IgnoreMappingErrors=0
+SkipLockedSectors=0
+BinReadStart=0x0
+BinReadSize=0x0
+ReqCoreName=
+LastFileSecSel=all
+DlgFrame=1,1229,1055,1692,1904
+LogFrame=1,291,264,1860,3144
+[RecentFiles]
+RecentFile0=C:\Users\Cameron\git\Materna Medical\Birth Device 2 Trial - Code\out\MaternaBirthTrial.hex
+RecentFile1=C:\Users\Cameron\OneDrive\Solar Module Firmware\out\SimusolarSolarModule.hex
+RecentFile2=C:\Users\Cameron\git\Simu Solar\Solar Module Firmware\out\SimusolarSolarModule.hex
+[RecentProjects]
+RecentProject0=C:\Users\Cameron\OneDrive\Solar Module Firmware\Firmware Loader Settings.imt
+RecentProject1=C:\Users\Cameron\git\Simu Solar\Solar Module Firmware\Firmware Loader Settings.imt
+endef
+export IMT_CONFIG_SETTINGS
