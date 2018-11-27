@@ -82,7 +82,7 @@ Linker_L_Flags ?= $(Linker_Directories:%=-L%)
 
 LNK_FLAGS_REQUIRED ?= $(Linker_L_Flags) $(Linker_T_Flag)
 
-LNK_LINKER_FLAGS ?= -Map=$(OUT_MAP) #--gc-sections
+LNK_LINKER_FLAGS ?= -Map=$(OUT_MAP) --gc-sections
 
 LNK_WL_FLAGS ?= $(LNK_LINKER_FLAGS:%=-Wl,%)
 
