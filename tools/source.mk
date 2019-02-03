@@ -21,8 +21,8 @@ Source_libFilesFinal ?= $(AUTO_LIB) $(Source_libFilenames)
 # Directories that src files are in. ie: Source_Path = src/
 # These are used to build full filenames for user sources.
 # They are also used by the build tools to keep paths clean.
-Source_cPaths ?= $(Source_Path)
-Source_cppPaths ?= $(Source_Path)
-Source_asmPaths ?= $(Source_Path)
-Source_libPaths ?= $(Source_Path)
+Source_cPath ?= $(Source_Path)
+Source_cppPath ?= $(Source_Path)
+Source_asmPath ?= $(Source_Path)
+Source_libPath ?= $(Source_Path)
 Source_Path ?=
