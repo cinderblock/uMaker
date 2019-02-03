@@ -80,17 +80,17 @@ RMF ?= rm -rf
 ECO ?= @echo
 
 # Create object files from .c sources
-$(Build_Path)%.$(Build_ExtentionC).$(Build_ExtentionObject): $(Source_Path)%.$(Build_ExtentionC)
+$(Build_Path)%.$(Build_ExtentionC).$(Build_ExtentionObject): $(Source_cPath)%.$(Build_ExtentionC)
 	$(ECO) "CC	$@"
 	$(BLD_GCC) -o $@ $< -c $(Build_Flags_GCC_Final)
 
 # Create object files from .cpp sources
-$(Build_Path)%.$(Build_ExtentionCpp).$(Build_ExtentionObject): $(Source_Path)%.$(Build_ExtentionCpp)
+$(Build_Path)%.$(Build_ExtentionCpp).$(Build_ExtentionObject): $(Source_cppPath)%.$(Build_ExtentionCpp)
 	$(ECO) "C++	$@"
 	$(BLD_GXX) -o $@ $< -c $(Build_Flags_GXX_Final)
 
 # Create object files from .s sources
-$(Build_Path)%.$(Build_ExtentionAssembly).$(Build_ExtentionObject): $(Source_Path)%.$(Build_ExtentionAssembly)
+$(Build_Path)%.$(Build_ExtentionAssembly).$(Build_ExtentionObject): $(Source_asmPath)%.$(Build_ExtentionAssembly)
 	$(ECO) "ASM	$@"
 	$(BLD_ASM) -o $@ $< -c $(Build_Flags_ASM_Final)
 
