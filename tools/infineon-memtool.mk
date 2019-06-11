@@ -249,7 +249,6 @@ AutoConnect=1
 AutoReopen=1
 LastFileExt=hex
 TargInfoFile=$(InfineonMemtool_Build_TargetSettings_Fullname)
-WorkPath=C:\Users\Cameron\git\Materna Medical\Birth Device 2 Trial - Code\out\
 LastHexMode=0
 LastFillSize=0
 LastFillPatt=0
@@ -275,12 +274,5 @@ ReqCoreName=
 LastFileSecSel=all
 DlgFrame=1,1229,1055,1692,1904
 LogFrame=1,291,264,1860,3144
-[RecentFiles]
-RecentFile0=C:\Users\Cameron\git\Materna Medical\Birth Device 2 Trial - Code\out\MaternaBirthTrial.hex
-RecentFile1=C:\Users\Cameron\OneDrive\Solar Module Firmware\out\SimusolarSolarModule.hex
-RecentFile2=C:\Users\Cameron\git\Simu Solar\Solar Module Firmware\out\SimusolarSolarModule.hex
-[RecentProjects]
-RecentProject0=C:\Users\Cameron\OneDrive\Solar Module Firmware\Firmware Loader Settings.imt
-RecentProject1=C:\Users\Cameron\git\Simu Solar\Solar Module Firmware\Firmware Loader Settings.imt
 endef
 export IMT_CONFIG_SETTINGS
