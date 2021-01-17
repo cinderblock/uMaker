@@ -1,6 +1,6 @@
 # Create assembly (.s/.S) files from C/C++ sources
 
-ASM ?= $(C:%=%.$(Build_ExtentionC).$(Build_ExtentionAssembly)) $(CPP:%=%.$(Build_ExtentionCpp).$(Build_ExtentionAssembly))
+ASM ?= $(cNames:%=%.$(Build_ExtentionC).$(Build_ExtentionAssembly)) $(cppNames:%=%.$(Build_ExtentionCpp).$(Build_ExtentionAssembly))
 
 ASM_DIR ?= $(Build_Path)
 
