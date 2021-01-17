@@ -27,7 +27,8 @@ Build_Flags_Recommended += -Wall
 Build_Flags_Recommended += -fshort-enums -funsigned-char -funsigned-bitfields
 
 # Automatically activated with -O2
-Build_Flags_Recommended += -fno-inline-small-functions -fno-strict-aliasing
+# Build_Flags_Recommended += -fno-inline-small-functions
+Build_Flags_Recommended += -fno-strict-aliasing
 
 Build_Flags_Recommended += -fpack-struct
 
