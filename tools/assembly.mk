@@ -11,12 +11,12 @@ asm: $(ASM_FILES)
 # Create assembly files from .c sources
 $(ASM_Path)%.$(Build_ExtentionC).$(Build_ExtentionAssembly): $(Source_Path)%.$(Build_ExtentionC) $(MAKEFILE_LIST)
 	$(ECO) "CC AS	$@"
-	$(BLD_GCC) -o $@ $< -S $(Build_Flags_GCC_Final)
+	$(BLD_GCC) -o $@ $< -S $(Build_Flags_GCC_Final) -fverbose-asm
 
 # Create object files from .cpp sources
 $(ASM_Path)%.$(Build_ExtentionCpp).$(Build_ExtentionAssembly): $(Source_Path)%.$(Build_ExtentionCpp) $(MAKEFILE_LIST)
 	$(ECO) "C++ AS	$@"
-	$(BLD_GXX) -o $@ $< -S $(Build_Flags_GXX_Final)
+	$(BLD_GXX) -o $@ $< -S $(Build_Flags_GXX_Final) -fverbose-asm
 
 AUTO_GENERATED_FILES += $(ASM_FILES)
 
