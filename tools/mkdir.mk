@@ -5,7 +5,10 @@ mkdirBinary ?= mkdir
 mkdirCommand ?= $(mkdirBinary) -p
 
 MKDIR_FILES ?= $(sort $(AUTO_GENERATED_FILES))
-MKDIR_DIRS ?= $(sort $(realpath $(filter-out ./,$(dir $(MKDIR_FILES)))))
+# Use $(abspath ...) rather than $(realpath ...) — realpath returns empty for
+# paths that don't yet exist (chicken-and-egg on first build), but abspath does
+# the same path canonicalization without requiring existence.
+MKDIR_DIRS ?= $(sort $(abspath $(filter-out ./,$(dir $(MKDIR_FILES)))))
 
 $(MKDIR_DIRS):
 	$(ECO) "MKDIR	$@"
@@ -13,4 +16,4 @@ $(MKDIR_DIRS):
 
 # Each file that we care about (aka generated files) should depend on its directory
 .SECONDEXPANSION:
-$(MKDIR_FILES): | $$(filter-out .,$$(realpath $$(dir $$@)))
+$(MKDIR_FILES): | $$(filter-out .,$$(abspath $$(dir $$@)))
