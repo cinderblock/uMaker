@@ -12,8 +12,6 @@ all: build
 # Find uMaker two directories up (we are at tests/avr-min/).
 uMakerPath = ../../
 
-Source_Path = .
-
 include $(uMakerPath)tools/paths.mk
 include $(uMakerPath)tools/source.mk
 include $(uMakerPath)tools/checks.mk
