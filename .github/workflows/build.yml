@@ -26,12 +26,7 @@ jobs:
 
       - name: Build the AVR smoke test
         working-directory: tests/avr-min
-        run: |
-          # mkdir.mk uses `realpath` to find directories, which returns empty
-          # for paths that don't yet exist — so first build fails to create
-          # `.bld/`. Pre-create it.
-          mkdir -p .bld/.dep out
-          make build
+        run: make build
 
       - name: Size report
         working-directory: tests/avr-min
