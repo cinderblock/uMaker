@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  avr-build:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -22,6 +22,7 @@ jobs:
         run: |
           avr-gcc --version | head -1
           avr-g++ --version | head -1
+          dpkg -s avr-libc | grep '^Version'
           make --version | head -1
 
       - name: Build the AVR smoke test
